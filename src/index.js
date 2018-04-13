@@ -4,12 +4,14 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import store from './store';
 import './index.css';
-import App from './App';
+import TimerApp from './containers/TimerApp';
 import registerServiceWorker from './registerServiceWorker';
+import 'materialize-css/dist/css/materialize.min.css';
+import 'materialize-css/dist/js/materialize.min';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <TimerApp />
   </Provider>,
   document.getElementById('root')
 );
