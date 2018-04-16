@@ -75,11 +75,14 @@ export default class TimeCard extends Component {
         timerRunning: true,
         timeStart: +new Date(),
       }
+
       this.props.onTimerUpdate({
         timerState,
         id: this.id
       })
+
       this.rafId = this.raf.call(window, () => this.timerRun());
+
       return timerState;
     });
   }
@@ -120,6 +123,18 @@ export default class TimeCard extends Component {
         timerState: {},
       });
     }
+  }
+
+  formatTimerDate() {
+    let dateOpt = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+    let date = new Date(this.state.timerStartDate);
+
+    return date.toLocaleTimeString('en-US', dateOpt);
   }
 
   formatTime(milliseconds) {
@@ -183,22 +198,34 @@ export default class TimeCard extends Component {
 
   cardTextClass(additionalClasses = [''], runningClasses = null, stoppedClasses = null) {
     const RUNNING = runningClasses || ['white'];
-    const STOPPED = stoppedClasses || ['brown', 'darken-2'];
+    const STOPPED = stoppedClasses || ['grey', 'darken-1'];
 
     let classNames = [
       ...additionalClasses,
     ];
 
+    const textModifier = (color) => {
+      return (color.indexOf('darken') === 0 || color.indexOf('lighten') === 0)
+        ? `text-${color}`
+        : `${color}-text `;
+    }
+
     classNames = (this.state.timerRunning)
-      ? [...classNames, ...RUNNING.map(color => `${color}-text `)]
-      : [...classNames, ...STOPPED.map(color => `${color}-text `)];
+      ? [...classNames, ...RUNNING.map(color => textModifier(color))]
+      : [...classNames, ...STOPPED.map(color => textModifier(color))];
 
     return classNames.join(' ');
   }
 
   timerCardStyle() {
     return {
-      margin: 0
+      margin: 0,
+    }
+  }
+
+  descriptionStyle() {
+    return {
+      borderColor: '#29b6f6'
     }
   }
 
@@ -209,16 +236,26 @@ export default class TimeCard extends Component {
 
     return (
       <section
+        id={this.props.id}
+        draggable="true"
+        onDrag={this.props.handleOrderOnDrag}
+        onDragStart={this.props.handleOrderOnDragStart}
+        onDragEnd={this.props.handleOrderOnDragEnd}
         className="time-card"
         style={(this.state.timerRunning ? activeStyle : null)}>
-        <div style={this.timerCardStyle()} draggable="true" className={this.cardClass(['card', 'z-depth-0'])}>
-          <div className={this.cardTextClass(["card-content"], ['brown', 'darken-4']) + this.cardClass([''], ['light-blue', 'lighten-4'])}>
+        <div style={this.timerCardStyle()} className={this.cardClass(['card', 'z-depth-0'])}>
+          <div className={this.cardTextClass(["card-content"], ['grey', 'darken-3']) + this.cardClass([''], ['light-blue', 'lighten-4'])}>
             <span className="card-title">
               <span>{this.state.title || this.id}</span>
             </span>
-            {this.state.description
-              ? this.state.description.split('\n').map((string, idx) => <p key={idx}>{string}</p>)
-              : ''}
+            <blockquote style={this.descriptionStyle()} className="card-description">
+              {this.state.description
+                ? this.state.description.split('\n').map((string, idx) => <p key={idx}>{string}</p>)
+                : ''}
+            </blockquote>
+            <div className="card-meta">
+              Created {this.formatTimerDate()}
+            </div>
           </div>
           <div className="card-action">
             <Timer time={this.state.timeProgress} running={this.state.timerRunning} />
@@ -230,11 +267,11 @@ export default class TimeCard extends Component {
               <i className="material-icons">refresh</i></button>
             <button onClick={this.removeTimer} className={this.cardTextClass(["btn-flat"])}>
               <i className="material-icons">delete_forever</i></button>
-            <button className={this.cardTextClass(["btn-flat", "modal-trigger"])} data-target={this.id} >
+            <button className={this.cardTextClass(["btn-flat", "modal-trigger"])} data-target={'modal-' + this.id} >
               <i className="material-icons">edit</i></button>
           </div>
         </div>
-        <div id={this.id} ref={this.modalRef} className="modal">
+        <div id={'modal-' + this.id} ref={this.modalRef} className="modal">
           <div className="modal-content">
             <div className="row">
               <h5>Edit Timer</h5>
