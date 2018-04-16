@@ -25,7 +25,7 @@ export default class TimeCardEdit extends Component {
     }
 
     this.timeoutId = window.setTimeout(() => {
-      this.props.handleFormUpdate(timerState);
+      this.props.handleEditFormUpdate(timerState);
       this.timeoutId = null;
     }, 500);
 

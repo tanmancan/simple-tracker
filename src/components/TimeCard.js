@@ -13,7 +13,7 @@ export default class TimeCard extends Component {
     this.pauseTimer = this.pauseTimer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
     this.removeTimer = this.removeTimer.bind(this);
-    this.handleFormUpdate = this.handleFormUpdate.bind(this);
+    this.handleEditFormUpdate = this.handleEditFormUpdate.bind(this);
     this.openFormModal = this.openFormModal.bind(this);
     this.initState = initTimerState;
     this.id = this.props.id;
@@ -142,11 +142,11 @@ export default class TimeCard extends Component {
       ...this.props,
       title: this.state.title,
       description: this.state.description,
-      handleFormUpdate: this.handleFormUpdate,
+      handleEditFormUpdate: this.handleEditFormUpdate,
     });
   }
 
-  handleFormUpdate(formState) {
+  handleEditFormUpdate(formState) {
     this.setState((state, props) => {
       let timerState = {
         ...this.state,
@@ -243,7 +243,11 @@ export default class TimeCard extends Component {
           </div>
           <div className="modal-footer">
             <div className="left">
-              <Timer time={this.state.timeProgress} running={this.state.timerRunning} caption={this.state.timerRunning ? '- Running' : '- Stopped'}/></div>
+              <Timer
+                time={this.state.timeProgress}
+                running={this.state.timerRunning}
+                caption={this.state.timerRunning ? '- Running' : '- Stopped'}/>
+            </div>
             <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
           </div>
         </div>
