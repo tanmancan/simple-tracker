@@ -1,4 +1,4 @@
-import {ADD_TIMER, UPDATE_TIMER, DELETE_TIMER, STOP_TIMER} from './actions';
+import {ADD_TIMER, UPDATE_TIMER, DELETE_TIMER, STOP_TIMER, UPDATE_TIMER_ORDER} from './actions';
 
 export const initTimerState = {
   title: '',
@@ -6,6 +6,7 @@ export const initTimerState = {
   timerRunning: false,
   timeProgress: 0,
   timeStart: null,
+  timerStartDate: null,
 };
 
 function timerById(state = {}, action) {
@@ -74,6 +75,15 @@ function timers(state = [], action) {
       if (state.indexOf(action.id) !== -1) {
         state.splice(state.indexOf(action.id), 1)
       }
+      return state;
+    }
+    case UPDATE_TIMER_ORDER: {
+      let targetPos = action.targetPos;
+      let currentPos = state.indexOf(action.id);
+      let targetTimer = state.splice(currentPos, 1).shift();
+
+      state.splice(targetPos, 0, targetTimer);
+
       return state;
     }
     default: {

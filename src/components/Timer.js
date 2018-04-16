@@ -19,7 +19,6 @@ class TimerComponent extends Component {
     super(props);
     this.timerState = this.timerState.bind(this);
     this.formatTime = formatTime.bind(this);
-    console.log(this.props.caption);
   }
 
   timerState(timerRunning = this.props.running) {
