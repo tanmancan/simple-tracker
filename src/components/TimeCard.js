@@ -94,7 +94,7 @@ export default class TimeCard extends Component {
         timerRunning: false
       };
 
-      props.onTimerUpdate({
+      props.onTimerStop({
         timerState,
         id: this.id
       });
@@ -230,20 +230,17 @@ export default class TimeCard extends Component {
   }
 
   render() {
-    const activeStyle = {
-      background: 'teal'
-    };
-
     return (
       <section
-        id={this.props.id}
-        draggable="true"
-        onDrag={this.props.handleOrderOnDrag}
-        onDragStart={this.props.handleOrderOnDragStart}
-        onDragEnd={this.props.handleOrderOnDragEnd}
-        className="time-card"
-        style={(this.state.timerRunning ? activeStyle : null)}>
-        <div style={this.timerCardStyle()} className={this.cardClass(['card', 'z-depth-0'])}>
+        className="time-card">
+        <div
+          id={this.props.id}
+          draggable="true"
+          onDrag={this.props.handleOrderOnDrag}
+          onDragStart={this.props.handleOrderOnDragStart}
+          onDragEnd={this.props.handleOrderOnDragEnd}
+          style={this.timerCardStyle()}
+          className={this.cardClass(['card', 'z-depth-0'])}>
           <div className={this.cardTextClass(["card-content"], ['grey', 'darken-3']) + this.cardClass([''], ['light-blue', 'lighten-4'])}>
             <span className="card-title">
               <span>{this.state.title || this.id}</span>
