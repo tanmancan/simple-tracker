@@ -1,6 +1,6 @@
 import {ADD_TIMER, UPDATE_TIMER, DELETE_TIMER, STOP_TIMER} from './actions';
 
-export const initState = {
+export const initTimerState = {
   title: '',
   description: '',
   timerRunning: false,
@@ -15,7 +15,7 @@ function timerById(state = {}, action) {
         ...state,
         [action.id]: Object.keys(action.timerState).length > 0
           ? action.timerState
-          : initState
+          : initTimerState
       }
     }
     case UPDATE_TIMER: {
@@ -32,7 +32,7 @@ function timerById(state = {}, action) {
 
         state[id] = Object.keys(action.timerState).length > 0
           ? updatedState
-          : initState;
+          : initTimerState;
 
         return [id, timerState];
       });
