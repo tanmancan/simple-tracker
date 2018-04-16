@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {initState} from '../store/reducers';
+import {initTimerState} from '../store/reducers';
 import TimeCardEdit from './TimeCardEdit';
 import {Timer} from './Timer';
 
@@ -15,7 +15,7 @@ export default class TimeCard extends Component {
     this.removeTimer = this.removeTimer.bind(this);
     this.handleFormUpdate = this.handleFormUpdate.bind(this);
     this.openFormModal = this.openFormModal.bind(this);
-    this.initState = initState;
+    this.initState = initTimerState;
     this.id = this.props.id;
     this.state = {
       ...this.props.getStateById(this.id),
@@ -196,6 +196,12 @@ export default class TimeCard extends Component {
     return classNames.join(' ');
   }
 
+  timerCardStyle() {
+    return {
+      margin: 0
+    }
+  }
+
   render() {
     const activeStyle = {
       background: 'teal'
@@ -205,7 +211,7 @@ export default class TimeCard extends Component {
       <section
         className="time-card"
         style={(this.state.timerRunning ? activeStyle : null)}>
-        <div draggable="true" className={this.cardClass(['card', 'z-depth-0'])}>
+        <div style={this.timerCardStyle()} draggable="true" className={this.cardClass(['card', 'z-depth-0'])}>
           <div className={this.cardTextClass(["card-content"], ['brown', 'darken-4']) + this.cardClass([''], ['light-blue', 'lighten-4'])}>
             <span className="card-title">
               <span>{this.state.title || this.id}</span>
