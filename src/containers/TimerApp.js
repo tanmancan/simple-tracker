@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
-import { addTimer, updateTimer, deleteTimer, stopTimer } from "../store/actions";
+import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder } from "../store/actions";
+import { initTimerState } from '../store/reducers';
 import App from '../App';
 
 const getStateById = (state) => (id) => {
@@ -37,7 +38,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTimerAdd: ({timerState, id}) => {
+    onTimerAdd: () => {
+      let uid = +`${Math.floor(Math.random() * 1000)}${+new Date()}`;
+      let id = `timer-${uid}`;
+      let timerState = {
+        ...initTimerState,
+        timerStartDate: +new Date(),
+      }
       dispatch(addTimer({timerState, id}));
     },
     onTimerUpdate: ({timerState, id}) => {
@@ -48,6 +55,9 @@ const mapDispatchToProps = dispatch => {
     },
     onTimerStop: ({timerState, id}) => {
       dispatch(stopTimer({timerState, id}));
+    },
+    onTimerUpdateOrder: ({targetPos, id}) => {
+      dispatch(updateTimerOrder({targetPos, id}));
     }
   }
 }

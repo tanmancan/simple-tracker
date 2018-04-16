@@ -9,10 +9,10 @@ export default class SideNav extends Component {
   }
 
   addTimer() {
-    let uid = +`${Math.floor(Math.random() * 1000)}${+new Date()}`;
-    this.props.onTimerAdd({
-      timerState: {},
-      id: `timer-${uid}`
+    this.props.onTimerAdd();
+    window.M.toast({
+      html: 'New Timer Added',
+      displayLength: 2000,
     });
   }
 
