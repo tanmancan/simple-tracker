@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TimeCardListBuilder from './components/TimeCardListBuilder';
-import Controls from './components/Controls';
+import SideNav from './components/SideNav';
 import './App.css';
 
 class App extends Component {
@@ -9,9 +9,9 @@ class App extends Component {
     this.sortByWeight = this.sortByWeight.bind(this);
   }
 
-  controls() {
+  SideNav() {
     return React.createElement(
-      Controls, {
+      SideNav, {
         ...this.props
       }
     );
@@ -38,7 +38,7 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={this.appStyle()}>
-        {this.controls()}
+        {this.SideNav()}
         <main>
           <div className="nav-wrapper">
             <nav className="top-nav z-depth-0">
