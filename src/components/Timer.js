@@ -19,6 +19,7 @@ class TimerComponent extends Component {
     super(props);
     this.timerState = this.timerState.bind(this);
     this.formatTime = formatTime.bind(this);
+    console.log(this.props.caption);
   }
 
   timerState(timerRunning = this.props.running) {
@@ -47,7 +48,7 @@ class TimerComponent extends Component {
 
   render() {
     return (
-      <span data-badge-caption={this.props.caption} style={this.style()} className={this.timerState()}>{this.formatTime(this.props.time)}</span>
+      <span data-badge-caption={this.props.caption || ''} style={this.style()} className={this.timerState()}>{this.formatTime(this.props.time)}</span>
     );
   }
 }
