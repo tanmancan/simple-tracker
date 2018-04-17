@@ -78,11 +78,18 @@ function timers(state = [], action) {
       return state;
     }
     case UPDATE_TIMER_ORDER: {
-      let targetPos = action.targetPos;
+      let targetPos = Number(action.targetPos);
       let currentPos = state.indexOf(action.id);
-      let targetTimer = state.splice(currentPos, 1).shift();
 
-      state.splice(targetPos, 0, targetTimer);
+      if (targetPos !== currentPos && targetPos !== currentPos + 1) {
+        if (targetPos > currentPos && targetPos !== state.length) {
+          targetPos -= 1;
+        }
+
+        let targetTimer = state.splice(currentPos, 1).shift();
+
+        state.splice(targetPos, 0, targetTimer);
+      }
 
       return state;
     }
