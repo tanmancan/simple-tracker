@@ -51,9 +51,7 @@ class App extends Component {
             </nav>
           </div>
           <div className="row">
-            <div className="col s12">
-              {this.listBuilder()}
-            </div>
+            {this.listBuilder()}
           </div>
         </main>
       </div>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import TimeCard from './TimeCard';
+import dragImg from '../assets/drag.png';
+
 const e = React.createElement;
 
 export default class TimeCardListBuilder extends Component {
@@ -13,7 +15,14 @@ export default class TimeCardListBuilder extends Component {
     this.handleOrderOnDragOver = this.handleOrderOnDragOver.bind(this);
     this.handleOrderOnDragLeave = this.handleOrderOnDragLeave.bind(this);
     this.handleOrderOnDrop = this.handleOrderOnDrop.bind(this);
+
+    this.dragImg = new Image();
   }
+
+  componentDidMount() {
+    this.dragImg.src = dragImg;
+  }
+
 
   sortByWeight() {
     return this;
@@ -31,14 +40,16 @@ export default class TimeCardListBuilder extends Component {
   }
 
   handleOrderOnDragStart(e) {
+    e.target.classList.add('dragging');
     let payload = {
-      id: e.target.id
+      id: e.target.id.replace('drag-', '')
     }
+    e.dataTransfer.setDragImage(this.dragImg, 25, 25);
     e.dataTransfer.setData('application/json', JSON.stringify(payload));
-    e.dataTransfer.dragEffect = 'move';
   }
 
   handleOrderOnDragEnd(e) {
+    e.target.classList.remove('dragging');
     e.target.style.opacity = '1';
   }
 
@@ -55,8 +66,8 @@ export default class TimeCardListBuilder extends Component {
   handleOrderOnDrop(e) {
     e.target.classList.remove('red');
     let payload = JSON.parse(e.dataTransfer.getData('application/json'));
-    console.log(payload);
     let position = e.target.id.replace('card-divider-', '');
+
     this.props.onTimerUpdateOrder({
       targetPos: position,
       id: payload.id
