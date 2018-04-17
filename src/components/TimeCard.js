@@ -15,7 +15,7 @@ export default class TimeCard extends Component {
     this.removeTimer = this.removeTimer.bind(this);
     this.handleEditFormUpdate = this.handleEditFormUpdate.bind(this);
     this.openFormModal = this.openFormModal.bind(this);
-    this.initState = initTimerState;
+    this.initTimerState = initTimerState;
     this.id = this.props.id;
     this.state = {
       ...this.props.getStateById(this.id),
@@ -108,11 +108,15 @@ export default class TimeCard extends Component {
     if (window.confirm('Are you sure you want to RESET this timer?')) {
       let state = this.props.getStateById(this.id);
       cancelAnimationFrame(state.rafId);
+      let newState = {
+        ...this.initTimerState,
+        timerStartDate: new Date(),
+      }
       this.props.onTimerUpdate({
-        timerState: this.initState,
-        id: this.id
+        timerState: newState,
+        id: this.id,
       });
-      this.setState((state, props) => this.initState);
+      this.setState((state, props) => newState);
     }
   }
 
@@ -275,6 +279,11 @@ export default class TimeCard extends Component {
             className="btn-flat grey-text text-darken-2 modal-trigger"
             data-target={'modal-' + this.id} >
             <i className="material-icons">edit</i></button>
+          <button
+            style={this.sideButtonStyle()}
+            onClick={this.resetTimer}
+            className="btn-flat grey-text text-darken-2">
+            <i className="material-icons">refresh</i></button>
         </div>
         <div
           id={this.props.id}
@@ -290,7 +299,7 @@ export default class TimeCard extends Component {
                 : ''}
             </blockquote>
             <div className="card-meta">
-              Created {this.formatTimerDate()}
+              {this.formatTimerDate()}
             </div>
           </div>
           <div className="card-action">
@@ -298,9 +307,7 @@ export default class TimeCard extends Component {
             <button disabled={this.state.timerRunning} onClick={this.startTimer} className={this.cardTextClass(["btn-flat"])}>
               <i className="material-icons">play_arrow</i></button>
             <button disabled={!this.state.timerRunning} onClick={this.pauseTimer} className={this.cardTextClass(["btn-flat"])}>
-              <i className="material-icons">stop</i></button>
-            <button onClick={this.resetTimer} className={this.cardTextClass(["btn-flat"])}>
-              <i className="material-icons">refresh</i></button>
+              <i className="material-icons">pause</i></button>
           </div>
         </div>
         <div id={'modal-' + this.id} ref={this.modalRef} className="modal">
