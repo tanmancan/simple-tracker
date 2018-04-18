@@ -36,7 +36,7 @@ export default class TimeCardListBuilder extends Component {
   }
 
   handleOrderOnDrag(e) {
-    e.target.style.opacity = '.25';
+    e.target.parentNode.parentNode.style.opacity = '.5';
   }
 
   handleOrderOnDragStart(e) {
@@ -50,7 +50,7 @@ export default class TimeCardListBuilder extends Component {
 
   handleOrderOnDragEnd(e) {
     e.target.classList.remove('dragging');
-    e.target.style.opacity = '1';
+    e.target.parentNode.parentNode.style.opacity = '1';
   }
 
   handleOrderOnDragOver(e) {
@@ -119,10 +119,20 @@ export default class TimeCardListBuilder extends Component {
       <div className="timers">
         <div className="timer-list">
 
-          {
-            this.props.getAllTimers.map(
+          {(this.props.getAllTimers.length > 0)
+            ? this.props.getAllTimers.map(
               (id, idx) => this.timeCardBuilder(id, idx, this.props.getAllTimers.length)
             )
+            : <div className="col s12">
+              <div className="card white">
+                <div className="card-content grey-text text-darken-3">
+                  <span className="card-title">No timers found</span>
+                </div>
+                <div className="card-action">
+                  <a href="#add-timer" className="waves-effect waves-light btn blue white-text" onClick={this.props.onTimerAdd}>Add a new timer</a>
+                </div>
+              </div>
+            </div>
           }
         </div>
       </div>

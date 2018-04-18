@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {initTimerState} from '../store/reducers';
+import {initTimerState} from '../store/reducers/timer';
 import TimeCardEdit from './TimeCardEdit';
 import {Timer} from './Timer';
 
@@ -261,14 +261,16 @@ export default class TimeCard extends Component {
         className="time-card row"
         style={this.timerCardWrapperStyle()}>
         <div className="side-button left" style={this.sideButtonWrapperStyle()}>
-          <button
+          <div
             style={this.sideButtonStyle()}
             id={'drag-' + this.props.id}
             draggable="true"
             onDrag={this.props.handleOrderOnDrag}
             onDragStart={this.props.handleOrderOnDragStart}
             onDragEnd={this.props.handleOrderOnDragEnd}
-            className="btn-flat grey-text text-darken-2"><i className="material-icons">drag_handle</i></button>
+            className="btn-flat grey-text text-darken-2">
+            <i className="material-icons">drag_handle</i>
+          </div>
           <button
             style={this.sideButtonStyle()}
             onClick={this.removeTimer}
