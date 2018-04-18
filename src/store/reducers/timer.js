@@ -1,4 +1,4 @@
-import {ADD_TIMER, UPDATE_TIMER, DELETE_TIMER, STOP_TIMER, UPDATE_TIMER_ORDER} from './actions';
+import {ADD_TIMER, UPDATE_TIMER, DELETE_TIMER, STOP_TIMER, UPDATE_TIMER_ORDER} from '../actions/timer';
 
 export const initTimerState = {
   title: '',
