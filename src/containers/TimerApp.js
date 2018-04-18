@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder } from "../store/actions/timer";
+import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder, timerDrag } from "../store/actions/timer";
 import { initTimerState } from '../store/reducers/timer';
 import App from '../App';
 
@@ -9,6 +9,10 @@ const showToast = (msg = '', opts = {}) => {
     displayLength: 2000,
     ...opts
   });
+}
+
+const getDragState = (state) => {
+  return state.timerDrag;
 }
 
 const getStateById = (state) => (id) => {
@@ -36,6 +40,7 @@ const getTotalTime = (state) => {
 
 const mapStateToProps = state => {
   return {
+    getDragState: getDragState(state),
     getStateById: getStateById(state),
     getAllTimerStates: getAllTimerStates(state),
     getAllTimers: getAllTimers(state),
@@ -70,6 +75,9 @@ const mapDispatchToProps = dispatch => {
     },
     onTimerUpdateOrder: ({targetPos, id}) => {
       dispatch(updateTimerOrder({targetPos, id}));
+    },
+    onTimerDrag: ({dragState, id}) => {
+      dispatch(timerDrag({dragState, id}));
     }
   }
 }

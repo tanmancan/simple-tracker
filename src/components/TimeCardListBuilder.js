@@ -40,17 +40,28 @@ export default class TimeCardListBuilder extends Component {
   }
 
   handleOrderOnDragStart(e) {
-    e.target.classList.add('dragging');
     let payload = {
       id: e.target.id.replace('drag-', '')
     }
+
+    e.target.classList.add('dragging');
     e.dataTransfer.setDragImage(this.dragImg, 25, 25);
     e.dataTransfer.setData('application/json', JSON.stringify(payload));
+
+    this.props.onTimerDrag({
+      dragState: true,
+      id: payload.id
+    });
   }
 
   handleOrderOnDragEnd(e) {
     e.target.classList.remove('dragging');
     e.target.parentNode.parentNode.style.opacity = '1';
+
+    this.props.onTimerDrag({
+      dragState: false,
+      id: e.target.id.replace('drag-', '')
+    });
   }
 
   handleOrderOnDragOver(e) {

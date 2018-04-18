@@ -27,18 +27,25 @@ class App extends Component {
   }
 
   handleDeleteOnDrop(e) {
-    console.log(e);
     let payload = JSON.parse(e.dataTransfer.getData('application/json'));
-    console.log(payload);
+
     this.props.onTimerDelete({
       id: payload.id,
       timerState: {},
+    });
+
+    this.props.onTimerDrag({
+      dragState: false,
+      id: payload.id
     });
   }
 
   handleDeleteOnDragOver(e) {
     e.preventDefault();
-    // console.log(e);
+  }
+
+  getDragState() {
+
   }
 
   appStyle() {
@@ -56,8 +63,9 @@ class App extends Component {
             onDrop={this.handleDeleteOnDrop}
             onDragOver={this.handleDeleteOnDragOver}
             className="fixed-action-btn">
-            <a onClick={this.props.onTimerAdd} className="btn-floating  btn-large light-blue">
-              <i className="large material-icons">add_alarm</i>
+            <a onClick={this.props.onTimerAdd}
+              className={'btn-floating btn-large ' + ((this.props.getDragState) ? 'red' : 'light-blue')}>
+              <i className="large material-icons">{(this.props.getDragState) ? 'delete' : 'add'}</i>
             </a>
           </div>
           <div className="row">

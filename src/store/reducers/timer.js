@@ -1,4 +1,4 @@
-import {ADD_TIMER, UPDATE_TIMER, DELETE_TIMER, STOP_TIMER, UPDATE_TIMER_ORDER} from '../actions/timer';
+import {ADD_TIMER, UPDATE_TIMER, DELETE_TIMER, STOP_TIMER, UPDATE_TIMER_ORDER, TIMER_DRAG} from '../actions/timer';
 
 export const initTimerState = {
   title: '',
@@ -8,6 +8,17 @@ export const initTimerState = {
   timeStart: null,
   timerStartDate: null,
 };
+
+function timerDrag(state = false, action) {
+  switch (action.type) {
+    case TIMER_DRAG: {
+      return action.dragState;
+    }
+    default: {
+      return state;
+    }
+  }
+}
 
 function timerById(state = {}, action) {
   switch (action.type) {
@@ -126,6 +137,7 @@ function activeTimer(state = [], action) {
 
 export const timerApp = (state = {}, action) => {
   return {
+    timerDrag: timerDrag(state.timerDrag, action),
     timerById: timerById(state.timerById, action),
     timers: timers(state.timers, action),
     activeTimer: activeTimer(state.activeTimer, action),
