@@ -1,7 +1,15 @@
 import { connect } from "react-redux";
-import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder } from "../store/actions";
-import { initTimerState } from '../store/reducers';
+import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder } from "../store/actions/timer";
+import { initTimerState } from '../store/reducers/timer';
 import App from '../App';
+
+const showToast = (msg = '', opts = {}) => {
+  window.M.toast({
+    html: `${msg}`,
+    displayLength: 2000,
+    ...opts
+  });
+}
 
 const getStateById = (state) => (id) => {
   return state.timerById[id];
@@ -46,15 +54,19 @@ const mapDispatchToProps = dispatch => {
         timerStartDate: +new Date(),
       }
       dispatch(addTimer({timerState, id}));
+      showToast('Timer Added');
+      return true;
     },
     onTimerUpdate: ({timerState, id}) => {
       dispatch(updateTimer({timerState, id}));
     },
     onTimerDelete: ({timerState, id}) => {
-      dispatch(deleteTimer({timerState, id}));
+      dispatch(deleteTimer({ timerState, id }));
+      showToast('Timer Deleted');
     },
     onTimerStop: ({timerState, id}) => {
-      dispatch(stopTimer({timerState, id}));
+      dispatch(stopTimer({ timerState, id }));
+      showToast('Timer Stopped');
     },
     onTimerUpdateOrder: ({targetPos, id}) => {
       dispatch(updateTimerOrder({targetPos, id}));

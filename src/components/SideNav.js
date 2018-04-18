@@ -10,10 +10,6 @@ export default class SideNav extends Component {
 
   addTimer() {
     this.props.onTimerAdd();
-    window.M.toast({
-      html: 'New Timer Added',
-      displayLength: 2000,
-    });
   }
 
   stopTimer() {
