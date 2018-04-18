@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { timerApp } from "./reducers";
+import { timerApp } from "./reducers/timer";
 
 const savedTimerState = JSON.parse(window.localStorage.getItem('timerApp'));
 const store = createStore(
