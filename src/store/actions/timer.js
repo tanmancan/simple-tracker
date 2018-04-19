@@ -4,6 +4,7 @@ export const UPDATE_TIMER = 'UPDATE_TIMER';
 export const STOP_TIMER = 'STOP_TIMER';
 export const UPDATE_TIMER_ORDER = 'UPDATE_TIMER_ORDER';
 export const TIMER_DRAG = 'TIMER_DRAG';
+export const UNDO_TIMER_DELETE = 'UNDO_TIMER_DELETE';
 
 export function addTimer({timerState, id}) {
   return {type: ADD_TIMER, timerState, id}
@@ -27,4 +28,8 @@ export function updateTimerOrder({targetPos, id}) {
 
 export function timerDrag({dragState, id}) {
   return {type: TIMER_DRAG, dragState, id}
+}
+
+export function undoTimerDelete({timerState, id}) {
+  return {type: UNDO_TIMER_DELETE, timerState, id}
 }
