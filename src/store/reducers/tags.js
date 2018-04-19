@@ -2,7 +2,12 @@ import { ADD_TAG, UPDATE_TAG, DELETE_TAG, ADD_CATEGORY, DELETE_CATEGORY } from '
 
 export const initTag = {
   name: '',
-  category: ''
+  category: '',
+}
+
+export const initCategory = {
+  name: '',
+  tags: []
 }
 
 export const initTagState = {
@@ -47,6 +52,15 @@ function tagsById (state = {}, action) {
       delete state[action.id];
       return state;
     }
+    case DELETE_CATEGORY: {
+      let deletedTags = action.categoryState.tags;
+      deletedTags.map(tagName => {
+        if (state[tagName]) {
+          delete state[tagName];
+        }
+      });
+      return state;
+    }
     default: {
       return state;
     }
@@ -67,6 +81,15 @@ function tags (state = [], action) {
       }
       return state;
     }
+    case DELETE_CATEGORY: {
+      let deletedTags = action.categoryState.tags;
+      deletedTags.map(tagName => {
+        if (state.indexOf(tagName) !== -1) {
+          state.splice(state.indexOf(tagName), 1)
+        }
+      });
+      return state;
+    }
     default: {
       return state;
     }
@@ -75,13 +98,34 @@ function tags (state = [], action) {
 
 function categoriesById(state = {}, action) {
   switch (action.type) {
-    case ADD_CATEGORY: {
+    case ADD_TAG: {
+      let tagCategory = action.tagState.category;
       return {
         ...state,
-        [action.id]: Object.keys(action.categoryName).length > 0
-          ? action.categoryName
-          : 'No Name Given'
+        [tagCategory]: {
+          ...state[tagCategory],
+          tags: [
+            ...state[tagCategory].tags,
+            action.id
+          ]
+        }
       }
+    }
+    case ADD_CATEGORY: {
+      let categoryState = {
+        ...initCategory,
+        ...action.categoryState
+      }
+      return {
+        ...state,
+        [action.id]: Object.keys(action.categoryState).length > 0
+          ? categoryState
+          : initCategory
+      }
+    }
+    case DELETE_CATEGORY: {
+      delete state[action.id];
+      return state;
     }
     default: {
       return state;
@@ -96,6 +140,12 @@ function categories(state = [], action) {
         ...state,
         action.id
       ];
+    }
+    case DELETE_CATEGORY: {
+      if (state.indexOf(action.id) !== -1) {
+        state.splice(state.indexOf(action.id), 1)
+      }
+      return state;
     }
     default: {
       return state;

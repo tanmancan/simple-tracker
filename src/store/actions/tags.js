@@ -16,10 +16,10 @@ export function deleteTag(id) {
   return {type: DELETE_TAG, id}
 }
 
-export function addCategory({categoryName, id}) {
-  return {type: ADD_CATEGORY, categoryName, id}
+export function addCategory({categoryState, id}) {
+  return {type: ADD_CATEGORY, categoryState, id}
 }
 
-export function deleteCategory({categoryName, id}) {
-  return {type: DELETE_CATEGORY, categoryName, id}
+export function deleteCategory({categoryState, id}) {
+  return {type: DELETE_CATEGORY, categoryState, id}
 }

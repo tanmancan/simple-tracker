@@ -1,8 +1,8 @@
 import {connect} from 'react-redux';
 import TagUi from '../components/TagUi';
 import TagEditor from '../components/TagEditor'
-import { addTag, updateTag, deleteTag, addCategory } from '../store/actions/tags';
-import { initTag } from '../store/reducers/tags';
+import { addTag, updateTag, deleteTag, addCategory, deleteCategory } from '../store/actions/tags';
+import { initTag, initCategory } from '../store/reducers/tags';
 
 const getAllTagsById = (state) => {
   return state.tagsById;
@@ -52,10 +52,20 @@ const mapTagDispatchToProps = dispatch => {
       dispatch(deleteTag(id))
       window.showToast('Tag Deleted');
     },
-    onCategoryAdd: ({categoryName, id}) => {
-      dispatch(addCategory({ categoryName, id }));
+    onCategoryAdd: ({ name }) => {
+      let uid = +`${Math.floor(Math.random() * 1000)}${+new Date()}`;
+      let id = `category-${uid}`;
+      let categoryState = {
+        ...initCategory,
+        name,
+      }
+      dispatch(addCategory({ categoryState, id }));
       window.showToast('Category Added');
     },
+    onCategoryDelete({categoryState, id}) {
+      dispatch(deleteCategory({ categoryState, id }));
+      window.showToast('Category Deleted');
+    }
   }
 };
 

@@ -6,7 +6,11 @@ export default class TagEditor extends Component {
     super(props);
     this.handleAddTag = this.handleAddTag.bind(this);
     this.handleAddCategory = this.handleAddCategory.bind(this);
+    this.handleCategoryOnChange = this.handleCategoryOnChange.bind(this);
+    this.handleCategoryEdit = this.handleCategoryEdit.bind(this);
+    this.handleCategoryEditDone = this.handleCategoryEditDone.bind(this);
     this.handleCategorySelection = this.handleCategorySelection.bind(this);
+    this.handleCategoryDeletion = this.handleCategoryDeletion.bind(this);
     this.handleTagOnChange = this.handleTagOnChange.bind(this);
     this.handleTagEdit = this.handleTagEdit.bind(this);
     this.handleTagEditDone = this.handleTagEditDone.bind(this);
@@ -17,7 +21,6 @@ export default class TagEditor extends Component {
   }
 
   handleAddTag(cat) {
-    console.log(rand());
     this.props.onTagAdd({
       name: rand(),
       category: cat
@@ -26,13 +29,47 @@ export default class TagEditor extends Component {
 
   handleAddCategory() {
     this.props.onCategoryAdd({
-      categoryName: rand(),
+      name: rand(),
       id: rand()
     });
   }
 
-  handleCategorySelection(cat) {
-    console.log(cat);
+  handleCategoryOnChange(e) {
+    e.target.value;
+    let name = e.target.value
+    let id = e.target.id.replace('tag-edit-', '');
+    let tagState = {
+      ...this.props.getAllTagsById[id],
+      name
+    }
+    this.setState((state, props) => {
+      props.onTagUpdate({
+        tagState,
+        id
+      });
+      return state;
+    });
+  }
+
+  handleCategoryEdit(e) {
+    e.stopPropagation();
+    let editBtn = e.target.parentNode;
+    console.log(editBtn);
+    let input = editBtn.previousSibling;
+    let name = input.previousSibling;
+    name.classList.add('hide');
+    input.classList.remove('hide');
+    input.style.display = 'inline';
+    input.focus();
+    input.setSelectionRange(0, -1);
+  }
+
+  handleCategoryEditDone(e) {
+    e.target.previousSibling.classList.remove('hide');
+    e.target.classList.add('hide');
+  }
+
+  handleCategorySelection(cat, e) {
     this.setState((state, props) => {
       return {
         currentCategory: cat
@@ -40,8 +77,23 @@ export default class TagEditor extends Component {
     })
   }
 
+  handleCategoryDeletion(id, e) {
+    e.stopPropagation();
+    this.setState((state, props) => {
+      let categoryState = this.props.getAllCategoriesById[id];
+      this.props.onCategoryDelete({
+        categoryState,
+        id
+      });
+
+      return {
+        currentCategory: null
+      }
+    });
+    this.setState({currentCategory: null});
+  }
+
   handleTagOnChange(e) {
-    console.log(e.target.value);
     e.target.value;
     let name = e.target.value
     let id = e.target.id.replace('tag-edit-', '');
@@ -59,18 +111,17 @@ export default class TagEditor extends Component {
   }
 
   handleTagEdit(e) {
-    console.log(e.target);
     let name = e.target;
     let input = name.nextSibling;
     input.classList.remove('hide');
     input.style.display = 'inline';
     input.focus();
     input.setSelectionRange(0, -1);
-    name.style.display = 'none';
+    name.classList.add('hide');
   }
 
   handleTagEditDone(e) {
-    e.target.previousSibling.style.display = 'inline';
+    e.target.previousSibling.classList.remove('hide');
     e.target.classList.add('hide');
   }
 
@@ -81,26 +132,46 @@ export default class TagEditor extends Component {
     });
   }
 
+  selectedClassName(id) {
+  }
+
   buildCategoryList() {
     if (this.props.getAllCategories.length > 0) {
-      let catList = this.props.getAllCategories.map((id, idx) => {
+      return this.props.getAllCategories.map((id, idx) => {
         return (
-          <a href="#currentCat" className="collection-item category"
+          <div className="collection-item category"
             onClick={(e) => this.handleCategorySelection(id, e)}
             id={id}
             key={idx}>
-            {id}
-          </a>
+            <div>
+              <span
+                style={{ textTransform: 'capitalize' }}
+                className="category-name">{this.props.getAllCategoriesById[id].name}</span>
+              <input
+                id={'category-edit-' + id}
+                style={{ width: 'calc(100% - 35px)', height: 'auto' }}
+                className="hide"
+                onBlur={this.handleCategoryEditDone}
+                onChange={this.handleCategoryOnChange}
+                type="text"
+                value={this.props.getAllCategoriesById[id].name} />
+              <a href="#!"
+                onClick={this.handleCategoryEdit}
+                className="secondary-content green-text"><i className="material-icons">edit</i></a>
+              <a href="#!"
+                onClick={(e) => this.handleCategoryDeletion(id, e)}
+                className="secondary-content orange-text"><i className="material-icons">delete</i></a>
+            </div>
+          </div>
         )
       });
-      return catList;
     }
   }
 
   buildTagList(currentCategory) {
     // @TODO: move into its own component to manage state better
     if (this.props.getAllTags.length > 0) {
-      let tagList = this.props.getAllTags
+      return this.props.getAllTags
         .filter(id => this.props.getAllTagsById[id]['category'] === currentCategory)
         .map((id, idx) => {
           return (
@@ -109,6 +180,7 @@ export default class TagEditor extends Component {
               key={idx}>
               <div>
                 <span
+                  style={{textTransform: 'capitalize'}}
                   onClick={this.handleTagEdit}
                   className="tag-name">{this.props.getAllTagsById[id].name}</span>
                 <input
@@ -126,7 +198,6 @@ export default class TagEditor extends Component {
             </div>
           )
         });
-      return tagList;
     }
   }
 
@@ -162,6 +233,14 @@ export default class TagEditor extends Component {
     }
   }
 
+  noTagMessage() {
+    return (
+      <div className="collection-item category">
+        No tags found in this category. Click add tag to create a new one.
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="tag-editor-form">
@@ -175,9 +254,9 @@ export default class TagEditor extends Component {
             <div className="collection with-header">
               <div className="collection-header row valign-wrapper" style={this.listHeaderStyle()}>
                 <h5 className="grey-text" style={{flex: '1 0 50%',margin:0}}>Categories</h5>
-                <button onClick={this.handleAddCategory} className="btn btn-flat" style={{ flex: '0 0 100px' }}>
+                <button onClick={this.handleAddCategory} className="btn-flat" style={{ flex: '0 0 180px' }}>
                   <i className="material-icons left">add</i>
-                  Add
+                  Add Category
                 </button>
               </div>
               {this.buildCategoryList()}
@@ -187,13 +266,34 @@ export default class TagEditor extends Component {
 
             <div className="collection with-header">
               <div className="collection-header row valign-wrapper" style={this.listHeaderStyle()}>
-                <h5 id="currentCat" className="grey-text" style={{ flex: '1 0 50%', margin: 0 }}>{this.state.currentCategory || ''} Tags</h5>
-                <button onClick={(e) => this.handleAddTag(this.state.currentCategory, e)} className="btn btn-flat" style={{ flex: '0 0 100px' }}>
+                <h5 id="currentCat" className="grey-text" style={{ flex: '1 0 50%', margin: 0 }}>
+                  <span
+                    style={{ textTransform: 'capitalize' }}>
+                    {(this.props.getAllCategoriesById[this.state.currentCategory])
+                      ? this.props.getAllCategoriesById[this.state.currentCategory].name
+                      : ''}
+                  </span> Tags
+                </h5>
+                <button
+                  disabled={(this.state.currentCategory === null)}
+                  onClick={(e) => this.handleAddTag(this.state.currentCategory, e)}
+                  className="btn-flat"
+                  style={{ flex: '0 0 130px' }}>
                   <i className="material-icons left">add</i>
-                  Add
+                  Add Tag
                 </button>
               </div>
-              {this.buildTagList(this.state.currentCategory)}
+              {(this.props.getAllCategoriesById[this.state.currentCategory] && this.props.getAllCategoriesById[this.state.currentCategory].tags.length === 0)
+                ? this.noTagMessage()
+                : this.buildTagList(this.state.currentCategory)}
+
+              {(this.state.currentCategory)
+                ? null
+                : (
+                  <div className="collection-item category">
+                    Choose a category to add tags.
+                  </div>
+                )}
             </div>
           </div>
         </div>
