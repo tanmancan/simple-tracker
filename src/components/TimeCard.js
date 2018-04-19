@@ -25,7 +25,6 @@ export default class TimeCard extends Component {
   }
 
   componentDidMount() {
-    window.M.AutoInit();
     this.setState((state, props) => {
       let timerActive = (this.state.timerRunning && this.props.getActiveTimer.indexOf(this.id) === 0);
       this.rafId = timerActive
@@ -124,7 +123,7 @@ export default class TimeCard extends Component {
     if (window.confirm('Are you sure you want to REMOVE this timer?')) {
       this.props.onTimerDelete({
         id: this.id,
-        timerState: {},
+        timerState: this.props.getAllTimerStates[this.id],
       });
     }
   }

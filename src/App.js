@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TimeCardListBuilder from './components/TimeCardListBuilder';
 import SideNav from './components/SideNav';
+import {TagEditorModal} from './containers/TagManager';
 import './App.css';
 
 class App extends Component {
@@ -8,6 +9,18 @@ class App extends Component {
     super(props);
     this.handleDeleteOnDrop = this.handleDeleteOnDrop.bind(this);
     this.handleDeleteOnDragOver = this.handleDeleteOnDragOver.bind(this);
+  }
+
+  componentDidMount() {
+    window.M.AutoInit();
+    window.showToast = (msg = '', opts = {}) => {
+      window.M.toast({
+        html: `${msg}`,
+        displayLength: 2000,
+        ...opts
+      });
+    }
+
   }
 
   SideNav() {
@@ -23,15 +36,19 @@ class App extends Component {
       TimeCardListBuilder, {
         ...this.props
       }
-    )
+    );
   }
 
   handleDeleteOnDrop(e) {
-    let payload = JSON.parse(e.dataTransfer.getData('application/json'));
+    let payload = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
+
+    if (Object.keys(payload).length === 0) {
+      return;
+    }
 
     this.props.onTimerDelete({
       id: payload.id,
-      timerState: {},
+      timerState: this.props.getAllTimerStates[payload.id],
     });
 
     this.props.onTimerDrag({
@@ -64,7 +81,7 @@ class App extends Component {
             onDragOver={this.handleDeleteOnDragOver}
             className="fixed-action-btn">
             <a onClick={this.props.onTimerAdd}
-              className={'btn-floating btn-large ' + ((this.props.getDragState) ? 'red' : 'light-blue')}>
+              className={'btn-floating btn-large z-depth-0 ' + ((this.props.getDragState) ? 'red' : 'light-blue')}>
               <i className="large material-icons">{(this.props.getDragState) ? 'delete' : 'add'}</i>
             </a>
           </div>
@@ -81,6 +98,7 @@ class App extends Component {
             </div>
             {this.listBuilder()}
           </div>
+          <TagEditorModal></TagEditorModal>
           <footer className="page-footer grey lighten-2">
               <div className="row footer-content">
                 <div className="col l6 s12">

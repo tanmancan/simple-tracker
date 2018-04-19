@@ -1,15 +1,9 @@
 import { connect } from "react-redux";
-import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder, timerDrag } from "../store/actions/timer";
+import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder, timerDrag, undoTimerDelete } from "../store/actions/timer";
 import { initTimerState } from '../store/reducers/timer';
 import App from '../App';
 
-const showToast = (msg = '', opts = {}) => {
-  window.M.toast({
-    html: `${msg}`,
-    displayLength: 2000,
-    ...opts
-  });
-}
+window.undoState = {};
 
 const getDragState = (state) => {
   return state.timerDrag;
@@ -38,7 +32,9 @@ const getTotalTime = (state) => {
     }, 0);
 }
 
-const mapStateToProps = state => {
+const mapTimerStateToProps = globalState => {
+  let state = globalState.timerState;
+
   return {
     getDragState: getDragState(state),
     getStateById: getStateById(state),
@@ -49,7 +45,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapTimerDispatchToProps = dispatch => {
   return {
     onTimerAdd: () => {
       let uid = +`${Math.floor(Math.random() * 1000)}${+new Date()}`;
@@ -59,7 +55,7 @@ const mapDispatchToProps = dispatch => {
         timerStartDate: +new Date(),
       }
       dispatch(addTimer({timerState, id}));
-      showToast('Timer Added');
+      window.showToast('Timer Added');
       return true;
     },
     onTimerUpdate: ({timerState, id}) => {
@@ -67,11 +63,31 @@ const mapDispatchToProps = dispatch => {
     },
     onTimerDelete: ({timerState, id}) => {
       dispatch(deleteTimer({ timerState, id }));
-      showToast('Timer Deleted');
+
+      window.undoState[id] = {
+        timerState,
+        id
+      };
+
+      // Only reason for this nonsense is because we are passing the closure via a string to the toast option
+      // @TODO: implement a better way to pass undoDelete handler to toast options
+      window.undoDelete = (target, id) => {
+        if (window.undoState && window.undoState[id]) {
+          dispatch(undoTimerDelete(window.undoState[id]));
+          target.parentNode.innerHTML = 'Timer Restored';
+        }
+        delete window.undoState[id];
+      }
+
+      let deleteMessage = `
+        Timer Deleted &nbsp; <a href="#undo" onclick="window.undoDelete(this, '${id}');" class="orange-text">Undo</a>
+      `;
+
+      window.showToast(deleteMessage, {displayLength: 6000});
     },
     onTimerStop: ({timerState, id}) => {
       dispatch(stopTimer({ timerState, id }));
-      showToast('Timer Stopped');
+      window.showToast('Timer Stopped');
     },
     onTimerUpdateOrder: ({targetPos, id}) => {
       dispatch(updateTimerOrder({targetPos, id}));
@@ -83,6 +99,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapTimerStateToProps,
+  mapTimerDispatchToProps
 )(App);
