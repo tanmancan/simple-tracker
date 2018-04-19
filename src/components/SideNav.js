@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SideNavHeader from './SideNavHeader';
+import {TagList} from '../containers/TagManager';
 
 export default class SideNav extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ export default class SideNav extends Component {
           </a>
         </li>
         <li><div className="divider"></div></li>
+        <TagList></TagList>
       </ul>
     );
   }
