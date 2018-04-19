@@ -76,7 +76,12 @@ export default class TimeCardListBuilder extends Component {
 
   handleOrderOnDrop(e) {
     e.target.classList.remove('red');
-    let payload = JSON.parse(e.dataTransfer.getData('application/json'));
+    let payload = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
+
+    if (Object.keys(payload).length === 0) {
+      return;
+    }
+
     let position = e.target.id.replace('card-divider-', '');
 
     this.props.onTimerUpdateOrder({
@@ -125,6 +130,21 @@ export default class TimeCardListBuilder extends Component {
     );
   }
 
+  noTimerMsg() {
+    return(
+      <div className="col s12">
+        <div className="card white z-depth-0">
+          <div className="card-content grey-text text-darken-3">
+            <span className="card-title">No timers found</span>
+          </div>
+          <div className="card-action">
+            Click the blue <a className="btn-floating grey disabled z-depth-0"><i className="material-icons">add</i></a> button on the bottom right of the screen to add a new timer.
+                </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="timers">
@@ -134,17 +154,7 @@ export default class TimeCardListBuilder extends Component {
             ? this.props.getAllTimers.map(
               (id, idx) => this.timeCardBuilder(id, idx, this.props.getAllTimers.length)
             )
-            : <div className="col s12">
-              <div className="card white">
-                <div className="card-content grey-text text-darken-3">
-                  <span className="card-title">No timers found</span>
-                </div>
-                <div className="card-action">
-                  <a href="#add-timer" className="waves-effect waves-light btn blue white-text" onClick={this.props.onTimerAdd}>Add a new timer</a>
-                </div>
-              </div>
-            </div>
-          }
+            : this.noTimerMsg()}
         </div>
       </div>
     );
