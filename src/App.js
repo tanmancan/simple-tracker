@@ -42,19 +42,17 @@ class App extends Component {
   handleDeleteOnDrop(e) {
     let payload = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
 
-    if (Object.keys(payload).length === 0) {
-      return;
+    if (Object.keys(payload).length > 0 && payload.type === 'TIMER_ORDER') {
+      this.props.onTimerDelete({
+        id: payload.id,
+        timerState: this.props.getAllTimerStates[payload.id],
+      });
+
+      this.props.onTimerDrag({
+        dragState: false,
+        id: payload.id
+      });
     }
-
-    this.props.onTimerDelete({
-      id: payload.id,
-      timerState: this.props.getAllTimerStates[payload.id],
-    });
-
-    this.props.onTimerDrag({
-      dragState: false,
-      id: payload.id
-    });
   }
 
   handleDeleteOnDragOver(e) {
