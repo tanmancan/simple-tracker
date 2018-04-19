@@ -36,6 +36,12 @@ export default class SideNav extends Component {
             Stop Timer
           </a>
         </li>
+        <li>
+          <a href="#modal-manage-tag" className="brown-text lighten-4-text modal-trigger">
+            <i className="material-icons">settings</i>
+            Manage Tags/Category
+          </a>
+        </li>
         <li><div className="divider"></div></li>
         <TagList></TagList>
       </ul>

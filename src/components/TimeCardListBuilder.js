@@ -41,7 +41,8 @@ export default class TimeCardListBuilder extends Component {
 
   handleOrderOnDragStart(e) {
     let payload = {
-      id: e.target.id.replace('drag-', '')
+      id: e.target.id.replace('drag-', ''),
+      type: 'TIMER_ORDER'
     }
 
     e.target.classList.add('dragging');
@@ -77,17 +78,14 @@ export default class TimeCardListBuilder extends Component {
   handleOrderOnDrop(e) {
     e.target.classList.remove('red');
     let payload = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
+    if (Object.keys(payload).length > 0 && payload.type === 'TIMER_ORDER') {
+      let position = e.target.id.replace('card-divider-', '');
 
-    if (Object.keys(payload).length === 0) {
-      return;
+      this.props.onTimerUpdateOrder({
+        targetPos: position,
+        id: payload.id
+      })
     }
-
-    let position = e.target.id.replace('card-divider-', '');
-
-    this.props.onTimerUpdateOrder({
-      targetPos: position,
-      id: payload.id
-    })
   }
 
   timeCardBuilder(id, idx, len) {

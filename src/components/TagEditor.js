@@ -35,16 +35,16 @@ export default class TagEditor extends Component {
   }
 
   handleCategoryOnChange(e) {
-    e.target.value;
+    e.stopPropagation();
     let name = e.target.value
-    let id = e.target.id.replace('tag-edit-', '');
-    let tagState = {
-      ...this.props.getAllTagsById[id],
+    let id = e.target.id.replace('category-edit-', '');
+    let categoryState = {
+      ...this.props.getAllCategoriesById[id],
       name
     }
     this.setState((state, props) => {
-      props.onTagUpdate({
-        tagState,
+      props.onCategoryUpdate({
+        categoryState,
         id
       });
       return state;
@@ -53,10 +53,8 @@ export default class TagEditor extends Component {
 
   handleCategoryEdit(e) {
     e.stopPropagation();
-    let editBtn = e.target.parentNode;
-    console.log(editBtn);
-    let input = editBtn.previousSibling;
-    let name = input.previousSibling;
+    let name = e.target;
+    let input = name.nextSibling;
     name.classList.add('hide');
     input.classList.remove('hide');
     input.style.display = 'inline';
@@ -94,8 +92,7 @@ export default class TagEditor extends Component {
   }
 
   handleTagOnChange(e) {
-    e.target.value;
-    let name = e.target.value
+    let name = e.target.value;
     let id = e.target.id.replace('tag-edit-', '');
     let tagState = {
       ...this.props.getAllTagsById[id],
@@ -132,35 +129,31 @@ export default class TagEditor extends Component {
     });
   }
 
-  selectedClassName(id) {
-  }
-
   buildCategoryList() {
+    // @TODO: move into its own component to manage state better
     if (this.props.getAllCategories.length > 0) {
       return this.props.getAllCategories.map((id, idx) => {
         return (
-          <div className="collection-item category"
+          <div className={"collection-item category " + ((this.state.currentCategory === id) ? 'active' : '')}
             onClick={(e) => this.handleCategorySelection(id, e)}
             id={id}
             key={idx}>
             <div>
               <span
+                onClick={this.handleCategoryEdit}
                 style={{ textTransform: 'capitalize' }}
                 className="category-name">{this.props.getAllCategoriesById[id].name}</span>
               <input
                 id={'category-edit-' + id}
-                style={{ width: 'calc(100% - 35px)', height: 'auto' }}
-                className="hide"
+                style={{ width: 'calc(100% - 85px)', height: 'auto' }}
+                className={"hide " + ((this.state.currentCategory === id) ? 'white-text' : '')}
                 onBlur={this.handleCategoryEditDone}
                 onChange={this.handleCategoryOnChange}
                 type="text"
                 value={this.props.getAllCategoriesById[id].name} />
               <a href="#!"
-                onClick={this.handleCategoryEdit}
-                className="secondary-content green-text"><i className="material-icons">edit</i></a>
-              <a href="#!"
                 onClick={(e) => this.handleCategoryDeletion(id, e)}
-                className="secondary-content orange-text"><i className="material-icons">delete</i></a>
+                className={"secondary-content " + ((this.state.currentCategory === id ? 'white-text' : 'orange-text'))}><i className="material-icons">delete</i></a>
             </div>
           </div>
         )
@@ -172,7 +165,7 @@ export default class TagEditor extends Component {
     // @TODO: move into its own component to manage state better
     if (this.props.getAllTags.length > 0) {
       return this.props.getAllTags
-        .filter(id => this.props.getAllTagsById[id]['category'] === currentCategory)
+        .filter(id => this.props.getAllTagsById[id] && this.props.getAllTagsById[id]['category'] === currentCategory)
         .map((id, idx) => {
           return (
             <div className="collection-item tag"
@@ -201,31 +194,6 @@ export default class TagEditor extends Component {
     }
   }
 
-  // buildModal() {
-  //   return (
-  //     <div className="tag-editor">
-  //       <div id="modal1" className="modal">
-  //         <div className="modal-content">
-  //           <h4>Modal Header</h4>
-  //           <div className="row">
-  //             <div className="col s6">
-  //               <button onClick={this.handleAddCategory} className="btn">Add Category</button>
-  //               {this.buildCategoryList()}
-  //             </div>
-  //             <div className="col s6">
-  //               <button onClick={this.handleAddTag} className="btn">Add Tag</button>
-  //               <p>Select a category from the left menu to add a Tag</p>
-  //             </div>
-  //           </div>
-  //         </div>
-  //         <div className="modal-footer">
-  //           <a href="#" className="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   listHeaderStyle() {
     return {
       display: 'flex',
@@ -241,19 +209,35 @@ export default class TagEditor extends Component {
     )
   }
 
-  render() {
+  buildModal() {
+    return (
+      <div className="tag-editor">
+        <div id="modal-manage-tag" className="modal bottom-sheet">
+          <div className="modal-content">
+            <div className="row">
+              <div className="col s12">
+                <h5>Manage Tags</h5>
+                <p>Click on a category name to add tags within that category.</p>
+              </div>
+            </div>
+            {this.buildEditor()}
+          </div>
+          <div className="modal-footer">
+            <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  buildEditor() {
     return (
       <div className="tag-editor-form">
         <div className="row">
-          <div className="col s12">
-            <p>Click on a category name to add tags within that category.</p>
-          </div>
-        </div>
-        <div className="row">
           <div className="col s12 m6">
-            <div className="collection with-header">
+            <div className="collection with-header" style={{overflow:'visible'}}>
               <div className="collection-header row valign-wrapper" style={this.listHeaderStyle()}>
-                <h5 className="grey-text" style={{flex: '1 0 50%',margin:0}}>Categories</h5>
+                <h6 className="grey-text" style={{ flex: '1 0 50%', margin: 0 }}>Categories</h6>
                 <button onClick={this.handleAddCategory} className="btn-flat" style={{ flex: '0 0 180px' }}>
                   <i className="material-icons left">add</i>
                   Add Category
@@ -264,16 +248,16 @@ export default class TagEditor extends Component {
           </div>
           <div className="col s12 m6">
 
-            <div className="collection with-header">
+            <div className="collection with-header" style={{overflow:'visible'}}>
               <div className="collection-header row valign-wrapper" style={this.listHeaderStyle()}>
-                <h5 id="currentCat" className="grey-text" style={{ flex: '1 0 50%', margin: 0 }}>
+                <h6 id="currentCat" className="grey-text" style={{ flex: '1 0 50%', margin: 0 }}>
                   <span
                     style={{ textTransform: 'capitalize' }}>
                     {(this.props.getAllCategoriesById[this.state.currentCategory])
                       ? this.props.getAllCategoriesById[this.state.currentCategory].name
                       : ''}
                   </span> Tags
-                </h5>
+                </h6>
                 <button
                   disabled={(this.state.currentCategory === null)}
                   onClick={(e) => this.handleAddTag(this.state.currentCategory, e)}
@@ -299,5 +283,9 @@ export default class TagEditor extends Component {
         </div>
       </div>
     );
+  }
+
+  render() {
+    return this.buildModal();
   }
 }

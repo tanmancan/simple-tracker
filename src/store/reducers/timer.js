@@ -7,6 +7,7 @@ export const initTimerState = {
   timeProgress: 0,
   timeStart: null,
   timerStartDate: null,
+  tags: {}
 };
 
 function timerDrag(state = false, action) {

@@ -1,4 +1,4 @@
-import { ADD_TAG, UPDATE_TAG, DELETE_TAG, ADD_CATEGORY, DELETE_CATEGORY } from '../actions/tags';
+import { ADD_TAG, UPDATE_TAG, DELETE_TAG, ADD_CATEGORY, DELETE_CATEGORY, UPDATE_CATEGORY } from '../actions/tags';
 
 export const initTag = {
   name: '',
@@ -11,55 +11,76 @@ export const initCategory = {
 }
 
 export const initTagState = {
-  tagsById: {},
-  tags: []
+  tagsById: {
+    exampletag: {
+      name: 'Example Tag',
+      category: 'Example Category'
+    }
+  },
+  tags: ['exampletag']
 }
 
-export const initTagCategoryState = {
-  tagCategoriesById: {},
-  tagCategories: []
+export const initCategoryState = {
+  categoriesById: {
+    examplecategory: {
+      name: 'Example Category',
+      tags: ['exampletag']
+    }
+  },
+  categories: ['examplecategory']
 }
 
-function tagsById (state = {}, action) {
+function tagsById(state = initTagState.tagsById, action) {
   switch (action.type) {
     case ADD_TAG: {
+      let newState = {
+        ...state
+      }
       let tagState = {
         ...initTag,
         ...action.tagState
       }
       return {
-        ...state,
+        ...newState,
         [action.id]: Object.keys(action.tagState).length > 0
           ? tagState
           : initTag
       }
     }
     case UPDATE_TAG: {
-      Object.entries(state).map(([id, tagState]) => {
+      let newState = {
+        ...state
+      }
+      Object.entries(newState).map(([id, tagState]) => {
         let updatedState = (id === action.id)
           ? action.tagState
           : tagState;
 
-        state[id] = Object.keys(action.tagState).length > 0
+        newState[id] = Object.keys(action.tagState).length > 0
           ? updatedState
           : initTag;
 
         return [id, tagState];
       });
-      return state;
+      return newState;
     }
     case DELETE_TAG: {
-      delete state[action.id];
-      return state;
+      let newState = {
+        ...state
+      };
+      delete newState[action.id];
+      return newState;
     }
     case DELETE_CATEGORY: {
       let deletedTags = action.categoryState.tags;
+      let newState = {...state};
       deletedTags.map(tagName => {
-        if (state[tagName]) {
-          delete state[tagName];
+        if (newState[tagName]) {
+          delete newState[tagName];
         }
+        return tagName;
       });
-      return state;
+      return newState;
     }
     default: {
       return state;
@@ -67,28 +88,36 @@ function tagsById (state = {}, action) {
   }
 }
 
-function tags (state = [], action) {
+function tags(state = initTagState.tags, action) {
   switch (action.type) {
     case ADD_TAG: {
+      let newState = [...state];
       return [
-        ...state,
+        ...newState,
         action.id
       ];
     }
     case DELETE_TAG: {
-      if (state.indexOf(action.id) !== -1) {
-        state.splice(state.indexOf(action.id), 1)
+      let newState = [
+        ...state
+      ];
+      if (newState.indexOf(action.id) !== -1) {
+        newState.splice(newState.indexOf(action.id), 1)
       }
-      return state;
+      return newState;
     }
     case DELETE_CATEGORY: {
       let deletedTags = action.categoryState.tags;
+      let newState = [
+        ...state
+      ]
       deletedTags.map(tagName => {
-        if (state.indexOf(tagName) !== -1) {
-          state.splice(state.indexOf(tagName), 1)
+        if (newState.indexOf(tagName) !== -1) {
+          newState.splice(newState.indexOf(tagName), 1)
         }
+        return deletedTags;
       });
-      return state;
+      return newState;
     }
     default: {
       return state;
@@ -96,36 +125,75 @@ function tags (state = [], action) {
   }
 }
 
-function categoriesById(state = {}, action) {
+function categoriesById(state = initCategoryState.categoriesById, action) {
   switch (action.type) {
     case ADD_TAG: {
+      let newState = {
+        ...state
+      }
       let tagCategory = action.tagState.category;
       return {
-        ...state,
+        ...newState,
         [tagCategory]: {
-          ...state[tagCategory],
+          ...newState[tagCategory],
           tags: [
-            ...state[tagCategory].tags,
+            ...newState[tagCategory].tags,
             action.id
           ]
         }
       }
     }
+    case DELETE_TAG: {
+      let newState = {
+        ...state
+      }
+      Object.entries(newState).map(([id, category]) => {
+        let tags = category.tags;
+        if (tags.indexOf(action.id) !== -1) {
+          tags.splice(tags.indexOf(action.id), 1)
+        }
+        return [id, category];
+      });
+      return newState;
+    }
     case ADD_CATEGORY: {
+      let newState = {
+        ...state
+      }
       let categoryState = {
         ...initCategory,
         ...action.categoryState
       }
       return {
-        ...state,
+        ...newState,
         [action.id]: Object.keys(action.categoryState).length > 0
           ? categoryState
           : initCategory
       }
     }
+    case UPDATE_CATEGORY: {
+      let newState = {
+        ...state
+      }
+      Object.entries(newState).map(([id, categoryState]) => {
+        let updatedState = (id === action.id)
+          ? action.categoryState
+          : categoryState;
+
+        newState[id] = Object.keys(action.categoryState).length > 0
+          ? updatedState
+          : initCategory;
+
+        return [id, categoryState];
+      });
+      return newState;
+    }
     case DELETE_CATEGORY: {
-      delete state[action.id];
-      return state;
+      let newState = {
+        ...state
+      }
+      delete newState[action.id];
+      return newState;
     }
     default: {
       return state;
@@ -133,7 +201,7 @@ function categoriesById(state = {}, action) {
   }
 }
 
-function categories(state = [], action) {
+function categories(state = initCategoryState.categories, action) {
   switch (action.type) {
     case ADD_CATEGORY: {
       return [
@@ -142,10 +210,11 @@ function categories(state = [], action) {
       ];
     }
     case DELETE_CATEGORY: {
-      if (state.indexOf(action.id) !== -1) {
-        state.splice(state.indexOf(action.id), 1)
+      let newState = [...state];
+      if (newState.indexOf(action.id) !== -1) {
+        newState.splice(newState.indexOf(action.id), 1)
       }
-      return state;
+      return newState;
     }
     default: {
       return state;
