@@ -3,19 +3,54 @@ import React, { Component } from 'react';
 export default class TagUi extends Component {
   constructor(props) {
     super(props);
+    this.tagListRef = React.createRef();
+    this.handleTagOnDrag = this.handleTagOnDrag.bind(this);
+    this.handleTagOnDragStart = this.handleTagOnDragStart.bind(this);
+    this.handleTagOnDragEnd = this.handleTagOnDragEnd.bind(this);
+    this.state = {};
+  }
+
+  componentDidUpdate(props, state) {
+    let context = this.tagListRef.current;
+    if (context !== null) {
+      window.M.AutoInit(context);
+    }
+  }
+
+  handleTagOnDrag(e) {
+
+  }
+
+  handleTagOnDragStart(e) {
+    let id = e.target.id.replace('tag-drag-id-', '');
+    let payload = {
+      id,
+      tagState: this.props.getAllTagsById[id],
+      type: 'TAG_LINK'
+    }
+    e.dataTransfer.setData('application/json', JSON.stringify(payload));
+  }
+
+  handleTagOnDragEnd(e) {
+
   }
 
   buildCategoryList() {
     if (this.props.getAllCategories.length > 0) {
-      let catList = this.props.getAllCategories.map((id, idx) => {
+      return this.props.getAllCategories.map((id, idx) => {
         return (
-          <ul id={id} key={id} className="collapsible collapsible-accordion">
-            <li>
-              <a className="collapsible-header">{id}<i className="material-icons">arrow_drop_down</i></a>
+          <ul id={'cat-list-' + id} key={'cat-list-' + idx} className="collapsible collapsible-accordion">
+            <li className="active" style={{ textTransform: 'capitalize' }}>
+              <a className="collapsible-header active">
+                {(this.props.getAllCategoriesById[id])
+                  ? this.props.getAllCategoriesById[id].name
+                  : ''
+                } Tags
+              <i className="material-icons">arrow_drop_down</i></a>
               <div className="collapsible-body">
                 <ul>
-                  <li>
-                    <a>{id}stuff.</a>
+                  <li style={{ textTransform: 'capitalize', padding: '0 1rem' }}>
+                    {this.buildTagList(id)}
                   </li>
                 </ul>
               </div>
@@ -23,45 +58,74 @@ export default class TagUi extends Component {
           </ul>
         )
       });
-      return catList;
     }
   }
 
-  buildTagList() {
-    let tagList = this.props.getAllTags.map((id, idx) => {
-      return <div id={id} key={id}><a href="#">{id}</a></div>
-    });
+  buildTagList(catId) {
+    return (this.props.getAllCategoriesById[catId].tags).map(
+      (id, idx) => <div
+          style={{ cursor: 'pointer', transform: 'translate(0, 0)'}}
+          draggable="true"
+          onDrag={this.handleTagOnDragStart}
+          onDragStart={this.handleTagOnDragStart}
+          onDragEnd={this.handleTagOnDragEnd}
+          id={'tag-drag-id-' + id}
+          key={'tag-drag-' + idx}
+          className="chip">
+            {(this.props.getAllTagsById[id])
+              ? this.props.getAllTagsById[id].name
+              : ''
+            }
+        </div>
+      );
+  }
+
+  helpTextStyle() {
+    return {
+      lineHeight: '1.6',
+      padding: '1rem 2rem',
+      height: 'auto',
+      borderTop: '1px solid whitesmoke',
+    }
   }
 
   render() {
     return(
-      <li className="no-padding">
-        <ul>
-          <li>
-            <a className="waves-effect waves-light btn modal-trigger" href="#modal1">Manage Tags</a>
-          </li>
-        </ul>
+      <li className="no-padding" ref={this.tagListRef}>
         {this.buildCategoryList()}
         <ul className="collapsible collapsible-accordion">
-          <li>
-            <a className="collapsible-header"><i className="material-icons">filter_drama</i>Tags</a>
+          <li className="active">
+            <a className="collapsible-header"><i className="material-icons">local_offer</i>All Tags</a>
             <div className="collapsible-body">
               <ul>
-                {(this.props.getAllTags.length > 0)
-                  ? (this.props.getAllTags).map(
-                    (id, idx) => <li id={id} key={id}><a href="#">{id}</a></li>
-                  )
-                  : 'no tags'}
+                <li style={{ textTransform: 'capitalize', padding: '0 1rem' }}>
+                {(this.props.getAllTags).map(
+                  (id, idx) => <div
+                    style={{ cursor: 'pointer', transform: 'translate(0, 0)', }}
+                    draggable="true"
+                    onDrag={this.handleTagOnDragStart}
+                    onDragStart={this.handleTagOnDragStart}
+                    onDragEnd={this.handleTagOnDragEnd}
+                    id={'tag-drag-id-' + id}
+                    key={'tag-drag-' + idx}
+                    className="chip">
+                    {(this.props.getAllTagsById[id])
+                      ? this.props.getAllTagsById[id].name
+                      : ''
+                    }
+                  </div>
+                )}
+                </li>
               </ul>
             </div>
           </li>
+        </ul>
+        <ul>
           <li>
-            <div className="collapsible-header"><i className="material-icons">place</i>Second</div>
-            <div className="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-          </li>
-          <li>
-            <div className="collapsible-header"><i className="material-icons">whatshot</i>Third</div>
-            <div className="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+            <a style={this.helpTextStyle()}>
+            Click Manage Tags/Category to add and edit tags and categories.
+              To add a tag to a timer, drag and drop the tag on to the timer.
+                  </a>
           </li>
         </ul>
       </li>

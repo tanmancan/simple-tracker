@@ -14,13 +14,18 @@ export default class TimeCard extends Component {
     this.resetTimer = this.resetTimer.bind(this);
     this.removeTimer = this.removeTimer.bind(this);
     this.handleEditFormUpdate = this.handleEditFormUpdate.bind(this);
+    this.handleTagOnDrop = this.handleTagOnDrop.bind(this);
+    this.handleTagOnDragOver = this.handleTagOnDragOver.bind(this);
+    this.handleTagOnDragLeave = this.handleTagOnDragLeave.bind(this);
+    this.handleTagRemove = this.handleTagRemove.bind(this);
     this.openFormModal = this.openFormModal.bind(this);
     this.initTimerState = initTimerState;
     this.id = this.props.id;
     this.state = {
       ...this.props.getStateById(this.id),
       title: this.props.getStateById(this.id).title || this.props.title || this.props.id,
-      description: this.props.getStateById(this.id).description || this.props.description || ''
+      description: this.props.getStateById(this.id).description || this.props.description || '',
+      tags: this.props.getStateById(this.id).tags || {}
     };
   }
 
@@ -180,8 +185,58 @@ export default class TimeCard extends Component {
     });
   }
 
+
   openFormModal() {
     window.M.Modal.init(this.modalRef.current, {});
+  }
+
+  handleTagOnDrop(e) {
+    e.stopPropagation();
+    let payload = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
+
+    if (Object.keys(payload).length > 0 && payload.type === 'TAG_LINK') {
+      this.setState((state) => {
+        let tags = {
+          ...state.tags,
+          [payload.id]: payload
+        }
+
+        let newState = {
+          ...state,
+          tags
+        }
+
+        this.props.onTimerUpdate({
+          timerState: newState,
+          id: this.id,
+        });
+        return newState;
+      })
+    }
+  }
+
+  handleTagRemove(e) {
+    e.preventDefault();
+    let id = e.target.id.replace('tag-remove-', '');
+
+    this.setState((state, props) => {
+      delete state.tags[id];
+
+      this.props.onTimerUpdate({
+        timerState: state,
+        id: this.id,
+      });
+      return state;
+    });
+
+  }
+
+  handleTagOnDragOver(e) {
+    e.preventDefault();
+  }
+
+  handleTagOnDragLeave(e) {
+    e.preventDefault();
   }
 
   cardClass(additionalClasses = [''], runningClasses = null, stoppedClasses = null) {
@@ -255,8 +310,12 @@ export default class TimeCard extends Component {
   }
 
   render() {
+    // @TODO: refactor this into smaller components
     return (
       <section
+        onDragOver={this.handleTagOnDragOver}
+        onDragLeave={this.handleTagOnDragLeave}
+        onDrop={this.handleTagOnDrop}
         className="time-card row"
         style={this.timerCardWrapperStyle()}>
         <div className="side-button left" style={this.sideButtonWrapperStyle()}>
@@ -293,6 +352,11 @@ export default class TimeCard extends Component {
           <div className={this.cardTextClass(["card-content"], ['grey', 'darken-3']) + this.cardClass([''], ['light-blue', 'lighten-4'])}>
             <span className="card-title">
               <span>{this.state.title || this.id}</span>
+              <div>
+                <small>
+                  {this.formatTimerDate()}
+                </small>
+              </div>
             </span>
             <blockquote style={this.descriptionStyle()} className="card-description">
               {this.state.description
@@ -300,7 +364,28 @@ export default class TimeCard extends Component {
                 : ''}
             </blockquote>
             <div className="card-meta">
-              {this.formatTimerDate()}
+              {Object.entries(this.state.tags).map(([idx, tag]) => {
+                return (
+                  <div
+                    className={this.cardClass(['chip'],['white'],['grey', 'lighten-2'])}
+                    id={'tag-chip-' + tag.id}
+                    key={idx}>
+                    {tag.tagState.name}
+                    <i id={'tag-remove-' + tag.id}
+                    className="material-icons"
+                    style={
+                      {
+                        cursor: 'pointer',
+                        float: 'right',
+                        fontSize: '16px',
+                        lineHeight: '32px',
+                        paddingLeft: '8px',
+                      }
+                  }
+                    onClick={this.handleTagRemove}>close</i>
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className="card-action">
