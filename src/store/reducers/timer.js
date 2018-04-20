@@ -64,12 +64,18 @@ function timerById(state = {}, action) {
       return state;
     }
     case timerAction.DELETE_TIMER: {
-      delete state[action.id];
-      return state;
+      let newState = {
+        ...state
+      }
+      delete newState[action.id];
+      return newState;
     }
     case timerAction.UNDO_TIMER_DELETE: {
+      let newState = {
+        ...state
+      }
       return {
-        ...state,
+        ...newState,
         [action.id]: Object.keys(action.timerState).length > 0
           ? action.timerState
           : initTimerState

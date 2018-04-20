@@ -68,7 +68,7 @@ const mapTimerDispatchToProps = dispatch => {
     },
     onTimerDelete: ({timerState, id}) => {
       dispatch(deleteTimer({ timerState, id }));
-
+      timerState.timerRunning = false;
       window.undoState[id] = {
         timerState,
         id
