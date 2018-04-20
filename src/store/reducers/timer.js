@@ -93,6 +93,7 @@ function timerById(state = {}, action) {
 
       return newState;
     }
+    // @TOTO: ADD action to remove tags from time when individual tag is deleted
     default: {
       return state;
     }

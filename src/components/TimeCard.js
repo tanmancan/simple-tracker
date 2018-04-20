@@ -239,6 +239,33 @@ export default class TimeCard extends Component {
     e.preventDefault();
   }
 
+  buildTagList() {
+    return Object.entries(this.props.getAllTagsById).map(([id, tagState]) => {
+      return (this.state.tags[id])
+      ? (
+        <div
+          className={this.cardClass(['chip'], ['white'], ['grey', 'lighten-2'])}
+          id={'tag-chip-' + id}
+          key={id}>
+          {tagState.name}
+          <i id={'tag-remove-' + id}
+            className="material-icons"
+            style={
+              {
+                cursor: 'pointer',
+                float: 'right',
+                fontSize: '16px',
+                lineHeight: '32px',
+                paddingLeft: '8px',
+              }
+            }
+            onClick={this.handleTagRemove}>close</i>
+        </div>
+      )
+      : null
+    })
+  }
+
   cardClass(additionalClasses = [''], runningClasses = null, stoppedClasses = null) {
     const RUNNING = runningClasses || ['light-blue', 'lighten-1'];
     const STOPPED = stoppedClasses || ['white'];
@@ -364,28 +391,7 @@ export default class TimeCard extends Component {
                 : ''}
             </blockquote>
             <div className="card-meta">
-              {Object.entries(this.state.tags).map(([idx, tag]) => {
-                return (
-                  <div
-                    className={this.cardClass(['chip'],['white'],['grey', 'lighten-2'])}
-                    id={'tag-chip-' + tag.id}
-                    key={idx}>
-                    {tag.tagState.name}
-                    <i id={'tag-remove-' + tag.id}
-                    className="material-icons"
-                    style={
-                      {
-                        cursor: 'pointer',
-                        float: 'right',
-                        fontSize: '16px',
-                        lineHeight: '32px',
-                        paddingLeft: '8px',
-                      }
-                    }
-                    onClick={this.handleTagRemove}>close</i>
-                  </div>
-                )
-              })}
+                {this.buildTagList()}
             </div>
           </div>
           <div className="card-action">

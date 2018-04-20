@@ -9,6 +9,10 @@ const getDragState = (state) => {
   return state.timerDrag;
 }
 
+const getAllTagsById = (state) => {
+  return state.tagsById;
+}
+
 const getStateById = (state) => (id) => {
   return state.timerById[id];
 }
@@ -36,6 +40,7 @@ const mapTimerStateToProps = globalState => {
   let state = globalState.timerState;
 
   return {
+    getAllTagsById: getAllTagsById(globalState.tagState),
     getDragState: getDragState(state),
     getStateById: getStateById(state),
     getAllTimerStates: getAllTimerStates(state),

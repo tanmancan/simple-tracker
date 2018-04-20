@@ -39,7 +39,7 @@ export default class TagUi extends Component {
 
   handleTagOnChange(e) {
     let name = e.target.value;
-    let id = e.target.id.replace('tag-edit-', '');
+    let id = e.target.id.replace('tag-chip-edit-', '');
     let tagState = {
       ...this.props.getAllTagsById[id],
       name
@@ -137,7 +137,16 @@ export default class TagUi extends Component {
           id={'tag-drag-id-' + id}
           key={'tag-drag-' + idx}
           className="chip">
-          <span>{this.props.getAllTagsById[id].name}</span>
+        <span
+          onClick={this.handleTagEdit}>{this.props.getAllTagsById[id].name}</span>
+        <input
+          id={'tag-chip-edit-' + id}
+          style={{ width: 'calc(100% - 35px)', height: 'auto' }}
+          className="hide"
+          onBlur={this.handleTagEditDone}
+          onChange={this.handleTagOnChange}
+          type="text"
+          value={this.props.getAllTagsById[id].name} />
         </div>
       );
   }
@@ -171,10 +180,16 @@ export default class TagUi extends Component {
                     id={'tag-drag-id-' + id}
                     key={'tag-drag-' + idx}
                     className="chip">
-                    {(this.props.getAllTagsById[id])
-                      ? this.props.getAllTagsById[id].name
-                      : ''
-                    }
+                    <span
+                      onClick={this.handleTagEdit}>{this.props.getAllTagsById[id].name}</span>
+                    <input
+                      id={'tag-chip-edit-' + id}
+                      style={{ width: 'calc(100% - 35px)', height: 'auto' }}
+                      className="hide"
+                      onBlur={this.handleTagEditDone}
+                      onChange={this.handleTagOnChange}
+                      type="text"
+                      value={this.props.getAllTagsById[id].name} />
                   </div>
                 )}
                 </li>
