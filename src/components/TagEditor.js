@@ -162,36 +162,41 @@ export default class TagEditor extends Component {
   }
 
   buildTagList(currentCategory) {
-    // @TODO: move into its own component to manage state better
-    if (this.props.getAllTags.length > 0) {
-      return this.props.getAllTags
-        .filter(id => this.props.getAllTagsById[id] && this.props.getAllTagsById[id]['category'] === currentCategory)
-        .map((id, idx) => {
-          return (
-            <div className="collection-item tag"
-              id={id}
-              key={idx}>
-              <div>
-                <span
-                  style={{textTransform: 'capitalize'}}
-                  onClick={this.handleTagEdit}
-                  className="tag-name">{this.props.getAllTagsById[id].name}</span>
-                <input
-                  id={'tag-edit-' + id}
-                  style={{  width: 'calc(100% - 35px)', height: 'auto' }}
-                  className="hide"
-                  onBlur={this.handleTagEditDone}
-                  onChange={this.handleTagOnChange}
-                  type="text"
-                  value={this.props.getAllTagsById[id].name}/>
-                <a href="#!"
-                  onClick={(e) => this.handleTagDeletion(id, currentCategory)}
-                  className="secondary-content"><i className="material-icons">delete</i></a>
-              </div>
-            </div>
-          )
-        });
+    if (!currentCategory) {
+      return (
+        <div className="collection-item category">
+          Choose a category to add tags.
+        </div>
+      );
     }
+    // @TODO: move into its own component to manage state better
+    return this.props.getAllTags
+      .filter(id => this.props.getAllTagsById[id] && this.props.getAllTagsById[id]['category'] === currentCategory)
+      .map((id, idx) => {
+        return (
+          <div className="collection-item tag"
+            id={id}
+            key={idx}>
+            <div>
+              <span
+                style={{textTransform: 'capitalize'}}
+                onClick={this.handleTagEdit}
+                className="tag-name">{this.props.getAllTagsById[id].name}</span>
+              <input
+                id={'tag-edit-' + id}
+                style={{  width: 'calc(100% - 35px)', height: 'auto' }}
+                className="hide"
+                onBlur={this.handleTagEditDone}
+                onChange={this.handleTagOnChange}
+                type="text"
+                value={this.props.getAllTagsById[id].name}/>
+              <a href="#!"
+                onClick={(e) => this.handleTagDeletion(id, currentCategory)}
+                className="secondary-content"><i className="material-icons">delete</i></a>
+            </div>
+          </div>
+        )
+      });
   }
 
   listHeaderStyle() {
@@ -267,17 +272,7 @@ export default class TagEditor extends Component {
                   Add Tag
                 </button>
               </div>
-              {(this.props.getAllCategoriesById[this.state.currentCategory] && this.props.getAllCategoriesById[this.state.currentCategory].tags.length === 0)
-                ? this.noTagMessage()
-                : this.buildTagList(this.state.currentCategory)}
-
-              {(this.state.currentCategory)
-                ? null
-                : (
-                  <div className="collection-item category">
-                    Choose a category to add tags.
-                  </div>
-                )}
+              {this.buildTagList(this.state.currentCategory)}
             </div>
           </div>
         </div>
