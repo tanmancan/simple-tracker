@@ -10,6 +10,7 @@ export default class TagUi extends Component {
     this.handleTagOnChange = this.handleTagOnChange.bind(this);
     this.handleTagEdit = this.handleTagEdit.bind(this);
     this.handleTagEditDone = this.handleTagEditDone.bind(this);
+    this.handleTagDeletion = this.handleTagDeletion.bind(this);
     this.handleTagOnDrag = this.handleTagOnDrag.bind(this);
     this.handleTagOnDragStart = this.handleTagOnDragStart.bind(this);
     this.handleTagOnDragEnd = this.handleTagOnDragEnd.bind(this);
@@ -56,7 +57,9 @@ export default class TagUi extends Component {
   handleTagEdit(e) {
     let name = e.target;
     let input = name.nextSibling;
+    let deleteIcon = input.nextSibling;
     input.classList.remove('hide');
+    deleteIcon.classList.remove('hide');
     input.style.display = 'inline';
     input.focus();
     input.setSelectionRange(0, -1);
@@ -65,7 +68,15 @@ export default class TagUi extends Component {
 
   handleTagEditDone(e) {
     e.target.previousSibling.classList.remove('hide');
+    e.target.nextSibling.classList.add('hide');
     e.target.classList.add('hide');
+  }
+
+  handleTagDeletion(id, cat, e) {
+    this.props.onTagDelete(id);
+    this.setState({
+      currentCategory: cat
+    });
   }
 
   handleTagOnDrag(e) {
@@ -103,12 +114,13 @@ export default class TagUi extends Component {
                   <li style={{ textTransform: 'capitalize', padding: '0 1rem' }}>
                     {this.buildTagList(id)}
                     <div className="chip"
+                      style={{
+                        cursor: 'pointer',}}
                       onClick={(e) => this.handleAddTag(id, e)}>
                       Add
                       <i className="material-icons"
                         style={
                           {
-                            cursor: 'pointer',
                             float: 'right',
                             fontSize: '16px',
                             lineHeight: '32px',
@@ -141,12 +153,25 @@ export default class TagUi extends Component {
           onClick={this.handleTagEdit}>{this.props.getAllTagsById[id].name}</span>
         <input
           id={'tag-chip-edit-' + id}
-          style={{ width: 'calc(100% - 35px)', height: 'auto' }}
+          style={{ width:'calc(100% - 35px)', height: 'auto' }}
           className="hide"
           onBlur={this.handleTagEditDone}
           onChange={this.handleTagOnChange}
           type="text"
           value={this.props.getAllTagsById[id].name} />
+        <i className="material-icons hide"
+          // @TODO: see if there is a better way to implement onBlur functionality so we don't have to
+          // rely on onMouseDown for event ordering. Currently onMouseDown will trigger before onBlur letting
+          // us delete a tag before it gets hidden by the onblur event callback
+          onMouseDown={(e) => this.handleTagDeletion(id, catId, e)}
+          style={
+            {
+              float: 'right',
+              fontSize: '16px',
+              lineHeight: '32px',
+              paddingLeft: '8px',
+            }
+          }>delete</i>
         </div>
       );
   }
@@ -190,6 +215,19 @@ export default class TagUi extends Component {
                       onChange={this.handleTagOnChange}
                       type="text"
                       value={this.props.getAllTagsById[id].name} />
+                    <i className="material-icons hide"
+                      // @TODO: see if there is a better way to implement onBlur functionality so we don't have to
+                      // rely on onMouseDown for event ordering. Currently onMouseDown will trigger before onBlur letting
+                      // us delete a tag before it gets hidden by the onblur event callback
+                      onMouseDown={(e) => this.handleTagDeletion(id, this.props.getAllTagsById[id].category, e)}
+                      style={
+                        {
+                          float: 'right',
+                          fontSize: '16px',
+                          lineHeight: '32px',
+                          paddingLeft: '8px',
+                        }
+                      }>delete</i>
                   </div>
                 )}
                 </li>
@@ -200,8 +238,8 @@ export default class TagUi extends Component {
         <ul>
           <li>
             <a style={this.helpTextStyle()}>
-            Click Manage Tags/Category to add and edit tags and categories.
-              To add a tag to a timer, drag and drop the tag on to the timer.
+            Click on a tag to edit its name. To tag a timer, drag and drop a tag onto that timer.
+            To rename or delete categories, click Manage Tags/Category menu item.
                   </a>
           </li>
         </ul>
