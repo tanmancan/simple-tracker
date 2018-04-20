@@ -14,7 +14,7 @@ export const initTagState = {
   tagsById: {
     exampletag: {
       name: 'Example Tag',
-      category: 'Example Category'
+      category: 'examplecategory'
     }
   },
   tags: ['exampletag']

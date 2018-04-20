@@ -1,4 +1,5 @@
 import * as timerAction from '../actions/timer';
+import {DELETE_CATEGORY} from '../actions/tags';
 
 export const initTimerState = {
   title: '',
@@ -73,6 +74,24 @@ function timerById(state = {}, action) {
           ? action.timerState
           : initTimerState
       }
+    }
+    case DELETE_CATEGORY: {
+      let newState = {...state}
+
+      Object.entries(newState).map(([timerId,timerState]) => {
+        action.categoryState.tags.map(id => {
+
+          if (timerState.tags[id]) {
+            delete newState[timerId].tags[id];
+          }
+
+          return id;
+        });
+
+        return [timerId, timerState];
+      });
+
+      return newState;
     }
     default: {
       return state;
