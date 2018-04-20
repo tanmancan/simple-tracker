@@ -381,7 +381,7 @@ export default class TimeCard extends Component {
                         lineHeight: '32px',
                         paddingLeft: '8px',
                       }
-                  }
+                    }
                     onClick={this.handleTagRemove}>close</i>
                   </div>
                 )
