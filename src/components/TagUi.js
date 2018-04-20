@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import rand from 'random-words';
 
 export default class TagUi extends Component {
   constructor(props) {
     super(props);
     this.tagListRef = React.createRef();
+    this.handleAddTag = this.handleAddTag.bind(this);
+    this.handleAddCategory = this.handleAddCategory.bind(this);
+    this.handleTagOnChange = this.handleTagOnChange.bind(this);
+    this.handleTagEdit = this.handleTagEdit.bind(this);
+    this.handleTagEditDone = this.handleTagEditDone.bind(this);
     this.handleTagOnDrag = this.handleTagOnDrag.bind(this);
     this.handleTagOnDragStart = this.handleTagOnDragStart.bind(this);
     this.handleTagOnDragEnd = this.handleTagOnDragEnd.bind(this);
@@ -15,6 +21,51 @@ export default class TagUi extends Component {
     if (context !== null) {
       window.M.AutoInit(context);
     }
+  }
+
+  handleAddTag(cat) {
+    this.props.onTagAdd({
+      name: rand(),
+      category: cat
+    });
+  }
+
+  handleAddCategory() {
+    this.props.onCategoryAdd({
+      name: rand(),
+      id: rand()
+    });
+  }
+
+  handleTagOnChange(e) {
+    let name = e.target.value;
+    let id = e.target.id.replace('tag-edit-', '');
+    let tagState = {
+      ...this.props.getAllTagsById[id],
+      name
+    }
+    this.setState((state, props) => {
+      props.onTagUpdate({
+        tagState,
+        id
+      });
+      return state;
+    });
+  }
+
+  handleTagEdit(e) {
+    let name = e.target;
+    let input = name.nextSibling;
+    input.classList.remove('hide');
+    input.style.display = 'inline';
+    input.focus();
+    input.setSelectionRange(0, -1);
+    name.classList.add('hide');
+  }
+
+  handleTagEditDone(e) {
+    e.target.previousSibling.classList.remove('hide');
+    e.target.classList.add('hide');
   }
 
   handleTagOnDrag(e) {
@@ -51,6 +102,20 @@ export default class TagUi extends Component {
                 <ul>
                   <li style={{ textTransform: 'capitalize', padding: '0 1rem' }}>
                     {this.buildTagList(id)}
+                    <div className="chip"
+                      onClick={(e) => this.handleAddTag(id, e)}>
+                      Add
+                      <i className="material-icons"
+                        style={
+                          {
+                            cursor: 'pointer',
+                            float: 'right',
+                            fontSize: '16px',
+                            lineHeight: '32px',
+                            paddingLeft: '8px',
+                          }
+                        }>add</i>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -72,10 +137,7 @@ export default class TagUi extends Component {
           id={'tag-drag-id-' + id}
           key={'tag-drag-' + idx}
           className="chip">
-            {(this.props.getAllTagsById[id])
-              ? this.props.getAllTagsById[id].name
-              : ''
-            }
+          <span>{this.props.getAllTagsById[id].name}</span>
         </div>
       );
   }
