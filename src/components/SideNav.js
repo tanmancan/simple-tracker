@@ -39,7 +39,7 @@ export default class SideNav extends Component {
         <li>
           <a href="#modal-manage-tag" className="brown-text lighten-4-text modal-trigger">
             <i className="material-icons">settings</i>
-            Manage Tags/Category
+            Edit Tags/Category
           </a>
         </li>
         <li><div className="divider"></div></li>
