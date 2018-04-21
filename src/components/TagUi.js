@@ -91,6 +91,7 @@ export default class TagUi extends Component {
       type: 'TAG_LINK'
     }
     e.dataTransfer.setData('application/json', JSON.stringify(payload));
+    e.dataTransfer.effectAllowed = "copy";
   }
 
   handleTagOnDragEnd(e) {

@@ -59,6 +59,7 @@ class App extends Component {
 
   handleDeleteOnDragOver(e) {
     e.preventDefault();
+    e.dataTransfer.dropEffect = "move"
   }
 
   getDragState() {

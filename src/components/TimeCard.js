@@ -215,6 +215,15 @@ export default class TimeCard extends Component {
     }
   }
 
+  handleTagOnDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy"
+  }
+
+  handleTagOnDragLeave(e) {
+    e.preventDefault();
+  }
+
   handleTagRemove(e) {
     e.preventDefault();
     let id = e.target.id.replace('tag-remove-', '');
@@ -231,34 +240,27 @@ export default class TimeCard extends Component {
 
   }
 
-  handleTagOnDragOver(e) {
-    e.preventDefault();
-  }
-
-  handleTagOnDragLeave(e) {
-    e.preventDefault();
-  }
-
   buildTagList() {
     return Object.entries(this.props.getAllTagsById).map(([id, tagState]) => {
       return (this.state.tags[id])
       ? (
         <div
+          style={{
+            textTransform: 'capitalize'
+          }}
           className={this.cardClass(['chip'], ['white'], ['grey', 'lighten-2'])}
           id={'tag-chip-' + id}
           key={id}>
           {tagState.name}
           <i id={'tag-remove-' + id}
             className="material-icons"
-            style={
-              {
-                cursor: 'pointer',
-                float: 'right',
-                fontSize: '16px',
-                lineHeight: '32px',
-                paddingLeft: '8px',
-              }
-            }
+            style={{
+              cursor: 'pointer',
+              float: 'right',
+              fontSize: '16px',
+              lineHeight: '32px',
+              paddingLeft: '8px',
+            }}
             onClick={this.handleTagRemove}>close</i>
         </div>
       )

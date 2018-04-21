@@ -23,16 +23,8 @@ export default class TimeCardListBuilder extends Component {
     this.dragImg.src = dragImg;
   }
 
-
   sortByWeight() {
     return this;
-  }
-
-  dragDividerStyle() {
-    return {
-      width: '100%',
-      height: '1rem'
-    }
   }
 
   handleOrderOnDrag(e) {
@@ -46,8 +38,17 @@ export default class TimeCardListBuilder extends Component {
     }
 
     e.target.classList.add('dragging');
-    e.dataTransfer.setDragImage(this.dragImg, 25, 25);
+
+    // Edge does not support this as of April 2018
+    // https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/6542268-setdragimage-on-datatransfer-of-dragevent
+    try {
+      e.dataTransfer.setDragImage(this.dragImg, 25, 25);
+    } catch(err) {
+      console.warn(err);
+    }
+
     e.dataTransfer.setData('application/json', JSON.stringify(payload));
+    e.dataTransfer.effectAllowed = "move";
 
     this.props.onTimerDrag({
       dragState: true,
@@ -68,6 +69,7 @@ export default class TimeCardListBuilder extends Component {
   handleOrderOnDragOver(e) {
     e.preventDefault();
     e.target.classList.add('red');
+    e.dataTransfer.dropEffect = "move"
   }
 
   handleOrderOnDragLeave(e) {
@@ -89,6 +91,19 @@ export default class TimeCardListBuilder extends Component {
     }
   }
 
+  dragDividerStyle() {
+    return {
+      height: '1rem',
+      margin: '0 .75rem',
+      border: (this.props.getDragState)
+        ? '2px dashed #f44236'
+        : 'none',
+      background: (this.props.getDragState)
+        ? '#f442361e'
+        : 'none'
+    }
+  }
+
   timeCardBuilder(id, idx, len) {
     return (
       e('div', { id: `card-wrapper-${id}`, key: `card-wrapper-${id}` },
@@ -99,7 +114,7 @@ export default class TimeCardListBuilder extends Component {
             style: this.dragDividerStyle(),
             onDragOver: this.handleOrderOnDragOver,
             onDragLeave: this.handleOrderOnDragLeave,
-            onDrop: this.handleOrderOnDrop
+            onDrop: this.handleOrderOnDrop,
           }, null
         ),
         e(
@@ -122,7 +137,7 @@ export default class TimeCardListBuilder extends Component {
             style: this.dragDividerStyle(),
             onDragOver: this.handleOrderOnDragOver,
             onDragLeave: this.handleOrderOnDragLeave,
-            onDrop: this.handleOrderOnDrop
+            onDrop: this.handleOrderOnDrop,
           }, null)
           : null
       )
