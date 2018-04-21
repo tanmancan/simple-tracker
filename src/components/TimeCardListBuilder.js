@@ -160,6 +160,7 @@ export default class TimeCardListBuilder extends Component {
             handleOrderOnDrag: this.handleOrderOnDrag,
             handleOrderOnDragStart: this.handleOrderOnDragStart,
             handleOrderOnDragEnd: this.handleOrderOnDragEnd,
+            timerSearchQuery: this.props.timerSearchQuery,
           }, null
         ),
         (idx === len -1)
