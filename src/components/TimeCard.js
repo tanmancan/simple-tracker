@@ -9,6 +9,7 @@ export default class TimeCard extends Component {
     this.raf = window.requestAnimationFrame;
     this.rafId = null;
     this.modalRef = React.createRef();
+    this.timerRef = React.createRef();
     this.startTimer = this.startTimer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
@@ -30,6 +31,10 @@ export default class TimeCard extends Component {
   }
 
   componentDidMount() {
+    let context = this.timerRef.current;
+    if (context !== null) {
+      window.M.AutoInit(context);
+    }
     this.setState((state, props) => {
       let timerActive = (this.state.timerRunning && this.props.getActiveTimer.indexOf(this.id) === 0);
       this.rafId = timerActive
@@ -342,6 +347,7 @@ export default class TimeCard extends Component {
     // @TODO: refactor this into smaller components
     return (
       <section
+        ref={this.timerRef}
         onDragOver={this.handleTagOnDragOver}
         onDragLeave={this.handleTagOnDragLeave}
         onDrop={this.handleTagOnDrop}
