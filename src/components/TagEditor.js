@@ -146,7 +146,7 @@ export default class TagEditor extends Component {
                 className="category-name">{this.props.getAllCategoriesById[id].name}</span>
               <input
                 id={'category-edit-' + id}
-                style={{ width: 'calc(100% - 85px)', height: 'auto' }}
+                style={{ width: 'calc(100% - 85px)', height: 'auto', borderBottomColor: 'white' }}
                 className={"hide " + ((this.state.currentCategory === id) ? 'white-text' : '')}
                 onBlur={this.handleCategoryEditDone}
                 onChange={this.handleCategoryOnChange}
@@ -190,7 +190,7 @@ export default class TagEditor extends Component {
                 className="tag-name">{this.props.getAllTagsById[id].name}</span>
               <input
                 id={'tag-edit-' + id}
-                style={{  width: 'calc(100% - 35px)', height: 'auto' }}
+                style={{  width: 'calc(100% - 35px)', height: 'auto', borderBottomColor: 'white' }}
                 className="hide"
                 onBlur={this.handleTagEditDone}
                 onChange={this.handleTagOnChange}
@@ -273,12 +273,16 @@ export default class TagEditor extends Component {
             <div className="collection with-header" style={{overflow:'visible'}}>
               <div className="collection-header row valign-wrapper" style={this.listHeaderStyle()}>
                 <h6 id="currentCat" className="grey-text" style={{ flex: '1 0 50%', margin: 0 }}>
+                  {(this.state.currentCategory)
+                    ? 'Tags for category: '
+                    : 'Tags (No category selected)'}
                   <span
+                    className="light-blue-text"
                     style={{ textTransform: 'capitalize' }}>
                     {(this.props.getAllCategoriesById[this.state.currentCategory])
                       ? this.props.getAllCategoriesById[this.state.currentCategory].name
                       : ''}
-                  </span> Tags
+                  </span>
                 </h6>
                 <button
                   disabled={(this.state.currentCategory === null)}

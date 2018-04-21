@@ -111,13 +111,13 @@ class App extends Component {
                 </div>
                 <div className="col l4 offset-l2 s12">
                   <ul>
-                    <li><a className="grey-text" target="_blank" href={pkg.homepage}>View on Github</a></li>
-                    <li><a className="grey-text" target="_blank" href={pkg.bugs.url}>Report an Issue</a></li>
+                    <li><a className="grey-text" target="_blank" rel="noopener noreferrer" href={pkg.homepage}>View on Github</a></li>
+                    <li><a className="grey-text" target="_blank" rel="noopener noreferrer" href={pkg.bugs.url}>Report an Issue</a></li>
                   </ul>
                 </div>
               </div>
             <div className="footer-copyright grey-text">
-              &copy; {new Date().getFullYear()} Tanveer Karim. <a className="grey-text" style={{padding:'0 .25rem'}} target="_blank" href="http://www.tkarimdesign.com">www.tkarimdesign.com</a>
+              &copy; {new Date().getFullYear()} Tanveer Karim. <a className="grey-text" style={{padding:'0 .25rem'}} target="_blank" rel="noopener noreferrer" href="http://www.tkarimdesign.com">www.tkarimdesign.com</a>
             </div>
           </footer>
         </main>
