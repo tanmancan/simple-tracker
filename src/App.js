@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TimeCardListBuilder from './components/TimeCardListBuilder';
 import SideNav from './components/SideNav';
 import {TagEditorModal} from './containers/TagManager';
+import * as pkg from '../package.json';
 import './App.css';
 
 class App extends Component {
@@ -103,18 +104,20 @@ class App extends Component {
           <footer className="page-footer grey lighten-2">
               <div className="row footer-content">
                 <div className="col l6 s12">
-                <h6 className="grey-text text-darken-1">React Timer</h6>
-                  <p className="grey-text">Simple timer app built using React and Redux.</p>
+                <h6 className="grey-text text-darken-1">
+                <span style={{textTransform:'capitalize'}}>{pkg.name.replace(/-/g, ' ')}</span>
+                <small> ( {pkg.version} )</small></h6>
+                <p className="grey-text">{pkg.description}</p>
                 </div>
                 <div className="col l4 offset-l2 s12">
                   <ul>
-                    <li><a className="grey-text" href="#!">View on Github</a></li>
-                    <li><a className="grey-text" href="#!">Report an Issue</a></li>
+                    <li><a className="grey-text" target="_blank" href={pkg.homepage}>View on Github</a></li>
+                    <li><a className="grey-text" target="_blank" href={pkg.bugs.url}>Report an Issue</a></li>
                   </ul>
                 </div>
               </div>
             <div className="footer-copyright grey-text">
-              &copy; {new Date().getFullYear()} Tanveer Karim. <a className="grey-text" style={{padding:'0 .25rem'}} href="http://www.tkarimdesign.com">www.tkarimdesign.com</a>
+              &copy; {new Date().getFullYear()} Tanveer Karim. <a className="grey-text" style={{padding:'0 .25rem'}} target="_blank" href="http://www.tkarimdesign.com">www.tkarimdesign.com</a>
             </div>
           </footer>
         </main>
