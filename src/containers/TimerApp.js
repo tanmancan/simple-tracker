@@ -58,6 +58,8 @@ const mapTimerDispatchToProps = dispatch => {
       let timerState = {
         ...initTimerState,
         timerStartDate: +new Date(),
+        title: id,
+        description: `Description for timer ${id}`
       }
       dispatch(addTimer({timerState, id}));
       window.showToast('Timer Added');

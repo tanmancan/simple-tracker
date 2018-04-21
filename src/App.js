@@ -10,6 +10,10 @@ class App extends Component {
     super(props);
     this.handleDeleteOnDrop = this.handleDeleteOnDrop.bind(this);
     this.handleDeleteOnDragOver = this.handleDeleteOnDragOver.bind(this);
+    this.handleSearchQuery = this.handleSearchQuery.bind(this);
+    this.state = {
+      timerSearchQuery: ''
+    }
   }
 
   componentDidMount() {
@@ -35,7 +39,8 @@ class App extends Component {
   listBuilder() {
     return React.createElement(
       TimeCardListBuilder, {
-        ...this.props
+        ...this.props,
+        timerSearchQuery: this.state.timerSearchQuery
       }
     );
   }
@@ -63,13 +68,23 @@ class App extends Component {
     e.dataTransfer.dropEffect = "move"
   }
 
-  getDragState() {
+  handleSearchQuery(e) {
+    let timerSearchQuery = e.target.value;
 
+    this.setState({
+      timerSearchQuery
+    });
   }
 
   appStyle() {
     return {
       height: '100vh'
+    }
+  }
+
+  searchNoMarginBottom() {
+    return {
+      marginBottom: 0
     }
   }
 
@@ -98,6 +113,19 @@ class App extends Component {
                 </div>
               </nav>
             </div>
+
+            <div className="row" style={this.searchNoMarginBottom()}>
+              <form className="col s12">
+                <div className="row" style={this.searchNoMarginBottom()}>
+                  <div className="input-field col s12" style={this.searchNoMarginBottom()}>
+                    <i className="material-icons prefix">search</i>
+                    <input id="icon_prefix" type="text" className="validate" onChange={this.handleSearchQuery}/>
+                    <label htmlFor="icon_prefix">Search timers by name, description, tags or start time</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+
             {this.listBuilder()}
           </div>
           <TagEditorModal></TagEditorModal>

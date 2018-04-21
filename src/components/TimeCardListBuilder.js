@@ -15,6 +15,7 @@ export default class TimeCardListBuilder extends Component {
     this.handleOrderOnDragOver = this.handleOrderOnDragOver.bind(this);
     this.handleOrderOnDragLeave = this.handleOrderOnDragLeave.bind(this);
     this.handleOrderOnDrop = this.handleOrderOnDrop.bind(this);
+    this.handleSearchFilter = this.handleSearchFilter.bind(this);
 
     this.dragImg = new Image();
   }
@@ -91,6 +92,38 @@ export default class TimeCardListBuilder extends Component {
     }
   }
 
+  handleSearchFilter(id) {
+    let q = this.props.timerSearchQuery.toLowerCase();
+
+    if (!q) {
+      return true;
+    }
+
+    const strQuery = (searchString) => {
+      return searchString.toLowerCase().indexOf(q) !== -1;
+    }
+
+    let timer = this.props.getAllTimerStates[id];
+    let tags = timer.tags;
+
+    let titleCheck = strQuery(timer.title);
+
+    let descCheck = strQuery(timer.description);
+
+    let dateOpt = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+    let startDate = new Date(timer.timerStartDate).toLocaleTimeString('en-US', dateOpt);
+    let startDateCheck = strQuery(startDate);
+
+    let tagCheck = Object.values(tags).filter(tag => strQuery(tag.tagState.name)).length > 0;
+
+    return titleCheck || descCheck || startDateCheck || tagCheck;
+  }
+
   dragDividerStyle() {
     return {
       height: '1rem',
@@ -165,9 +198,11 @@ export default class TimeCardListBuilder extends Component {
         <div className="timer-list">
 
           {(this.props.getAllTimers.length > 0)
-            ? this.props.getAllTimers.map(
-              (id, idx) => this.timeCardBuilder(id, idx, this.props.getAllTimers.length)
-            )
+            ? this.props.getAllTimers
+              .filter(this.handleSearchFilter)
+              .map(
+                (id, idx) => this.timeCardBuilder(id, idx, this.props.getAllTimers.length)
+              )
             : this.noTimerMsg()}
         </div>
       </div>
