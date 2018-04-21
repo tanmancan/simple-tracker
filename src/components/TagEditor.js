@@ -135,7 +135,6 @@ export default class TagEditor extends Component {
       return this.props.getAllCategories.map((id, idx) => {
         return (
           <div className={"collection-item category " + ((this.state.currentCategory === id) ? 'active' : '')}
-            onClick={(e) => this.handleCategorySelection(id, e)}
             id={id}
             key={idx}>
             <div>
@@ -154,6 +153,9 @@ export default class TagEditor extends Component {
               <a href="#!"
                 onClick={(e) => this.handleCategoryDeletion(id, e)}
                 className={"secondary-content " + ((this.state.currentCategory === id ? 'white-text' : 'orange-text'))}><i className="material-icons">delete</i></a>
+              <a href="#!"
+                onClick={(e) => this.handleCategorySelection(id, e)}
+                className={"secondary-content " + ((this.state.currentCategory === id ? 'white-text' : 'green-text'))}><i className="material-icons">local_offer</i></a>
             </div>
           </div>
         )
@@ -170,7 +172,9 @@ export default class TagEditor extends Component {
       );
     }
     // @TODO: move into its own component to manage state better
-    return this.props.getAllTags
+    return (this.props.getAllCategoriesById[currentCategory] && this.props.getAllCategoriesById[currentCategory].tags.length === 0)
+    ? <div className="collection-item tag-empty">No tags found in this category. Click Add Tag above to create a new tag.</div>
+    : this.props.getAllTags
       .filter(id => this.props.getAllTagsById[id] && this.props.getAllTagsById[id]['category'] === currentCategory)
       .map((id, idx) => {
         return (
@@ -222,7 +226,7 @@ export default class TagEditor extends Component {
             <div className="row">
               <div className="col s12">
                 <h5>Manage Tags</h5>
-                <p>Click on a category name to add tags within that category.</p>
+                <p>Click on a category or tag name to edit it. Click the <button className="btn-flat disabled grey"><i className="material-icons">local_offer</i></button> button to view and edit the tags associated with that category.</p>
               </div>
             </div>
             {this.buildEditor()}
