@@ -47,7 +47,7 @@ export default class TimeCardListBuilder extends Component {
 
     e.target.classList.add('dragging');
     e.dataTransfer.setDragImage(this.dragImg, 25, 25);
-    e.dataTransfer.setData('application/json', JSON.stringify(payload));
+    e.dataTransfer.setData('text/plain', JSON.stringify(payload));
 
     this.props.onTimerDrag({
       dragState: true,
@@ -76,8 +76,9 @@ export default class TimeCardListBuilder extends Component {
   }
 
   handleOrderOnDrop(e) {
+    e.preventDefault();
     e.target.classList.remove('red');
-    let payload = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
+    let payload = JSON.parse(e.dataTransfer.getData('text') || '{}');
     if (Object.keys(payload).length > 0 && payload.type === 'TIMER_ORDER') {
       let position = e.target.id.replace('card-divider-', '');
 
