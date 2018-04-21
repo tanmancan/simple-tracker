@@ -58,6 +58,13 @@ export default class TagEditor extends Component {
     name.classList.add('hide');
     input.classList.remove('hide');
     input.style.display = 'inline';
+    if (input.id.replace('category-edit-', '') === this.state.currentCategory) {
+      input.style.borderBottom = '1px solid white';
+      input.style.boxShadow = '0 1px 0 0 white';
+    } else {
+      input.style.borderBottom = '1px solid #03a9f4';
+      input.style.boxShadow = '0 1px 0 0 #03a9f4';
+    }
     input.focus();
     input.setSelectionRange(0, -1);
   }
@@ -146,7 +153,10 @@ export default class TagEditor extends Component {
                 className="category-name">{this.props.getAllCategoriesById[id].name}</span>
               <input
                 id={'category-edit-' + id}
-                style={{ width: 'calc(100% - 85px)', height: 'auto', borderBottomColor: 'white' }}
+                style={{
+                  width: 'calc(100% - 85px)',
+                  height: 'auto',
+                }}
                 className={"hide " + ((this.state.currentCategory === id) ? 'white-text' : '')}
                 onBlur={this.handleCategoryEditDone}
                 onChange={this.handleCategoryOnChange}
@@ -154,10 +164,10 @@ export default class TagEditor extends Component {
                 value={this.props.getAllCategoriesById[id].name} />
               <a href="#!"
                 onClick={(e) => this.handleCategoryDeletion(id, e)}
-                className={"secondary-content " + ((this.state.currentCategory === id ? 'white-text' : 'orange-text'))}><i className="material-icons">delete</i></a>
+                className={"secondary-content " + ((this.state.currentCategory === id ? 'white-text' : 'red-text'))}><i className="material-icons">delete</i></a>
               <a href="#!"
                 onClick={(e) => this.handleCategorySelection(id, e)}
-                className={"secondary-content " + ((this.state.currentCategory === id ? 'white-text' : 'green-text'))}><i className="material-icons">local_offer</i></a>
+                className={"secondary-content " + ((this.state.currentCategory === id ? 'white-text' : 'light-blue-text'))}><i className="material-icons">local_offer</i></a>
             </div>
           </div>
         )
@@ -190,7 +200,7 @@ export default class TagEditor extends Component {
                 className="tag-name">{this.props.getAllTagsById[id].name}</span>
               <input
                 id={'tag-edit-' + id}
-                style={{  width: 'calc(100% - 35px)', height: 'auto', borderBottomColor: 'white' }}
+                style={{  width: 'calc(100% - 35px)', height: 'auto' }}
                 className="hide"
                 onBlur={this.handleTagEditDone}
                 onChange={this.handleTagOnChange}
@@ -198,7 +208,7 @@ export default class TagEditor extends Component {
                 value={this.props.getAllTagsById[id].name}/>
               <a href="#!"
                 onClick={(e) => this.handleTagDeletion(id, currentCategory)}
-                className="secondary-content"><i className="material-icons">delete</i></a>
+                className="secondary-content red-text"><i className="material-icons">delete</i></a>
             </div>
           </div>
         )
