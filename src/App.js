@@ -42,7 +42,7 @@ class App extends Component {
   handleDeleteOnDrop(e) {
     e.preventDefault();
 
-    let payload = JSON.parse(e.dataTransfer.getData('text/plain') || '{}');
+    let payload = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
 
     if (Object.keys(payload).length > 0 && payload.type === 'TIMER_ORDER') {
       this.props.onTimerDelete({

@@ -143,7 +143,7 @@ export default class TagUi extends Component {
       (id, idx) => <div
           style={{ cursor: 'pointer', transform: 'translate(0, 0)'}}
           draggable="true"
-          onDrag={this.handleTagOnDragStart}
+          onDrag={this.handleTagOnDrag}
           onDragStart={this.handleTagOnDragStart}
           onDragEnd={this.handleTagOnDragEnd}
           id={'tag-drag-id-' + id}
@@ -199,7 +199,7 @@ export default class TagUi extends Component {
                   (id, idx) => <div
                     style={{ cursor: 'pointer', transform: 'translate(0, 0)', }}
                     draggable="true"
-                    onDrag={this.handleTagOnDragStart}
+                    onDrag={this.handleTagOnDrag}
                     onDragStart={this.handleTagOnDragStart}
                     onDragEnd={this.handleTagOnDragEnd}
                     id={'tag-drag-id-' + id}
