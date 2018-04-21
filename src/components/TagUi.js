@@ -84,7 +84,7 @@ export default class TagUi extends Component {
   }
 
   handleTagOnDragStart(e) {
-    let id = e.target.id.replace('tag-drag-id-', '');
+    let id = e.target.id.replace('tag-drag-id-', '').replace('all-tags-','');
     let payload = {
       id,
       tagState: this.props.getAllTagsById[id],
@@ -202,7 +202,7 @@ export default class TagUi extends Component {
                     onDrag={this.handleTagOnDrag}
                     onDragStart={this.handleTagOnDragStart}
                     onDragEnd={this.handleTagOnDragEnd}
-                    id={'tag-drag-id-' + id}
+                    id={'all-tags-tag-drag-id-' + id}
                     key={'tag-drag-' + idx}
                     className="chip">
                     <span
