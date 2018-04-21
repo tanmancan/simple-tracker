@@ -77,18 +77,20 @@ export default class TagEditor extends Component {
 
   handleCategoryDeletion(id, e) {
     e.stopPropagation();
-    this.setState((state, props) => {
-      let categoryState = this.props.getAllCategoriesById[id];
-      this.props.onCategoryDelete({
-        categoryState,
-        id
-      });
+    if (window.confirm('Are you sure you want to REMOVE this category? This will remove all tags associated with this category.')) {
+      this.setState((state, props) => {
+        let categoryState = this.props.getAllCategoriesById[id];
+        this.props.onCategoryDelete({
+          categoryState,
+          id
+        });
 
-      return {
-        currentCategory: null
-      }
-    });
-    this.setState({currentCategory: null});
+        return {
+          currentCategory: null
+        }
+      });
+      this.setState({currentCategory: null});
+    }
   }
 
   handleTagOnChange(e) {
@@ -134,7 +136,7 @@ export default class TagEditor extends Component {
     if (this.props.getAllCategories.length > 0) {
       return this.props.getAllCategories.map((id, idx) => {
         return (
-          <div className={"collection-item category " + ((this.state.currentCategory === id) ? 'active' : '')}
+          <div className={"collection-item category " + ((this.state.currentCategory === id) ? 'active light-blue' : '')}
             id={id}
             key={idx}>
             <div>
@@ -226,7 +228,18 @@ export default class TagEditor extends Component {
             <div className="row">
               <div className="col s12">
                 <h5>Manage Tags</h5>
-                <p>Click on a category or tag name to edit it. Click the <button className="btn-flat disabled grey"><i className="material-icons">local_offer</i></button> button to view and edit the tags associated with that category.</p>
+                <p>Click on a category or tag name to edit it. Click the
+                  <button
+                    style={{ padding: '0 .25rem'}}
+                    className="btn-flat disabled grey">
+                  <i className="material-icons">local_offer</i>
+                  </button> button to view and edit the tags associated with that category.
+                  Use the
+                  <button
+                    style={{ padding: '0 .25rem' }}
+                    className="btn-flat disabled grey">
+                    <i className="material-icons">delete</i>
+                  </button> button to delete a category or tag.</p>
               </div>
             </div>
             {this.buildEditor()}
