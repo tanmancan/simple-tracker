@@ -3,16 +3,17 @@ import { timerState } from "./reducers/timer";
 import { tagState } from "./reducers/tags";
 
 const savedTimerState = (window.localStorage)
-  ? JSON.parse(window.localStorage.getItem('timerState'))
+  ? JSON.parse(window.localStorage.getItem('timerState') || '{}')
   : {};
 const savedTagState = (window.localStorage)
-  ? JSON.parse(window.localStorage.getItem('tagState'))
+  ? JSON.parse(window.localStorage.getItem('tagState') || '{}')
   : {};
 const rootReducer = combineReducers({timerState, tagState});
 const savedState = {
   timerState: savedTimerState,
   tagState: savedTagState
 };
+
 const store = createStore(
   rootReducer,
   savedState || {},
