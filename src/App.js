@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TimeCardListBuilder from './components/TimeCardListBuilder';
 import SideNav from './components/SideNav';
+import Guide from './guide/Guide';
 import {TagEditorModal} from './containers/TagManager';
 import * as pkg from '../package.json';
 import './App.css';
@@ -11,8 +12,10 @@ class App extends Component {
     this.handleDeleteOnDrop = this.handleDeleteOnDrop.bind(this);
     this.handleDeleteOnDragOver = this.handleDeleteOnDragOver.bind(this);
     this.handleSearchQuery = this.handleSearchQuery.bind(this);
+    this.handleUsageGuide = this.handleUsageGuide.bind(this);
     this.state = {
-      timerSearchQuery: ''
+      timerSearchQuery: '',
+      showUsageGuide: false,
     }
   }
 
@@ -25,13 +28,19 @@ class App extends Component {
         ...opts
       });
     }
-
+    if (window.location.hash === '#usage-guide') {
+      this.setState({
+        showUsageGuide: true
+      })
+    }
   }
 
   SideNav() {
     return React.createElement(
       SideNav, {
-        ...this.props
+        ...this.props,
+        handleUsageGuide: this.handleUsageGuide,
+        showUsageGuide: this.state.showUsageGuide,
       }
     );
   }
@@ -76,6 +85,37 @@ class App extends Component {
     });
   }
 
+  handleUsageGuide(action) {
+    switch (action) {
+      case 'SHOW': {
+        this.setState({
+          showUsageGuide: true,
+        });
+        break;
+      }
+      case 'HIDE': {
+        this.setState({
+          showUsageGuide: false,
+        });
+        break;
+      }
+      case 'TOGGLE': {
+        this.setState((state) => {
+          return {
+            showUsageGuide: !state.showUsageGuide
+          }
+        });
+        break;
+      }
+      default: {
+        this.setState({
+          showUsageGuide: false,
+        });
+        break;
+      }
+    }
+  }
+
   appStyle() {
     return {
       height: '100vh'
@@ -114,7 +154,7 @@ class App extends Component {
               </nav>
             </div>
 
-            <div className="row" style={this.searchNoMarginBottom()}>
+            <div className={"row " + (this.state.showUsageGuide ? 'hide' : '')} style={this.searchNoMarginBottom()}>
               <form className="col s12">
                 <div className="row" style={this.searchNoMarginBottom()}>
                   <div className="input-field col s12" style={this.searchNoMarginBottom()}>
@@ -126,9 +166,17 @@ class App extends Component {
               </form>
             </div>
 
-            {this.listBuilder()}
+            {(!this.state.showUsageGuide)
+              ? this.listBuilder()
+              : null}
+
+            <div className={"row " + (this.state.showUsageGuide ? '' : 'hide')}>
+              <Guide handleUsageGuide={this.handleUsageGuide} showUsageGuide={this.state.showUsageGuide} />
+            </div>
           </div>
+
           <TagEditorModal></TagEditorModal>
+
           <footer className="page-footer grey lighten-2">
               <div className="row footer-content">
                 <div className="col l6 s12">

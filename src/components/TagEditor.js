@@ -237,7 +237,7 @@ export default class TagEditor extends Component {
           <div className="modal-content">
             <div className="row">
               <div className="col s12">
-                <h5>Manage Tags</h5>
+                <h5>Edit Tags and Categories</h5>
                 <p>Click on a category or tag name to edit it. Click the
                   <button
                     style={{ padding: '0 .25rem'}}

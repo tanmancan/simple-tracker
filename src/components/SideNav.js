@@ -42,6 +42,12 @@ export default class SideNav extends Component {
             Edit Tags/Category
           </a>
         </li>
+        <li>
+          <a href={"#" + (this.props.showUsageGuide ? 'usage-guide' : '!')} className="brown-text lighten-4-text" onClick={(e) => { this.props.handleUsageGuide('TOGGLE')}}>
+            <i className="material-icons">help_outline</i>
+            Usage Guide
+          </a>
+        </li>
         <li><div className="divider"></div></li>
         <TagList></TagList>
       </ul>
