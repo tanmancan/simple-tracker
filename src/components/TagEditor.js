@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import rand from 'random-words';
+import {rand} from '../utilities/rand';
 
 export default class TagEditor extends Component {
   constructor(props) {

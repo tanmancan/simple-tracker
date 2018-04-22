@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
-  "homepage": "https://github.com/tanmancan/react-timer-app#readme",
+  "homepage": "https://timer.tkarimdesign.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tanmancan/react-timer-app.git"
@@ -20,7 +20,6 @@
   ],
   "dependencies": {
     "materialize-css": "^1.0.0-beta",
-    "random-words": "^1.1.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-redux": "^5.0.7",
