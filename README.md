@@ -1,6 +1,6 @@
 # React Timer App
 
-Simple timer app built on top of React and Redux.
+Simple timer app built on top of React and Redux. Leverages localStorage and service worker to allow timer to work offline and persist data when reloading page.
 
 [timer.tkarimdesign.com](https://timer.tkarimdesign.com)
 
