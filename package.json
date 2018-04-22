@@ -2,7 +2,7 @@
   "name": "react-timer-app",
   "description": "Simple timer app built on top of React and Redux.",
   "author": "Tanveer Karim <contact@tkarimdesign.com>",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "private": true,
   "homepage": "https://timer.tkarimdesign.com",
