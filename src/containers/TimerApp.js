@@ -9,10 +9,6 @@ const getDragState = (state) => {
   return state.timerDrag;
 }
 
-const getAllTagsById = (state) => {
-  return state.tagsById;
-}
-
 const getStateById = (state) => (id) => {
   return state.timerById[id];
 }
@@ -36,17 +32,27 @@ const getTotalTime = (state) => {
     }, 0);
 }
 
+const getAllTagsById = (state) => {
+  return state.tagsById;
+}
+
+const getFilteredCategories = (state) => {
+  return state.filterCategories;
+}
+
 const mapTimerStateToProps = globalState => {
-  let state = globalState.timerState;
+  let timerState = globalState.timerState;
+  let tagState = globalState.tagState;
 
   return {
-    getAllTagsById: getAllTagsById(globalState.tagState),
-    getDragState: getDragState(state),
-    getStateById: getStateById(state),
-    getAllTimerStates: getAllTimerStates(state),
-    getAllTimers: getAllTimers(state),
-    getActiveTimer: getActiveTimer(state),
-    getTotalTime: getTotalTime(state)
+    getDragState: getDragState(timerState),
+    getStateById: getStateById(timerState),
+    getAllTimerStates: getAllTimerStates(timerState),
+    getAllTimers: getAllTimers(timerState),
+    getActiveTimer: getActiveTimer(timerState),
+    getTotalTime: getTotalTime(timerState),
+    getAllTagsById: getAllTagsById(tagState),
+    getFilteredCategories: getFilteredCategories(tagState),
   }
 }
 

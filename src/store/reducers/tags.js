@@ -1,4 +1,4 @@
-import { ADD_TAG, UPDATE_TAG, DELETE_TAG, ADD_CATEGORY, DELETE_CATEGORY, UPDATE_CATEGORY } from '../actions/tags';
+import { ADD_TAG, UPDATE_TAG, DELETE_TAG, ADD_CATEGORY, DELETE_CATEGORY, UPDATE_CATEGORY, FILTER_CATEGORY } from '../actions/tags';
 
 export const initTag = {
   name: '',
@@ -222,11 +222,23 @@ function categories(state = initCategoryState.categories, action) {
   }
 }
 
+function filterCategories(state = [], action) {
+  switch (action.type) {
+    case FILTER_CATEGORY: {
+      return [...action.categoryIdList];
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
 export const tagState = (state = {}, action) => {
   return {
     tagsById: tagsById(state.tagsById, action),
     tags: tags(state.tags, action),
     categoriesById: categoriesById(state.categoriesById, action),
     categories: categories(state.categories, action),
+    filterCategories: filterCategories(state.filterCategories, action),
   }
 }

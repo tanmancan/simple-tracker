@@ -4,6 +4,7 @@ export const DELETE_TAG = 'DELETE_TAG';
 export const ADD_CATEGORY = 'ADD_CATEGORY';
 export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 export const DELETE_CATEGORY = 'DELETE_CATEGORY';
+export const FILTER_CATEGORY = 'FILTER_CATEGORY';
 
 export function addTag({tagState, id}) {
   return {type: ADD_TAG, tagState, id}
@@ -27,4 +28,8 @@ export function updateCategory({ categoryState, id }) {
 
 export function deleteCategory({categoryState, id}) {
   return {type: DELETE_CATEGORY, categoryState, id}
+}
+
+export function filterCategory(categoryIdList) {
+  return {type: FILTER_CATEGORY, categoryIdList}
 }

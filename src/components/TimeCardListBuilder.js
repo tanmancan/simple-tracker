@@ -94,17 +94,18 @@ export default class TimeCardListBuilder extends Component {
 
   handleSearchFilter(id) {
     let q = this.props.timerSearchQuery.toLowerCase();
+    let timer = this.props.getAllTimerStates[id];
+    let tags = timer.tags;
 
     if (!q) {
-      return true;
+      let catCheck = Object.values(tags).filter(tag => this.hiddenTagCategory(tag.tagState)).length === 0;
+
+      return catCheck;
     }
 
     const strQuery = (searchString) => {
       return searchString.toLowerCase().indexOf(q) !== -1;
     }
-
-    let timer = this.props.getAllTimerStates[id];
-    let tags = timer.tags;
 
     let titleCheck = strQuery(timer.title);
 
@@ -117,11 +118,25 @@ export default class TimeCardListBuilder extends Component {
       day: 'numeric'
     };
     let startDate = new Date(timer.timerStartDate).toLocaleTimeString('en-US', dateOpt);
+
     let startDateCheck = strQuery(startDate);
 
     let tagCheck = Object.values(tags).filter(tag => strQuery(tag.tagState.name)).length > 0;
 
-    return titleCheck || descCheck || startDateCheck || tagCheck;
+    let catCheck = Object.values(tags).filter(tag => this.hiddenTagCategory(tag.tagState)).length === 0;
+
+    return (titleCheck || descCheck || startDateCheck || tagCheck) && catCheck;
+  }
+
+  /**
+   * Checks to see if provided tag's category is part of the do not show category list
+   * @param {string:string} tagState Object containing tag name and category
+   * @return {bool} True if current tag category is set to be hidden
+   */
+  hiddenTagCategory(tagState) {
+    let dontShowCategories = this.props.getFilteredCategories;
+
+    return dontShowCategories.indexOf(tagState.category) !== -1;
   }
 
   dragDividerStyle() {

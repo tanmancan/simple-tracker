@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import TagUi from '../components/TagUi';
 import TagEditor from '../components/TagEditor'
-import { addTag, updateTag, deleteTag, addCategory, updateCategory, deleteCategory } from '../store/actions/tags';
+import { addTag, updateTag, deleteTag, addCategory, updateCategory, deleteCategory, filterCategory } from '../store/actions/tags';
 import { initTag, initCategory } from '../store/reducers/tags';
 
 const getAllTagsById = (state) => {
@@ -20,6 +20,10 @@ const getAllCategories = (state) => {
   return state.categories;
 }
 
+const getFilteredCategories = (state) => {
+  return state.filterCategories;
+}
+
 const mapTagStateToProps = globalState => {
   let state = globalState.tagState;
 
@@ -28,6 +32,7 @@ const mapTagStateToProps = globalState => {
     getAllTags: getAllTags(state),
     getAllCategoriesById: getAllCategoriesById(state),
     getAllCategories: getAllCategories(state),
+    getFilteredCategories: getFilteredCategories(state),
   }
 }
 
@@ -67,6 +72,14 @@ const mapTagDispatchToProps = dispatch => {
     onCategoryDelete({categoryState, id}) {
       dispatch(deleteCategory({ categoryState, id }));
       window.showToast('Category Deleted');
+    },
+    onCategoryFilter(categoryIdList, id, mode, catName) {
+      let visibilityType = (mode)
+        ? 'Hiding'
+        : 'Showing';
+
+      dispatch(filterCategory(categoryIdList));
+      window.showToast(`${visibilityType} timers with ${catName} tags`);
     }
   }
 };

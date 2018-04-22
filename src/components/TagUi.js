@@ -7,6 +7,7 @@ export default class TagUi extends Component {
     this.tagListRef = React.createRef();
     this.handleAddTag = this.handleAddTag.bind(this);
     this.handleAddCategory = this.handleAddCategory.bind(this);
+    this.handleCategoryVisibility = this.handleCategoryVisibility.bind(this);
     this.handleTagOnChange = this.handleTagOnChange.bind(this);
     this.handleTagEdit = this.handleTagEdit.bind(this);
     this.handleTagEditDone = this.handleTagEditDone.bind(this);
@@ -36,6 +37,25 @@ export default class TagUi extends Component {
       name: rand(),
       id: rand()
     });
+  }
+
+  handleCategoryVisibility(catId, e) {
+    let catHide = [
+      ...this.props.getFilteredCategories
+    ];
+    let catIdx = catHide.indexOf(catId);
+
+    let hiddenCategory = (catIdx === -1);
+
+    if (hiddenCategory) {
+      catHide.push(catId);
+    } else {
+      catHide.splice(catIdx, 1);
+    }
+
+    let catName = this.props.getAllCategoriesById[catId].name;
+
+    this.props.onCategoryFilter(catHide, catId, hiddenCategory, catName);
   }
 
   handleTagOnChange(e) {
@@ -102,15 +122,21 @@ export default class TagUi extends Component {
     if (this.props.getAllCategories.length > 0) {
       return this.props.getAllCategories.map((id, idx) => {
         return (
-          <ul id={'cat-list-' + id} key={'cat-list-' + idx} className="collapsible collapsible-accordion">
+          <ul id={'cat-list-' + id} key={'cat-list-' + idx} className="collapsible collapsible-accordion no-autoinit">
             <li className="active" style={{ textTransform: 'capitalize' }}>
               <a className="collapsible-header active">
                 {(this.props.getAllCategoriesById[id])
                   ? this.props.getAllCategoriesById[id].name
                   : ''
                 } Tags
-              <i className="material-icons">arrow_drop_down</i></a>
-              <div className="collapsible-body">
+                <i
+                  onClick={(e) => this.handleCategoryVisibility(id, e)}
+                  style={{marginRight: 0}}
+                  className={"material-icons right " + ((this.props.getFilteredCategories.indexOf(id) === -1) ? '' : 'red-text')}>
+                  {(this.props.getFilteredCategories.indexOf(id) === -1) ? 'visibility' : 'visibility_off'}
+                </i>
+              </a>
+              <div className="collapsible-body" style={{display:'block'}}>
                 <ul>
                   <li style={{ textTransform: 'capitalize', padding: '0 1rem' }}>
                     {this.buildTagList(id)}

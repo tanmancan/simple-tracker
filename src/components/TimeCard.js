@@ -361,7 +361,7 @@ export default class TimeCard extends Component {
             onDrag={this.props.handleOrderOnDrag}
             onDragStart={this.props.handleOrderOnDragStart}
             onDragEnd={this.props.handleOrderOnDragEnd}
-            className={"btn-flat grey-text text-darken-2 " + (this.props.timerSearchQuery ? 'disabled' : '')}>
+            className={"btn-flat grey-text text-darken-2 " + ((this.props.timerSearchQuery || this.props.getFilteredCategories.length > 0) ? 'disabled' : '')}>
             <i className="material-icons">drag_handle</i>
           </div>
           <button
