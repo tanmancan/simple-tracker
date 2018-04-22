@@ -36,7 +36,7 @@ export default class TimeCardEdit extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form>
         <div className="row">
           <div className="input-field">
             <input

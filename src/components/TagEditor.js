@@ -20,7 +20,7 @@ export default class TagEditor extends Component {
     }
   }
 
-  handleAddTag(cat) {
+  handleAddTag(cat, e) {
     this.props.onTagAdd({
       name: rand(),
       category: cat

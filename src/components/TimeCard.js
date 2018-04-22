@@ -327,7 +327,6 @@ export default class TimeCard extends Component {
   sideButtonWrapperStyle() {
     return {
       width: '55px',
-      float: 'left',
     }
   }
 
@@ -353,11 +352,12 @@ export default class TimeCard extends Component {
         onDrop={this.handleTagOnDrop}
         className="time-card row"
         style={this.timerCardWrapperStyle()}>
-        <div className="side-button left" style={this.sideButtonWrapperStyle()}>
+        <div className="side-button left"
+          style={this.sideButtonWrapperStyle()}>
           <div
             style={this.sideButtonStyle()}
             id={'drag-' + this.props.id}
-            draggable="true"
+            draggable={true}
             onDrag={this.props.handleOrderOnDrag}
             onDragStart={this.props.handleOrderOnDragStart}
             onDragEnd={this.props.handleOrderOnDragEnd}

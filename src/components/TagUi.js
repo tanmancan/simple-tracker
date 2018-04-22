@@ -24,7 +24,7 @@ export default class TagUi extends Component {
     }
   }
 
-  handleAddTag(cat) {
+  handleAddTag(cat, e) {
     this.props.onTagAdd({
       name: rand(),
       category: cat
@@ -143,7 +143,7 @@ export default class TagUi extends Component {
     return (this.props.getAllCategoriesById[catId].tags).map(
       (id, idx) => <div
           style={{ cursor: 'pointer', transform: 'translate(0, 0)'}}
-          draggable="true"
+          draggable={true}
           onDrag={this.handleTagOnDrag}
           onDragStart={this.handleTagOnDragStart}
           onDragEnd={this.handleTagOnDragEnd}
@@ -199,7 +199,7 @@ export default class TagUi extends Component {
                 {(this.props.getAllTags).map(
                   (id, idx) => <div
                     style={{ cursor: 'pointer', transform: 'translate(0, 0)', }}
-                    draggable="true"
+                    draggable={true}
                     onDrag={this.handleTagOnDrag}
                     onDragStart={this.handleTagOnDragStart}
                     onDragEnd={this.handleTagOnDragEnd}
