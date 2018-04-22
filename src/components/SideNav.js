@@ -22,22 +22,36 @@ export default class SideNav extends Component {
 
   render() {
     return (
+      // @TODO: clean this up, improve usage guide navigation
       <ul id="slide-out" className="sidenav sidenav-fixed z-depth-0">
         <SideNavHeader getTotalTime={this.props.getTotalTime}></SideNavHeader>
         <li>
-          <a href="#add-timer" onClick={this.addTimer} className="brown-text lighten-4-text">
+          <a
+            href="#add-timer"
+            onClick={(e) => {
+              this.props.handleUsageGuide('CLOSE');
+              this.addTimer();}} className="brown-text lighten-4-text">
             <i className="material-icons">add_alarm</i>
             Add Timer
           </a>
         </li>
         <li>
-          <a href="#stop-timer" onClick={this.stopTimer} className="brown-text lighten-4-text">
+          <a
+            href="#stop-timer"
+            onClick={(e) => {
+              this.props.handleUsageGuide('CLOSE');
+              this.stopTimer();}} className="brown-text lighten-4-text">
             <i className="material-icons">alarm_off</i>
             Stop Timer
           </a>
         </li>
         <li>
-          <a href="#modal-manage-tag" className="brown-text lighten-4-text modal-trigger">
+          <a
+            onClick={(e) => {
+              window.location.hash = '#edit-tags';
+              this.props.handleUsageGuide('CLOSE')}}
+            href="#modal-manage-tag"
+            className="brown-text lighten-4-text modal-trigger">
             <i className="material-icons">settings</i>
             Edit Tags/Category
           </a>
