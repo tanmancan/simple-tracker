@@ -32,6 +32,7 @@
     "release:patch": "npm version patch -m 'Release v%s'",
     "release:minor": "npm version minor -m 'Release v%s'",
     "release:major": "npm version major -m 'Release v%s'",
+    "preversion": "npm run test",
     "version": "npm run build:base",
     "postversion": "git push && git push --tag",
     "test": "react-scripts test --env=jsdom",
