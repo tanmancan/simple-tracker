@@ -2,6 +2,16 @@ import store from '../store';
 import * as timerActions from '../store/actions/timer';
 import * as tagActions from '../store/actions/tags';
 
+const initTimerState = {
+  title: '',
+  description: '',
+  timerRunning: false,
+  timeProgress: 0,
+  timeStart: null,
+  timerStartDate: null,
+  tags: {}
+};
+
 const initState = {
   timerState:
     {
@@ -34,6 +44,41 @@ const initState = {
 
 it('verify state created correctly', () => {
   expect(store.getState()).toEqual(initState);
+});
+
+it('create a new timer', () => {
+  const id = 'timer-id-test-timer-create';
+  const timerState = {
+    ...initTimerState,
+    timerStartDate: 1524435405445,
+    title: id,
+    description: `Description for timer ${id}`
+  }
+  store.dispatch(timerActions.addTimer({timerState, id}));
+
+  const state = store.getState();
+
+  expect(state.timerState.timerById[id]).toEqual(timerState);
+  expect(state.timerState.timers).toContain(id);
+});
+
+it('delete a timer', () => {
+  const id = 'timer-id-test-timer-create';
+  const timerState = {
+    ...initTimerState,
+    timerStartDate: 1524435405445,
+    title: id,
+    description: `Description for timer ${id}`
+  }
+
+  store.dispatch(timerActions.deleteTimer({timerState, id}));
+
+  const state = store.getState();
+
+  expect(state.timerState.timerById[id]).toBeUndefined();
+  expect(state.timerState.timers.length).toBe(0);
+  expect(state.timerState.deletedTimersById[id]).toEqual(timerState);
+  expect(state.timerState.deletedTimers).toContain(id);
 });
 
 it('create a new tag under the example category', () => {
@@ -117,18 +162,18 @@ it('create a new category, then add a tag to it, then delete the category', () =
   const tag = state.tagState.tagsById[tagId];
   const category = state.tagState.categoriesById[catId];
 
-  const newCatState = {
+  const catStateWithTag = {
     ...categoryState,
     tags: [tagId]
   };
 
   expect(tag).toEqual(tagState);
-  expect(category).toEqual(newCatState);
+  expect(category).toEqual(catStateWithTag);
   expect(category.tags).toContain(tagId);
   expect(category.tags.length).toBe(1);
 
   store.dispatch(tagActions.deleteCategory({
-    categoryState: newCatState,
+    categoryState: catStateWithTag,
     id: catId
   }));
 
