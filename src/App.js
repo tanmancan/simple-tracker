@@ -136,7 +136,7 @@ class App extends Component {
           <div
             onDrop={this.handleDeleteOnDrop}
             onDragOver={this.handleDeleteOnDragOver}
-            className="fixed-action-btn">
+            className={"fixed-action-btn " + (this.state.showUsageGuide ? 'hide' : '')}>
             <a onClick={this.props.onTimerAdd}
               className={'btn-floating btn-large z-depth-0 ' + ((this.props.getDragState) ? 'red' : 'light-blue')}>
               <i className="large material-icons">{(this.props.getDragState) ? 'delete' : 'add'}</i>
@@ -170,9 +170,9 @@ class App extends Component {
               ? this.listBuilder()
               : null}
 
-            <div className={"row " + (this.state.showUsageGuide ? '' : 'hide')}>
-              <Guide handleUsageGuide={this.handleUsageGuide} showUsageGuide={this.state.showUsageGuide} />
-            </div>
+            {(this.state.showUsageGuide)
+              ? <Guide handleUsageGuide={this.handleUsageGuide} showUsageGuide={this.state.showUsageGuide} />
+              : null}
           </div>
 
           <TagEditorModal></TagEditorModal>

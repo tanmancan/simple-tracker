@@ -4,7 +4,7 @@ export default class Guide extends Component {
   render() {
     const usageGuideStyle = {
       margin: '1rem .75rem',
-      padding: '1rem',
+      padding: '1rem 2rem',
     };
 
     return(
@@ -27,6 +27,7 @@ export default class Guide extends Component {
         <div className="divider"></div>
         <div className="section">
           <h6>Editing a Timer</h6>
+          <img className="responsive-img" src="/images/timer-edit-modal.jpg" alt="Editing a timer" />
           <p>
             Edit a timer's name and description by clicking on the <button className="btn-small btn z-depth-0 grey lighten-1"><i className="material-icons">edit</i></button> button to the left of the timer.
           </p>
@@ -47,6 +48,7 @@ export default class Guide extends Component {
             width: 'auto',
             top: '0',
             right: 'auto',
+            zIndex: 0,
             }}>
             <div
             style={{
@@ -61,6 +63,7 @@ export default class Guide extends Component {
         <div className="divider"></div>
         <div className="section">
             <h6>Reorder a Timer List</h6>
+            <img className="responsive-img" src="/images/timer-drag-order.jpg" alt="Drag and drop reorder"/>
           <p>To reorder a timer, click and drag the <button className="btn-small btn z-depth-0 grey lighten-1"><i className="material-icons">drag_handle</i></button> drag handle and drop it on the desired position within the timer list.</p>
         </div>
         <div className="divider"></div>
@@ -70,6 +73,7 @@ export default class Guide extends Component {
         <div className="divider"></div>
         <div className="section">
           <h6>Adding Tags to Timers</h6>
+          <img className="responsive-img" src="/images/tag-add-timer.jpg" alt="Add tag to timer"/>
           <p>You can add tags to a timer to help filter them by specific keywords. Tags can also be grouped by categories to help filter timers by specific tag categories.</p>
           <p>Add a tag to a timer by clicking and dragging a tag chip <span className="chip">Example Tag</span> from the side-nav and dropping it on a timer. Remove a tag from a timer, by clicking the close icon <span className="chip">Example Tag <i className="material-icons"
             style={{
@@ -88,6 +92,7 @@ export default class Guide extends Component {
         <div className="divider"></div>
         <div className="section">
           <h6>Renaming Categories</h6>
+          <img className="responsive-img" src="/images/rename.png" alt="Rename a Category"/>
           <p>Categories can only be renamed form with in the Edit panel. Rename a category by clicking directly on its name label, and typing in a new name. Exit the edit mode by clicking anywhere else in the screen.</p>
         </div>
         <div className="divider"></div>
@@ -106,6 +111,7 @@ export default class Guide extends Component {
         <div className="divider"></div>
         <div className="section">
           <h6>Renaming Tags</h6>
+          <img src="/images/rename-sidebar.jpg" alt="Rename tag from sidebar"/>
           <p>Tags can either be renamed from the side-nav, or the Edit Tags and Categories panel. Rename a tag by clicking directly on its name label and type in a new name. Exit the edit mode by clicking anywhere else on the screen.</p>
         </div>
         <div className="divider"></div>
