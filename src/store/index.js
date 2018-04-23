@@ -18,12 +18,15 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   switch (action.type) {
     case RESTORE_GLOBAL_STATE: {
-      return action.state;
+      state = action.state;
+      break;
     }
     default: {
-      return appReducer(state, action);
+      break;
     }
   }
+
+  return appReducer(state, action);
 }
 
 const savedState = {
