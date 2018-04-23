@@ -9,13 +9,14 @@ export default class ImportExportModal extends Component {
     this.state = {
       uploadFile: null,
       errorMessage: null,
-      uploadHelpText: 'Click Select File to uploaded a timer save file',
+      uploadHelpText: 'Click Choose File to uploaded a save file',
     }
   }
 
   handleFileOnChange(e) {
     const input = this.uploadFieldRef.current;
     const file = input.files[0];
+
     this.setState({
       uploadFile: file
     });
@@ -120,30 +121,25 @@ export default class ImportExportModal extends Component {
                 <div className="section row">
                   <h6>Restore Saved Data</h6>
                   <p>Upload previously downloaded data.</p>
-                  <div className="file-field input-field">
-                    <div className="btn green z-depth-0">
-                      <span>Select File</span>
+                  <div className="input-field">
+                    <p>
                       <input
+                        id="file-upload"
                         ref={this.uploadFieldRef}
                         onChange={this.handleFileOnChange}
-                        type="file"
-                        placeholder="Upload saved data"/>
-                    </div>
-                    <div className="file-path-wrapper">
-                      <input
-                        className="file-path validate"
-                        type="text" />
-                    {<span className="helper-text">{
-                      (this.state.errorMessage)
+                        type="file" />
+                    </p>
+                    <span className="helper-text">
+                      {(this.state.errorMessage)
                         ? <span className="red-text">{this.state.errorMessage}</span>
-                        : <span>{this.state.uploadHelpText}</span>
-                    }</span>}
-                    </div>
-                  </div>
-                  <button
-                    disabled={!this.state.uploadFile}
-                    onClick={this.handleFileSubmit}
-                    className="btn right red z-depth-0">Upload</button>
+                        : <span>{this.state.uploadHelpText}</span>}
+                    </span>
+                </div>
+                <button
+                  disabled={!this.state.uploadFile}
+                  onClick={this.handleFileSubmit}
+                  className="btn red z-depth-0">
+                  <i className="material-icons left">cloud_upload</i>Upload</button>
                 </div>
                 <div className="divider"></div>
             </div>
