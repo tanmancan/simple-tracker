@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TimeCardListBuilder from './components/TimeCardListBuilder';
+import ImportExportModal from './components/ImportExportModal';
 import SideNav from './components/SideNav';
 import Guide from './guide/Guide';
 import {TagEditorModal} from './containers/TagManager';
@@ -41,7 +42,7 @@ class App extends Component {
         ...this.props,
         handleUsageGuide: this.handleUsageGuide,
         showUsageGuide: this.state.showUsageGuide,
-      }
+      }, null
     );
   }
 
@@ -50,8 +51,16 @@ class App extends Component {
       TimeCardListBuilder, {
         ...this.props,
         timerSearchQuery: this.state.timerSearchQuery
-      }
+      }, null
     );
+  }
+
+  importExportModalBuilder() {
+    return React.createElement(
+      ImportExportModal, {
+        ...this.props
+      },null
+    )
   }
 
   handleDeleteOnDrop(e) {
@@ -176,6 +185,7 @@ class App extends Component {
           </div>
 
           <TagEditorModal></TagEditorModal>
+          {this.importExportModalBuilder()}
 
           <footer className="page-footer grey lighten-2">
               <div className="row footer-content">

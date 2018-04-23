@@ -5,6 +5,7 @@ export const STOP_TIMER = 'STOP_TIMER';
 export const UPDATE_TIMER_ORDER = 'UPDATE_TIMER_ORDER';
 export const TIMER_DRAG = 'TIMER_DRAG';
 export const UNDO_TIMER_DELETE = 'UNDO_TIMER_DELETE';
+export const RESTORE_GLOBAL_STATE = 'RESTORE_GLOBAL_STATE';
 
 export function addTimer({timerState, id}) {
   return {type: ADD_TIMER, timerState, id}
@@ -32,4 +33,8 @@ export function timerDrag({dragState, id}) {
 
 export function undoTimerDelete({timerState, id}) {
   return {type: UNDO_TIMER_DELETE, timerState, id}
+}
+
+export function restoreGlobalState(state) {
+  return {type: RESTORE_GLOBAL_STATE, state}
 }

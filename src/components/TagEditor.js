@@ -255,7 +255,7 @@ export default class TagEditor extends Component {
             {this.buildEditor()}
           </div>
           <div className="modal-footer">
-            <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+            <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { createStore, combineReducers } from "redux";
 import { timerState } from "./reducers/timer";
 import { tagState } from "./reducers/tags";
+import { RESTORE_GLOBAL_STATE } from './actions/timer';
 
 const savedTimerState = (window.localStorage)
   ? JSON.parse(window.localStorage.getItem('timerState') || '{}')
@@ -8,7 +9,23 @@ const savedTimerState = (window.localStorage)
 const savedTagState = (window.localStorage)
   ? JSON.parse(window.localStorage.getItem('tagState') || '{}')
   : {};
-const rootReducer = combineReducers({timerState, tagState});
+
+const appReducer = combineReducers({
+  timerState,
+  tagState
+});
+
+const rootReducer = (state, action) => {
+  switch (action.type) {
+    case RESTORE_GLOBAL_STATE: {
+      return action.state;
+    }
+    default: {
+      return appReducer(state, action);
+    }
+  }
+}
+
 const savedState = {
   timerState: savedTimerState,
   tagState: savedTagState

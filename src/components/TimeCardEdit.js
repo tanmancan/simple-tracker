@@ -36,7 +36,7 @@ export default class TimeCardEdit extends Component {
 
   render() {
     return (
-      <form>
+      <div>
         <div className="row">
           <div className="input-field">
             <input
@@ -56,11 +56,11 @@ export default class TimeCardEdit extends Component {
               id={"description" + this.props.id}
               className="materialize-textarea"
               onChange={this.handleChange}
-              value={this.state.description}/>
+              value={this.state.description}></textarea>
             <label className="active" htmlFor={"description" + this.props.id}>Timer Description</label>
           </div>
         </div>
-      </form>
+      </div>
     )
   }
 }

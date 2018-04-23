@@ -48,6 +48,18 @@ export default class SideNav extends Component {
         <li>
           <a
             onClick={(e) => {
+              window.location.hash = '#import-export';
+              this.props.handleUsageGuide('CLOSE')
+            }}
+            href="#modal-import-export"
+            className="brown-text lighten-4-text modal-trigger">
+            <i className="material-icons">archive</i>
+            Import/Export Data
+          </a>
+        </li>
+        <li>
+          <a
+            onClick={(e) => {
               window.location.hash = '#edit-tags';
               this.props.handleUsageGuide('CLOSE')}}
             href="#modal-manage-tag"

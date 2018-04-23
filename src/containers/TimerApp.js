@@ -1,9 +1,13 @@
 import { connect } from "react-redux";
-import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder, timerDrag, undoTimerDelete } from "../store/actions/timer";
+import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder, timerDrag, undoTimerDelete, restoreGlobalState } from "../store/actions/timer";
 import { initTimerState } from '../store/reducers/timer';
 import App from '../App';
 
 window.undoState = {};
+
+const getGlobalState = (state) => {
+  return state;
+}
 
 const getDragState = (state) => {
   return state.timerDrag;
@@ -45,6 +49,7 @@ const mapTimerStateToProps = globalState => {
   let tagState = globalState.tagState;
 
   return {
+    getGlobalState: getGlobalState(globalState),
     getDragState: getDragState(timerState),
     getStateById: getStateById(timerState),
     getAllTimerStates: getAllTimerStates(timerState),
@@ -58,6 +63,9 @@ const mapTimerStateToProps = globalState => {
 
 const mapTimerDispatchToProps = dispatch => {
   return {
+    onRestoreGlobalState: (state) => {
+      dispatch(restoreGlobalState(state));
+    },
     onTimerAdd: () => {
       let uid = +`${Math.floor(Math.random() * 1000)}${+new Date()}`;
       let id = `timer-${uid}`;
