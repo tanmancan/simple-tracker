@@ -16,4 +16,12 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+if (process.env['REACT_APP_GA']) {
+  const dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', process.env['REACT_APP_GA']);
+}
+
 registerServiceWorker();
