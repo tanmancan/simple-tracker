@@ -197,7 +197,7 @@ class App extends Component {
                 </div>
                 <div className="col l4 offset-l2 s12">
                   <ul>
-                    <li><a className="grey-text" target="_blank" rel="noopener noreferrer" href={pkg.homepage}>View on Github</a></li>
+                    <li><a className="grey-text" target="_blank" rel="noopener noreferrer" href={pkg.repository.url.replace(/(git\+)|(.git)$/g,'')}>View on Github</a></li>
                     <li><a className="grey-text" target="_blank" rel="noopener noreferrer" href={pkg.bugs.url}>Report an Issue</a></li>
                   </ul>
                 </div>
