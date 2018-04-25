@@ -57,3 +57,7 @@ footer.page-footer .footer-copyright {
   padding: 0 1rem;
   margin: 0 .25rem;
 }
+
+[draggable="true"] {
+  cursor: move !important;
+}
