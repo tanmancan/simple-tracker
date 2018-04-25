@@ -11,7 +11,7 @@ export const formatTime = (milliseconds = 0) => {
   let min = converter(60);
   let hr = converter(3600);
 
-  return `${hr}h ${min}m ${sec}s`;
+  return `${hr}h : ${min}m : ${sec}s`;
 }
 
 class TimerComponent extends Component {
@@ -25,7 +25,7 @@ class TimerComponent extends Component {
     const RUNNING = ['blue', 'darken-4'];
     const STOPPED = (this.props.time === 0)
       ? ['grey', 'lighten-1']
-      : ['light-blue', 'darken-1'];
+      : ['grey', 'darken-1'];
 
     let classNames = [
       'badge',
