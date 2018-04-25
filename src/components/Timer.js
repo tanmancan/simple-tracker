@@ -23,7 +23,9 @@ class TimerComponent extends Component {
 
   timerState(timerRunning = this.props.running) {
     const RUNNING = ['blue', 'darken-4'];
-    const STOPPED = ['grey'];
+    const STOPPED = (this.props.time === 0)
+      ? ['grey', 'lighten-1']
+      : ['light-blue', 'darken-1'];
 
     let classNames = [
       'badge',
