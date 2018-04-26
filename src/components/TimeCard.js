@@ -214,6 +214,8 @@ export default class TimeCard extends Component {
       title: this.state.title,
       description: this.state.description,
       handleEditFormUpdate: this.handleEditFormUpdate,
+      timeProgress: this.state.timeProgress,
+      timerRunning: this.state.timerRunning,
     });
   }
 
@@ -459,7 +461,9 @@ export default class TimeCard extends Component {
         <div id={'modal-' + this.id} ref={this.modalRef} className="modal">
           <div className="modal-content">
             <div className="row">
-              <h5>Edit Timer</h5>
+              <div className="col s12">
+                <h5>Edit Timer</h5>
+              </div>
             </div>
             {this.editForm()}
           </div>
@@ -485,7 +489,7 @@ export default class TimeCard extends Component {
                   }}
                   disabled={this.state.timerRunning}
                   onClick={this.startTimer}
-                  className={this.cardTextClass(["btn-flat",'small'],['grey'],['grey'])}>
+                  className={this.cardTextClass(["btn-flat"],['grey'],['grey'])}>
                   <i className="material-icons">play_arrow</i></button>
                 <button
                   style={{
@@ -497,7 +501,7 @@ export default class TimeCard extends Component {
                   }}
                   disabled={!this.state.timerRunning}
                   onClick={this.pauseTimer}
-                  className={this.cardTextClass(["btn-flat",'small'],['grey'],['grey'])}>
+                  className={this.cardTextClass(["btn-flat"],['grey'],['grey'])}>
                   <i className="material-icons">pause</i></button>
               </div>
             </div>
