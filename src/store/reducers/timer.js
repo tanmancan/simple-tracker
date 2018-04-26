@@ -109,10 +109,13 @@ function timerById(state = {}, action) {
 function timers(state = [], action) {
   switch (action.type) {
     case timerAction.ADD_TIMER: {
-      return [
-        ...state,
-        action.id
+      let newState = [
+        ...state
       ];
+
+      newState.unshift(action.id);
+
+      return newState;
     }
     case timerAction.UPDATE_TIMER: {
       return state;
