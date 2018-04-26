@@ -197,6 +197,7 @@ export default class TagUi extends Component {
               fontSize: '16px',
               lineHeight: '32px',
               paddingLeft: '8px',
+              cursor: 'pointer',
             }
           }>delete</i>
         </div>
@@ -253,6 +254,7 @@ export default class TagUi extends Component {
                           fontSize: '16px',
                           lineHeight: '32px',
                           paddingLeft: '8px',
+                          cursor: 'pointer',
                         }
                       }>delete</i>
                   </div>
