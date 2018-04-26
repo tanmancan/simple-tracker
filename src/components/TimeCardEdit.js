@@ -5,6 +5,7 @@ export default class TimeCardEdit extends Component {
     super(props);
     this.timeoutId = null;
     this.handleChange = this.handleChange.bind(this);
+    this.handleOnFocus = this.handleOnFocus.bind(this);
     this.state = {
       title: props.title,
       description: props.description
@@ -34,6 +35,10 @@ export default class TimeCardEdit extends Component {
     })
   }
 
+  handleOnFocus(e) {
+    e.target.setSelectionRange(0, -1);
+  }
+
   render() {
     return (
       <div>
@@ -42,8 +47,9 @@ export default class TimeCardEdit extends Component {
             <input
               placeholder="Enter Timer Name"
               id={"title" + this.props.id} type="text"
-              className="validate"
+              className="timer-name"
               onChange={this.handleChange}
+              onFocus={this.handleOnFocus}
               value={this.state.title}/>
             <label className="active" htmlFor={"title" + this.props.id}>Timer Name</label>
           </div>
@@ -54,8 +60,9 @@ export default class TimeCardEdit extends Component {
             <textarea
               placeholder="Enter Timer Description"
               id={"description" + this.props.id}
-              className="materialize-textarea"
+              className="materialize-textarea timer-description"
               onChange={this.handleChange}
+              onFocus={this.handleOnFocus}
               value={this.state.description}></textarea>
             <label className="active" htmlFor={"description" + this.props.id}>Timer Description</label>
           </div>

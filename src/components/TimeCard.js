@@ -61,6 +61,8 @@ export default class TimeCard extends Component {
 
         if (modalInstance) {
           modalInstance.open();
+          let nameInput = this.modalRef.current.querySelector('.timer-name');
+          nameInput.focus();
         }
 
         let timerState = {
