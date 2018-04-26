@@ -1,16 +1,7 @@
 import store from '../store';
 import * as timerActions from '../store/actions/timer';
 import * as tagActions from '../store/actions/tags';
-
-const initTimerState = {
-  title: '',
-  description: '',
-  timerRunning: false,
-  timeProgress: 0,
-  timeStart: null,
-  timerStartDate: null,
-  tags: {}
-};
+import initTimerState from '../store/reducers/timer';
 
 const initState = {
   timerState:
