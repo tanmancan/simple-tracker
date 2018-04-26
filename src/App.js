@@ -146,7 +146,9 @@ class App extends Component {
             onDrop={this.handleDeleteOnDrop}
             onDragOver={this.handleDeleteOnDragOver}
             className={"fixed-action-btn " + (this.state.showUsageGuide ? 'hide' : '')}>
-            <a onClick={this.props.onTimerAdd}
+            <a onClick={(e) => {
+              this.props.onTimerAdd();
+            }}
               className={'btn-floating btn-large z-depth-0 ' + ((this.props.getDragState) ? 'red' : 'light-blue')}>
               <i className="large material-icons">{(this.props.getDragState) ? 'delete' : 'add'}</i>
             </a>

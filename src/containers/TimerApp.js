@@ -66,18 +66,18 @@ const mapTimerDispatchToProps = dispatch => {
     onRestoreGlobalState: (state) => {
       dispatch(restoreGlobalState(state));
     },
-    onTimerAdd: () => {
+    onTimerAdd: (editTimer = false) => {
       let uid = +`${Math.floor(Math.random() * 1000)}${+new Date()}`;
       let id = `timer-${uid}`;
       let timerState = {
         ...initTimerState,
         timerStartDate: +new Date(),
         title: id,
-        description: `Description for timer ${id}`
+        description: `Description for timer ${id}`,
+        openEditModal: editTimer
       }
       dispatch(addTimer({timerState, id}));
       window.showToast('Timer Added');
-      return true;
     },
     onTimerUpdate: ({timerState, id}) => {
       dispatch(updateTimer({timerState, id}));

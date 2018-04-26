@@ -9,8 +9,8 @@ export default class SideNav extends Component {
     this.stopTimer = this.stopTimer.bind(this);
   }
 
-  addTimer() {
-    this.props.onTimerAdd();
+  addTimer(editTimer = false) {
+    this.props.onTimerAdd(editTimer);
   }
 
   stopTimer() {
@@ -30,9 +30,9 @@ export default class SideNav extends Component {
             href="#add-timer"
             onClick={(e) => {
               this.props.handleUsageGuide('CLOSE');
-              this.addTimer();}} className="brown-text lighten-4-text">
+              this.addTimer(true);}} className="brown-text lighten-4-text">
             <i className="material-icons">add_alarm</i>
-            Add Timer
+            Add and Edit Timer
           </a>
         </li>
         <li>

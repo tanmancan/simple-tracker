@@ -32,7 +32,8 @@ export default class TimeCard extends Component {
       ...this.props.getStateById(this.id),
       title: this.props.getStateById(this.id).title || this.props.title || this.props.id,
       description: this.props.getStateById(this.id).description || this.props.description || '',
-      tags: this.props.getStateById(this.id).tags || {}
+      tags: this.props.getStateById(this.id).tags || {},
+      openEditModal: this.props.getStateById(this.id).openEditModal || false
     };
   }
 
@@ -41,11 +42,40 @@ export default class TimeCard extends Component {
     if (context !== null) {
       window.M.AutoInit(context);
     }
+
     this.setState((state, props) => {
       let timerActive = (this.state.timerRunning && this.props.getActiveTimer.indexOf(this.id) === 0);
       this.rafId = timerActive
         ? this.raf.call(window, () => this.timerRun())
         : null;
+
+      if (timerActive) {
+        this.favicon.href = ICON_RUN;
+        this.title.innerText = 'Running - ' + this.titleText;
+      }
+
+      if (this.state.openEditModal) {
+        let modalInstance = this.modalRef && this.modalRef.current
+          ? window.M.Modal.getInstance(this.modalRef.current)
+          : null;
+
+        if (modalInstance) {
+          modalInstance.open();
+        }
+
+        let timerState = {
+          ...state,
+          openEditModal: false
+        };
+
+        this.props.onTimerUpdate({
+          timerState,
+          id: this.id
+        })
+
+        return timerState;
+      }
+
     });
   }
 
