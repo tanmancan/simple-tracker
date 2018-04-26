@@ -143,6 +143,7 @@ class App extends Component {
         {this.SideNav()}
         <main>
           <div
+            tabIndex="7"
             onDrop={this.handleDeleteOnDrop}
             onDragOver={this.handleDeleteOnDragOver}
             className={"fixed-action-btn " + (this.state.showUsageGuide ? 'hide' : '')}>
@@ -170,7 +171,7 @@ class App extends Component {
                 <div className="row" style={this.searchNoMarginBottom()}>
                   <div className="input-field col s12" style={this.searchNoMarginBottom()}>
                     <i className="material-icons prefix">search</i>
-                    <input id="icon_prefix" type="text" className="validate" onChange={this.handleSearchQuery}/>
+                    <input tabIndex="1" id="icon_prefix" type="text" className="validate" onChange={this.handleSearchQuery}/>
                     <label htmlFor="icon_prefix">Search timers by name, description, tags or start time</label>
                   </div>
                 </div>

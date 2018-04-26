@@ -27,6 +27,7 @@ export default class SideNav extends Component {
         <SideNavHeader getTotalTime={this.props.getTotalTime}></SideNavHeader>
         <li>
           <a
+            tabIndex="2"
             href="#add-timer"
             onClick={(e) => {
               this.props.handleUsageGuide('CLOSE');
@@ -37,6 +38,7 @@ export default class SideNav extends Component {
         </li>
         <li>
           <a
+            tabIndex="3"
             href="#stop-timer"
             onClick={(e) => {
               this.props.handleUsageGuide('CLOSE');
@@ -47,6 +49,7 @@ export default class SideNav extends Component {
         </li>
         <li>
           <a
+            tabIndex="4"
             onClick={(e) => {
               window.location.hash = '#import-export';
               this.props.handleUsageGuide('CLOSE')
@@ -59,6 +62,7 @@ export default class SideNav extends Component {
         </li>
         <li>
           <a
+            tabIndex="5"
             onClick={(e) => {
               window.location.hash = '#edit-tags';
               this.props.handleUsageGuide('CLOSE')}}
@@ -69,7 +73,11 @@ export default class SideNav extends Component {
           </a>
         </li>
         <li>
-          <a href={"#" + (this.props.showUsageGuide ? 'usage-guide' : '!')} className="brown-text lighten-4-text" onClick={(e) => { this.props.handleUsageGuide('TOGGLE')}}>
+          <a
+            tabIndex="6"
+            href={"#" + (this.props.showUsageGuide ? 'usage-guide' : '!')}
+            className="brown-text lighten-4-text"
+            onClick={(e) => { this.props.handleUsageGuide('TOGGLE')}}>
             <i className="material-icons">help_outline</i>
             Usage Guide
           </a>
