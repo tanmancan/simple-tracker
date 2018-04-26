@@ -40,16 +40,23 @@ class TimerComponent extends Component {
   }
 
   style() {
-    return {
+    let styles = {
       fontSize: '1rem',
       padding: '.25rem 1rem',
-      height: 'auto'
-    }
+      height: 'auto',
+      float: 'none',
+      ...this.props.additionalStyle
+    };
+
+    return styles;
   }
 
   render() {
     return (
-      <span data-badge-caption={this.props.caption || ''} style={this.style()} className={this.timerState()}>{this.formatTime(this.props.time)}</span>
+      <span
+        data-badge-caption={this.props.caption || ''}
+        style={this.style()}
+        className={this.timerState()}>{this.formatTime(this.props.time)}</span>
     );
   }
 }

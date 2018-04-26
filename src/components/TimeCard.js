@@ -446,7 +446,10 @@ export default class TimeCard extends Component {
             </div>
           </div>
           <div className="card-action">
-            <Timer time={this.state.timeProgress} running={this.state.timerRunning} />
+            <Timer
+              additionalStyle={{ float: 'right' }}
+              time={this.state.timeProgress}
+              running={this.state.timerRunning} />
             <button disabled={this.state.timerRunning} onClick={this.startTimer} className={this.cardTextClass(["btn-flat"])}>
               <i className="material-icons">play_arrow</i></button>
             <button disabled={!this.state.timerRunning} onClick={this.pauseTimer} className={this.cardTextClass(["btn-flat"])}>
@@ -466,6 +469,37 @@ export default class TimeCard extends Component {
                 time={this.state.timeProgress}
                 running={this.state.timerRunning}
                 caption={this.state.timerRunning ? '- Running' : '- Stopped'}/>
+
+              <div className="controls-edit-modal"
+                style={{
+                  padding: '0 .5rem',
+                  display: 'inline-block',
+                }}>
+                <button
+                  style={{
+                    height: '2rem',
+                    lineHeight: '2rem',
+                    display: (this.state.timerRunning)
+                      ? 'none'
+                      : 'inline-block',
+                  }}
+                  disabled={this.state.timerRunning}
+                  onClick={this.startTimer}
+                  className={this.cardTextClass(["btn-flat",'small'],['grey'],['grey'])}>
+                  <i className="material-icons">play_arrow</i></button>
+                <button
+                  style={{
+                    height: '2rem',
+                    lineHeight: '2rem',
+                    display: (!this.state.timerRunning)
+                      ? 'none'
+                      : 'inline-block',
+                  }}
+                  disabled={!this.state.timerRunning}
+                  onClick={this.pauseTimer}
+                  className={this.cardTextClass(["btn-flat",'small'],['grey'],['grey'])}>
+                  <i className="material-icons">pause</i></button>
+              </div>
             </div>
             <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
           </div>
