@@ -64,11 +64,13 @@ export default class TimeCardEdit extends Component {
       timeProgress: calcTimeProgress,
     }
 
-    this.props.handleEditFormUpdate(timerState);
+    if (!this.props.timerRunning) {
+      this.props.handleEditFormUpdate(timerState);
 
-    this.setState({
-      [name]: value
-    })
+      this.setState({
+        [name]: value
+      })
+    }
   }
 
   buildTimeOptions(length, selected) {
