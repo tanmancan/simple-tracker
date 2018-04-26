@@ -3,6 +3,9 @@ import {initTimerState} from '../store/reducers/timer';
 import TimeCardEdit from './TimeCardEdit';
 import {Timer} from './Timer';
 
+const ICON_RUN = '/favicon-run.ico';
+const ICON_STOPPED = '/favicon.ico';
+
 export default class TimeCard extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +25,9 @@ export default class TimeCard extends Component {
     this.openFormModal = this.openFormModal.bind(this);
     this.initTimerState = initTimerState;
     this.id = this.props.id;
+    this.favicon = document.querySelector('[rel="shortcut icon"]');
+    this.title = document.querySelector('title');
+    this.titleText = this.title.innerText;
     this.state = {
       ...this.props.getStateById(this.id),
       title: this.props.getStateById(this.id).title || this.props.title || this.props.id,
@@ -91,6 +97,8 @@ export default class TimeCard extends Component {
       })
 
       this.rafId = this.raf.call(window, () => this.timerRun());
+      this.favicon.href = ICON_RUN;
+      this.title.innerText = 'Running - ' + this.titleText;
 
       return timerState;
     });
@@ -107,6 +115,9 @@ export default class TimeCard extends Component {
         timerState,
         id: this.id
       });
+
+      this.favicon.href = ICON_STOPPED;
+      this.title.innerText = 'Stopped - ' + this.titleText;
 
       return timerState;
     });
