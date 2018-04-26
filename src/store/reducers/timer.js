@@ -8,7 +8,8 @@ export const initTimerState = {
   timeProgress: 0,
   timeStart: null,
   timerStartDate: null,
-  tags: {}
+  tags: {},
+  openEditModal: false,
 };
 
 function timerDrag(state = false, action) {
