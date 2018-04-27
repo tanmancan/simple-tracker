@@ -1,5 +1,7 @@
 # React Timer App
 
+![Build Status Image](https://travis-ci.org/tanmancan/react-timer-app.svg?branch=master)
+
 ![Timer Screenshot](react-timer.png)
 
 Simple timer app built on top of React and Redux. Leverages localStorage and service worker to allow timer to work offline and persist data when reloading page.
