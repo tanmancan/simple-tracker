@@ -1,6 +1,5 @@
-# React Timer App
+# React Timer App [![Build Status Image](https://travis-ci.org/tanmancan/react-timer-app.svg?branch=master)](https://travis-ci.org/tanmancan/react-timer-app)
 
-![Build Status Image](https://travis-ci.org/tanmancan/react-timer-app.svg?branch=master)
 
 ![Timer Screenshot](react-timer.png)
 
