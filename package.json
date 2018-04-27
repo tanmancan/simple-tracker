@@ -28,12 +28,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:base": "react-scripts build",
+    "build": "react-scripts build",
     "release:patch": "npm version patch -m 'Release v%s'",
     "release:minor": "npm version minor -m 'Release v%s'",
     "release:major": "npm version major -m 'Release v%s'",
     "preversion": "npm run test",
-    "version": "npm run build:base",
+    "version": "npm run build",
     "postversion": "git push && git push --tag",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
