@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TimeCardListBuilder from './components/TimeCardListBuilder';
 import ImportExportModal from './components/ImportExportModal';
 import SideNav from './components/SideNav';
+import GaScript from './components/GaScript';
 import Guide from './guide/Guide';
 import {TagEditorModal} from './containers/TagManager';
 import * as pkg from '../package.json';
@@ -210,6 +211,7 @@ class App extends Component {
             </div>
           </footer>
         </main>
+        <GaScript />
       </div>
     );
   }
