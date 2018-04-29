@@ -3,6 +3,7 @@ import TimeCardListBuilder from './components/TimeCardListBuilder';
 import ImportExportModal from './components/ImportExportModal';
 import SideNav from './components/SideNav';
 import GaScript from './components/GaScript';
+import DateFilter from './components/DateFilter';
 import Guide from './guide/Guide';
 import {TagEditorModal} from './containers/TagManager';
 import * as pkg from '../package.json';
@@ -20,9 +21,13 @@ class App extends Component {
     this.handleDeleteOnDragOver = this.handleDeleteOnDragOver.bind(this);
     this.handleSearchQuery = this.handleSearchQuery.bind(this);
     this.handleUsageGuide = this.handleUsageGuide.bind(this);
+    this.handleDateOnChange = this.handleDateOnChange.bind(this);
+    this.setDateFilter = this.setDateFilter.bind(this);
+    this.datePickerRef = React.createRef();
     this.state = {
       timerSearchQuery: '',
       showUsageGuide: false,
+      currentDate: new Date(),
     }
   }
 
@@ -40,6 +45,18 @@ class App extends Component {
         showUsageGuide: true
       })
     }
+  }
+
+  handleDateOnChange(e) {
+    let date = e.target.value;
+    console.log(date);
+  }
+
+  setDateFilter(date) {
+    console.log(date);
+    this.setState({
+      currentDate: date
+    })
   }
 
   /**
@@ -68,7 +85,8 @@ class App extends Component {
     return React.createElement(
       TimeCardListBuilder, {
         ...this.props,
-        timerSearchQuery: this.state.timerSearchQuery
+        timerSearchQuery: this.state.timerSearchQuery,
+        currentDate: this.state.currentDate,
       }, null
     );
   }
@@ -216,7 +234,7 @@ class App extends Component {
                 <div className="nav-wrapper red">
                   <div className="col s12">
                     <a href="#open-menu" data-target="slide-out" className="sidenav-trigger white-text"><i className="material-icons">menu</i></a>
-                    <a href="/" className="brand-logo center white-text lighten-4-text">React-Timer</a>
+                    <DateFilter setDateFilter={this.setDateFilter} datePickerRef={this.datePickerRef}/>
                   </div>
                 </div>
               </nav>
@@ -267,6 +285,7 @@ class App extends Component {
           </footer>
         </main>
         <GaScript />
+        <input style={{marginLeft:'300px'}} ref={this.datePickerRef} type="hidden" className="pickdate" onChange={this.handleDateOnChange}/>
       </div>
     );
   }
