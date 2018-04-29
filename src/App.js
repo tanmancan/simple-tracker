@@ -7,7 +7,12 @@ import Guide from './guide/Guide';
 import {TagEditorModal} from './containers/TagManager';
 import * as pkg from '../package.json';
 import './App.css';
-
+/**
+ * Main app component
+ *
+ * @class App
+ * @extends {Component}
+ */
 class App extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +42,12 @@ class App extends Component {
     }
   }
 
+  /**
+   * Creates the side navigation component.
+   *
+   * @returns {ReactElement}
+   * @memberof App
+   */
   SideNav() {
     return React.createElement(
       SideNav, {
@@ -47,6 +58,12 @@ class App extends Component {
     );
   }
 
+  /**
+   * Creates component displaying a list of timers
+   *
+   * @returns {ReactElement}
+   * @memberof App
+   */
   listBuilder() {
     return React.createElement(
       TimeCardListBuilder, {
@@ -56,6 +73,12 @@ class App extends Component {
     );
   }
 
+  /**
+   * Creates component for the export/import data component.
+   *
+   * @returns {ReactElement}
+   * @memberof App
+   */
   importExportModalBuilder() {
     return React.createElement(
       ImportExportModal, {
@@ -64,6 +87,12 @@ class App extends Component {
     )
   }
 
+  /**
+   * Handler for ondrop event when dragging and dropping a timer into the floating action button
+   *
+   * @param {SyntheticEvent} e React's ondrop event wrapper
+   * @memberof App
+   */
   handleDeleteOnDrop(e) {
     e.preventDefault();
 
@@ -82,11 +111,23 @@ class App extends Component {
     }
   }
 
+  /**
+   * Handler for ondragover event for the floating action button.
+   *
+   * @param {SyntheticEvent} e React's ondragover event wrapper
+   * @memberof App
+   */
   handleDeleteOnDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move"
   }
 
+  /**
+   * Handler for onchange event attached to the search filter input
+   *
+   * @param {SyntheticEvent} e React's onchange event wrapper
+   * @memberof App
+   */
   handleSearchQuery(e) {
     let timerSearchQuery = e.target.value;
 
@@ -95,6 +136,12 @@ class App extends Component {
     });
   }
 
+  /**
+   * Handler for navigational click event for showing or hiding the usage guide
+   *
+   * @param {string} action String literal indicating if we want to hide, show, or toggle usage guide visibility
+   * @memberof App
+   */
   handleUsageGuide(action) {
     switch (action) {
       case 'SHOW': {
@@ -126,12 +173,20 @@ class App extends Component {
     }
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof App
+   */
   appStyle() {
     return {
       height: '100vh'
     }
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof App
+   */
   searchNoMarginBottom() {
     return {
       marginBottom: 0

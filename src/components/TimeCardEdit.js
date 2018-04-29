@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 
+/**
+ * Component that provides editing functionality for a timer
+ *
+ * @export
+ * @class TimeCardEdit
+ * @extends {Component}
+ */
 export default class TimeCardEdit extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +23,12 @@ export default class TimeCardEdit extends Component {
     }
   }
 
+  /**
+   * Handler for onchange event on timer name and description input field
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardEdit
+   */
   handleChange(e) {
     let name = e.target.id.replace(this.props.id,'');
     let value = e.target.value;
@@ -39,10 +52,22 @@ export default class TimeCardEdit extends Component {
     })
   }
 
+  /**
+   * Automatically selects content when an input is clicked on
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardEdit
+   */
   handleOnFocus(e) {
     e.target.setSelectionRange(0, -1);
   }
 
+  /**
+   * Handler onchange event for manually editing a time
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardEdit
+   */
   handleTimeEdit(e) {
     let name = e.target.id.replace(this.props.id, '');
     let value = e.target.value;
@@ -73,7 +98,14 @@ export default class TimeCardEdit extends Component {
     }
   }
 
-  buildTimeOptions(length, selected) {
+  /**
+   * Builds the options for timer edit select drop down
+   *
+   * @param {number} length How many drop down items to generate
+   * @returns {array} List containing drop down options in JSX
+   * @memberof TimeCardEdit
+   */
+  buildTimeOptions(length) {
     let options = [];
 
     for (let i = 0; i <= length; i++) {
@@ -87,6 +119,14 @@ export default class TimeCardEdit extends Component {
     return options;
   }
 
+  /**
+   * Calculates and returns elapsed time based on provided criteria
+   *
+   * @param {number} [milliseconds=0] Time in milliseconds
+   * @param {number} [denom=1] Denominator for converting seconds to minutes, hours or other units. 1 = seconds, 60 = minutes, 3600 = hours.
+   * @returns {number} Converted elapsed time
+   * @memberof TimeCardEdit
+   */
   formatTime(milliseconds = 0, denom = 1) {
     let time = milliseconds / 1000;
 
