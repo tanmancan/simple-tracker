@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 
+/**
+ * Component for filtering timer list by date
+ *
+ * @export
+ * @class DateFilter
+ * @extends {Component}
+ */
 export default class DateFilter extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +20,12 @@ export default class DateFilter extends Component {
     }
   }
 
+  /**
+   * Get instance of date picker, if non exists create a new one.
+   *
+   * @readonly
+   * @memberof DateFilter
+   */
   get picker() {
     if (this.props.datePickerRef.current) {
       let pickerOpts = {
@@ -25,10 +38,21 @@ export default class DateFilter extends Component {
         ? this.pickerInstance
         : window.M.Datepicker.init(this.props.datePickerRef.current, pickerOpts);
 
-        return this.pickerInstance
+      this.pickerInstance.options.events = this.props.getAllTimers
+        .map(
+          id => new Date(this.props.getAllTimerStates[id].timerStartDate).toDateString()
+        );
+
+      return this.pickerInstance
     }
   }
 
+  /**
+   * Get the previous date based on state.currentDay
+   *
+   * @readonly
+   * @memberof DateFilter
+   */
   get prevDay() {
     let startDate = new Date(this.state.currentDay);
     let day = startDate.getDate();
@@ -38,6 +62,12 @@ export default class DateFilter extends Component {
     return startDate;
   }
 
+  /**
+   * Get the next day based on state.currentDay
+   *
+   * @readonly
+   * @memberof DateFilter
+   */
   get nextDay() {
     let startDate = new Date(this.state.currentDay);
     let day = startDate.getDate();
@@ -47,23 +77,45 @@ export default class DateFilter extends Component {
     return startDate;
   }
 
+  /**
+   * Used to test if selected date is today, to disabled users from selecting the next day
+   *
+   * @readonly
+   * @memberof DateFilter
+   */
   get isToday() {
-    console.log(this.nextDay.getTime() > this.state.today.getTime());
     return this.nextDay.getTime() > this.state.today.getTime();
   }
 
+  /**
+   * Callback for date picker selection
+   *
+   * @param {any} date The selected date passed from the date picker
+   * @memberof DateFilter
+   */
   selectDate(date) {
     this.props.setDateFilter(date);
     this.setState({
       currentDay: date
     })
+    this.picker.close();
   }
 
+  /**
+   * Opens the date picker and sets currentDay to selected date
+   *
+   * @memberof DateFilter
+   */
   datePick() {
     this.picker.setDate(this.state.currentDay);
     this.picker.open();
   }
 
+  /**
+   * Navigate to the previous day
+   *
+   * @memberof DateFilter
+   */
   goPrevDay() {
     this.setState((state, props) => {
       this.props.setDateFilter(this.prevDay);
@@ -73,6 +125,11 @@ export default class DateFilter extends Component {
     });
   }
 
+  /**
+   * Navigate to the next day
+   *
+   * @memberof DateFilter
+   */
   goNextDay() {
     this.setState((state, props) => {
       this.props.setDateFilter(this.nextDay);
@@ -89,14 +146,21 @@ export default class DateFilter extends Component {
    */
   formatDate(date = this.state.currentDay) {
     let dateOpts = {
-      month: 'short',
+      weekday: 'short',
       day: 'numeric',
+      month: 'short',
       year: '2-digit'
     }
     return date.toLocaleDateString('en-US', dateOpts);
   }
 
 
+  /**
+   * Custom disabled button style to avoid styling conflicts with navbar defaults
+   *
+   * @readonly
+   * @memberof DateFilter
+   */
   get disabledButtonStyle() {
     return (this.isToday)
     ? {

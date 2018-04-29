@@ -36,6 +36,16 @@ const getTotalTime = (state) => {
     }, 0);
 }
 
+const getTotalTimeByDate = (state) => (date) => {
+  return Object.entries(state.timerById)
+    .filter(([id, timerState]) =>
+      new Date(timerState.timerStartDate).toDateString()
+        === new Date(date).toDateString())
+    .reduce((total, [id, timerState]) => {
+      return total + timerState.timeProgress
+    }, 0);
+}
+
 const getAllTagsById = (state) => {
   return state.tagsById;
 }
@@ -56,6 +66,7 @@ const mapTimerStateToProps = globalState => {
     getAllTimers: getAllTimers(timerState),
     getActiveTimer: getActiveTimer(timerState),
     getTotalTime: getTotalTime(timerState),
+    getTotalTimeByDate: getTotalTimeByDate(timerState),
     getAllTagsById: getAllTagsById(tagState),
     getFilteredCategories: getFilteredCategories(tagState),
   }
@@ -66,7 +77,7 @@ const mapTimerDispatchToProps = dispatch => {
     onRestoreGlobalState: (state) => {
       dispatch(restoreGlobalState(state));
     },
-    onTimerAdd: (editTimer = false) => {
+    onTimerAdd: (stateOpts = {}) => {
       let uid = +`${Math.floor(Math.random() * 1000)}${+new Date()}`;
       let id = `timer-${uid}`;
       let timerState = {
@@ -74,10 +85,19 @@ const mapTimerDispatchToProps = dispatch => {
         timerStartDate: +new Date(),
         title: id,
         description: `Description for timer ${id}`,
-        openEditModal: editTimer
+        openEditModal: false,
+        ...stateOpts
       }
       dispatch(addTimer({timerState, id}));
-      window.showToast('Timer Added');
+
+      let dateOpts = {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        year: '2-digit'
+      }
+
+      window.showToast(`Timer Added for ${new Date(timerState.timerStartDate).toLocaleDateString('en-US', dateOpts)}`);
     },
     onTimerUpdate: ({timerState, id}) => {
       dispatch(updateTimer({timerState, id}));
