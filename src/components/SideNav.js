@@ -23,7 +23,10 @@ export default class SideNav extends Component {
    * @memberof SideNav
    */
   addTimer(editTimer = false) {
-    this.props.onTimerAdd(editTimer);
+    this.props.onTimerAdd({
+      openEditModal: editTimer,
+      timerStartDate: +new Date(this.props.currentDate),
+    });
   }
 
   /**
@@ -42,7 +45,11 @@ export default class SideNav extends Component {
     return (
       // @TODO: clean this up, improve usage guide navigation
       <ul id="slide-out" className="sidenav sidenav-fixed z-depth-0">
-        <SideNavHeader getTotalTime={this.props.getTotalTime}></SideNavHeader>
+        <SideNavHeader
+          getTotalTimeByDate={this.props.getTotalTimeByDate}
+          currentDate={this.props.currentDate}
+          getTotalTime={this.props.getTotalTime}
+          getStateById={this.props.getStateById}></SideNavHeader>
         <li>
           <a
             tabIndex="2"

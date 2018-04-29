@@ -21,7 +21,6 @@ class App extends Component {
     this.handleDeleteOnDragOver = this.handleDeleteOnDragOver.bind(this);
     this.handleSearchQuery = this.handleSearchQuery.bind(this);
     this.handleUsageGuide = this.handleUsageGuide.bind(this);
-    this.handleDateOnChange = this.handleDateOnChange.bind(this);
     this.setDateFilter = this.setDateFilter.bind(this);
     this.datePickerRef = React.createRef();
     this.state = {
@@ -47,13 +46,7 @@ class App extends Component {
     }
   }
 
-  handleDateOnChange(e) {
-    let date = e.target.value;
-    console.log(date);
-  }
-
   setDateFilter(date) {
-    console.log(date);
     this.setState({
       currentDate: date
     })
@@ -71,6 +64,7 @@ class App extends Component {
         ...this.props,
         handleUsageGuide: this.handleUsageGuide,
         showUsageGuide: this.state.showUsageGuide,
+        currentDate: this.state.currentDate,
       }, null
     );
   }
@@ -222,7 +216,9 @@ class App extends Component {
             onDragOver={this.handleDeleteOnDragOver}
             className={"fixed-action-btn " + (this.state.showUsageGuide ? 'hide' : '')}>
             <a onClick={(e) => {
-              this.props.onTimerAdd();
+              this.props.onTimerAdd({
+                timerStartDate: +new Date(this.state.currentDate),
+              });
             }}
               className={'btn-floating btn-large z-depth-0 ' + ((this.props.getDragState) ? 'red' : 'light-blue')}>
               <i className="large material-icons">{(this.props.getDragState) ? 'delete' : 'add'}</i>
@@ -234,7 +230,11 @@ class App extends Component {
                 <div className="nav-wrapper red">
                   <div className="col s12">
                     <a href="#open-menu" data-target="slide-out" className="sidenav-trigger white-text"><i className="material-icons">menu</i></a>
-                    <DateFilter setDateFilter={this.setDateFilter} datePickerRef={this.datePickerRef}/>
+                    <DateFilter
+                      getAllTimers={this.props.getAllTimers}
+                      getAllTimerStates={this.props.getAllTimerStates}
+                      setDateFilter={this.setDateFilter}
+                      datePickerRef={this.datePickerRef}/>
                   </div>
                 </div>
               </nav>
@@ -285,7 +285,7 @@ class App extends Component {
           </footer>
         </main>
         <GaScript />
-        <input style={{marginLeft:'300px'}} ref={this.datePickerRef} type="hidden" className="pickdate" onChange={this.handleDateOnChange}/>
+        <input style={{marginLeft:'300px'}} ref={this.datePickerRef} type="hidden" className="pickdate"/>
       </div>
     );
   }

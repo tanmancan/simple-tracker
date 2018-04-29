@@ -142,10 +142,12 @@ export default class TimeCardListBuilder extends Component {
     let timer = this.props.getAllTimerStates[id];
     let tags = timer.tags;
 
+    let dateCheck = this.getDateCompObj(timer.timerStartDate, this.props.currentDate);
+
     if (!q) {
       let catCheck = Object.values(tags).filter(tag => this.hiddenTagCategory(tag.tagState)).length === 0;
 
-      return catCheck;
+      return catCheck && dateCheck;
     }
 
     const strQuery = (searchString) => {
@@ -170,7 +172,19 @@ export default class TimeCardListBuilder extends Component {
 
     let catCheck = Object.values(tags).filter(tag => this.hiddenTagCategory(tag.tagState)).length === 0;
 
-    return (titleCheck || descCheck || startDateCheck || tagCheck) && catCheck;
+    return (titleCheck || descCheck || startDateCheck || tagCheck) && catCheck && dateCheck;
+  }
+
+  /**
+   * Given two dates, check to see if they are equal, ignoring time differences
+   *
+   * @param {any} dateA First date string or time stamp for comparison
+   * @param {any} dateB Second date string or time stamp for comparison
+   * @returns {bool} True if both dates are equal
+   * @memberof TimeCardListBuilder
+   */
+  getDateCompObj(dateA, dateB) {
+    return new Date(dateA).toDateString() === new Date(dateB).toDateString();
   }
 
   /**
@@ -273,17 +287,49 @@ export default class TimeCardListBuilder extends Component {
     );
   }
 
+  /**
+   * Filters list of timers based on certain criteria
+   *
+   * @returns {array} List of timers or a not found message in JSX markup
+   * @memberof TimeCardListBuilder
+   */
+  filterTimerList() {
+    let timerList = this.props.getAllTimers
+      .filter(this.handleSearchFilter)
+      .map(
+        (id, idx) => this.timeCardBuilder(id, idx, this.props.getAllTimers.length)
+      );
+
+    let dateOpts = {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }
+
+    return (timerList.length > 0)
+      ? timerList
+      : (
+        <div className="col s12">
+          <div className="card white z-depth-0">
+            <div className="card-content grey-text text-darken-3">
+              <span className="card-title">No timers found for {new Date(this.props.currentDate).toLocaleDateString('en-US', dateOpts)}</span>
+            </div>
+            <div className="card-action">
+              No timers found for the selected date. Please choose another date or add a new timer for this date.
+            </div>
+          </div>
+        </div>
+      );
+  }
+
   render() {
     return (
       <div className="timers">
         <div className="timer-list">
 
           {(this.props.getAllTimers.length > 0)
-            ? this.props.getAllTimers
-              .filter(this.handleSearchFilter)
-              .map(
-                (id, idx) => this.timeCardBuilder(id, idx, this.props.getAllTimers.length)
-              )
+            ? this.filterTimerList()
             : this.noTimerMsg()}
         </div>
       </div>
