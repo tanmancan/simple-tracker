@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import SideNavHeader from './SideNavHeader';
 import {TagList} from '../containers/TagManager';
 
+/**
+ * Component for the side navigation
+ *
+ * @export
+ * @class SideNav
+ * @extends {Component}
+ */
 export default class SideNav extends Component {
   constructor(props) {
     super(props);
@@ -9,10 +16,21 @@ export default class SideNav extends Component {
     this.stopTimer = this.stopTimer.bind(this);
   }
 
+  /**
+   * Callback for add timer button click
+   *
+   * @param {boolean} [editTimer=false] Whether to show the timer edit modal when a timer is added
+   * @memberof SideNav
+   */
   addTimer(editTimer = false) {
     this.props.onTimerAdd(editTimer);
   }
 
+  /**
+   * Handler for stop timer button click
+   *
+   * @memberof SideNav
+   */
   stopTimer() {
     this.props.onTimerStop({
       timerState: this.props.getAllTimerStates[this.props.getActiveTimer[0]],

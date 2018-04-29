@@ -6,6 +6,13 @@ import {Timer} from './Timer';
 const ICON_RUN = '/favicon-run.ico';
 const ICON_STOPPED = '/favicon.ico';
 
+/**
+ * Component for a timer
+ *
+ * @export
+ * @class TimeCard
+ * @extends {Component}
+ */
 export default class TimeCard extends Component {
   constructor(props) {
     super(props);
@@ -85,6 +92,11 @@ export default class TimeCard extends Component {
     cancelAnimationFrame(this.rafId);
   }
 
+  /**
+   * Callback for timer animation loop.
+   *
+   * @memberof TimeCard
+   */
   timerRun() {
     let timerState = {};
 
@@ -115,6 +127,11 @@ export default class TimeCard extends Component {
     });
   }
 
+  /**
+   * Starts a timer
+   *
+   * @memberof TimeCard
+   */
   startTimer() {
     this.setState((state, props) => {
       let timerState = {
@@ -136,6 +153,11 @@ export default class TimeCard extends Component {
     });
   }
 
+  /**
+   * Pauses a timer
+   *
+   * @memberof TimeCard
+   */
   pauseTimer() {
     this.setState((state, props) => {
       let timerState = {
@@ -156,6 +178,11 @@ export default class TimeCard extends Component {
 
   }
 
+  /**
+   * Resets a timer to its initial state. Preserves creation timestamp.
+   *
+   * @memberof TimeCard
+   */
   resetTimer() {
     if (window.confirm('Are you sure you want to RESET this timer?')) {
       let state = this.props.getStateById(this.id);
@@ -172,6 +199,11 @@ export default class TimeCard extends Component {
     }
   }
 
+  /**
+   * Deletes a timer.
+   *
+   * @memberof TimeCard
+   */
   removeTimer() {
     if (window.confirm('Are you sure you want to REMOVE this timer?')) {
       this.props.onTimerDelete({
@@ -181,6 +213,12 @@ export default class TimeCard extends Component {
     }
   }
 
+  /**
+   * Converts a timestamp to a human readable format
+   *
+   * @returns {string} Human readable timer string
+   * @memberof TimeCard
+   */
   formatTimerDate() {
     let dateOpt = {
       weekday: 'long',
@@ -193,6 +231,13 @@ export default class TimeCard extends Component {
     return date.toLocaleTimeString('en-US', dateOpt);
   }
 
+  /**
+   * Creates a human readable time string when provided time
+   *
+   * @param {number} [milliseconds=0] Timestamp in milliseconds
+   * @returns {string} Formatted time in hour, minutes and seconds
+   * @memberof TimeCard
+   */
   formatTime(milliseconds) {
     let time = milliseconds / 1000;
     const converter
@@ -207,6 +252,12 @@ export default class TimeCard extends Component {
     return `${hr}:${min}:${sec}`;
   }
 
+  /**
+   * Builds component that provides timer editing functionality
+   *
+   * @returns {ReactElement} TimeCardEdit component
+   * @memberof TimeCard
+   */
   editForm() {
     return React.createElement(
       TimeCardEdit, {
@@ -219,6 +270,12 @@ export default class TimeCard extends Component {
     });
   }
 
+  /**
+   * Callback for updating timer state. Passed to the TimerCardEdit component via props
+   *
+   * @param {Object} formState Updated timer state passed from edit form
+   * @memberof TimeCard
+   */
   handleEditFormUpdate(formState) {
     this.setState((state, props) => {
       let timerState = {
@@ -240,6 +297,12 @@ export default class TimeCard extends Component {
     window.M.Modal.init(this.modalRef.current, {});
   }
 
+  /**
+   * Handler for ondrop event for a timer. Used when dropping tags onto a timer.
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCard
+   */
   handleTagOnDrop(e) {
     e.stopPropagation();
     let payload = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
@@ -265,15 +328,33 @@ export default class TimeCard extends Component {
     }
   }
 
+  /**
+   * Handler for ondragover event for a timer. Used when dropping tags onto a timer.
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCard
+   */
   handleTagOnDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy"
   }
 
+  /**
+   * Handler for ondragleave event for a timer. Used when dropping tags onto a timer.
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCard
+   */
   handleTagOnDragLeave(e) {
     e.preventDefault();
   }
 
+  /**
+   * Handler for onclick event used when removing tags from a timer
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCard
+   */
   handleTagRemove(e) {
     e.preventDefault();
     let id = e.target.id.replace('tag-remove-', '');
@@ -290,6 +371,12 @@ export default class TimeCard extends Component {
 
   }
 
+  /**
+   * Builds a list of tags associated with the timer
+   *
+   * @returns {array} List of tag elements in JSX format
+   * @memberof TimeCard
+   */
   buildTagList() {
     return Object.entries(this.props.getAllTagsById).map(([id, tagState]) => {
       return (this.state.tags[id])
@@ -318,6 +405,15 @@ export default class TimeCard extends Component {
     })
   }
 
+  /**
+   * Generates background color styling classes based on timer states.
+   *
+   * @param {array} [additionalClasses=['']] An array containing list of classes to include
+   * @param {array} [runningClasses=null] An array containing list of classes to include when timer is running
+   * @param {array} [stoppedClasses=null] An array containing list of classes to include when timer is stopped
+   * @returns {string} String literals containing classes to add to an element
+   * @memberof TimeCard
+   */
   cardClass(additionalClasses = [''], runningClasses = null, stoppedClasses = null) {
     const RUNNING = runningClasses || ['light-blue', 'lighten-1'];
     const STOPPED = stoppedClasses || ['white'];
@@ -333,6 +429,15 @@ export default class TimeCard extends Component {
     return classNames.join(' ');
   }
 
+  /**
+   * Generates text color styling classes based on timer states.
+   *
+   * @param {array} [additionalClasses=['']] An array containing list of classes to include
+   * @param {array} [runningClasses=null] An array containing list of classes to include when timer is running
+   * @param {array} [stoppedClasses=null] An array containing list of classes to include when timer is stopped
+   * @returns {string} String literals containing classes to add to an element
+   * @memberof TimeCard
+   */
   cardTextClass(additionalClasses = [''], runningClasses = null, stoppedClasses = null) {
     const RUNNING = runningClasses || ['white'];
     const STOPPED = stoppedClasses || ['grey', 'darken-1'];
@@ -354,6 +459,10 @@ export default class TimeCard extends Component {
     return classNames.join(' ');
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof TimeCard
+   */
   timerCardStyle() {
     return {
       margin: 0,
@@ -362,6 +471,10 @@ export default class TimeCard extends Component {
     }
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof TimeCard
+   */
   timerCardWrapperStyle() {
     return {
       margin: '0 .75rem',
@@ -369,26 +482,41 @@ export default class TimeCard extends Component {
     }
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof TimeCard
+   */
   sideButtonWrapperStyle() {
     return {
       width: '55px',
     }
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof TimeCard
+   */
   sideButtonStyle() {
     return {
       width: '55px',
     }
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof TimeCard
+   */
   descriptionStyle() {
     return {
       borderColor: '#29b6f6',
     }
   }
 
+  /**
+   * @todo Refactor into smaller components
+   * @memberof TimeCard
+   */
   render() {
-    // @TODO: refactor this into smaller components
     return (
       <section
         ref={this.timerRef}

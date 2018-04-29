@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import {rand} from '../utilities/rand';
 
+/**
+ * Component for editing tags and categories
+ *
+ * @export
+ * @class TagEditor
+ * @extends {Component}
+ */
 export default class TagEditor extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +27,13 @@ export default class TagEditor extends Component {
     }
   }
 
+  /**
+   * Handler for add tag button click
+   *
+   * @param {string} cat Category ID to associate the tag to
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagEditor
+   */
   handleAddTag(cat, e) {
     this.props.onTagAdd({
       name: rand(),
@@ -27,6 +41,11 @@ export default class TagEditor extends Component {
     });
   }
 
+  /**
+   * Handler for add category button click
+   *
+   * @memberof TagEditor
+   */
   handleAddCategory() {
     this.props.onCategoryAdd({
       name: rand(),
@@ -34,6 +53,12 @@ export default class TagEditor extends Component {
     });
   }
 
+  /**
+   * Handler for category edit field onchange event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagEditor
+   */
   handleCategoryOnChange(e) {
     e.stopPropagation();
     let name = e.target.value
@@ -51,6 +76,12 @@ export default class TagEditor extends Component {
     });
   }
 
+  /**
+   * Handler for edit category click event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagEditor
+   */
   handleCategoryEdit(e) {
     e.stopPropagation();
     let name = e.target;
@@ -69,11 +100,24 @@ export default class TagEditor extends Component {
     input.setSelectionRange(0, -1);
   }
 
+  /**
+   * Handler for edit category field onblur event. Used to hide edit field when clicked elsewhere in the screen.
+   *
+   * @param {any} e
+   * @memberof TagEditor
+   */
   handleCategoryEditDone(e) {
     e.target.previousSibling.classList.remove('hide');
     e.target.classList.add('hide');
   }
 
+  /**
+   * Handler for select category button click
+   *
+   * @param {string} cat Category ID
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagEditor
+   */
   handleCategorySelection(cat, e) {
     this.setState((state, props) => {
       return {
@@ -82,6 +126,13 @@ export default class TagEditor extends Component {
     })
   }
 
+  /**
+   * Handler for delete category button click
+   *
+   * @param {string} id Id of the category to be deleted
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagEditor
+   */
   handleCategoryDeletion(id, e) {
     e.stopPropagation();
     if (window.confirm('Are you sure you want to REMOVE this category? This will remove all tags associated with this category.')) {
@@ -100,6 +151,12 @@ export default class TagEditor extends Component {
     }
   }
 
+  /**
+   * Handler for tag edit field onchange event.
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagEditor
+   */
   handleTagOnChange(e) {
     let name = e.target.value;
     let id = e.target.id.replace('tag-edit-', '');
@@ -116,6 +173,12 @@ export default class TagEditor extends Component {
     });
   }
 
+  /**
+   * Handler for tag edit element click
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagEditor
+   */
   handleTagEdit(e) {
     let name = e.target;
     let input = name.nextSibling;
@@ -126,11 +189,24 @@ export default class TagEditor extends Component {
     name.classList.add('hide');
   }
 
+  /**
+   * Handler for tag edit field onblur event. Used to hide edit field when clicked elsewhere on the screen.
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagEditor
+   */
   handleTagEditDone(e) {
     e.target.previousSibling.classList.remove('hide');
     e.target.classList.add('hide');
   }
 
+  /**
+   * Handler for tag delete button click event callback
+   *
+   * @param {string} id Id of the tag to be deleted
+   * @param {string} cat Id of the category the tag belongs to
+   * @memberof TagEditor
+   */
   handleTagDeletion(id, cat) {
     this.props.onTagDelete(id);
     this.setState({
@@ -138,8 +214,14 @@ export default class TagEditor extends Component {
     });
   }
 
+  /**
+   * Builds a list of categories
+   *
+   * @todo Move into its own component to manage state better
+   * @returns {ReactElement} Markup for list of categories in JSX
+   * @memberof TagEditor
+   */
   buildCategoryList() {
-    // @TODO: move into its own component to manage state better
     if (this.props.getAllCategories.length > 0) {
       return this.props.getAllCategories.map((id, idx) => {
         return (
@@ -175,6 +257,14 @@ export default class TagEditor extends Component {
     }
   }
 
+  /**
+   * Builds a list of tags when given a category ID, otherwise show a message asking to select category
+   *
+   * @todo Move into its own component to manage state better
+   * @param {string} currentCategory Category ID used to generate list of tags
+   * @returns {ReactElement} Markup for list of tags in JSX
+   * @memberof TagEditor
+   */
   buildTagList(currentCategory) {
     if (!currentCategory) {
       return (
@@ -183,7 +273,7 @@ export default class TagEditor extends Component {
         </div>
       );
     }
-    // @TODO: move into its own component to manage state better
+
     return (this.props.getAllCategoriesById[currentCategory] && this.props.getAllCategoriesById[currentCategory].tags.length === 0)
     ? <div className="collection-item tag-empty">No tags found in this category. Click Add Tag above to create a new tag.</div>
     : this.props.getAllTags
@@ -215,6 +305,11 @@ export default class TagEditor extends Component {
       });
   }
 
+  /**
+   *
+   * @todo Refactor how inline styles are managed
+   * @memberof TagEditor
+   */
   listHeaderStyle() {
     return {
       display: 'flex',
@@ -222,6 +317,12 @@ export default class TagEditor extends Component {
     }
   }
 
+  /**
+   * Message displayed when tag list is empty
+   *
+   * @returns {ReactElement} Markup for message in JSX
+   * @memberof TagEditor
+   */
   noTagMessage() {
     return (
       <div className="collection-item category">
@@ -230,6 +331,12 @@ export default class TagEditor extends Component {
     )
   }
 
+  /**
+   * Builds the tag editing modal
+   *
+   * @returns {ReactElement} Markup for modal in JSX
+   * @memberof TagEditor
+   */
   buildModal() {
     return (
       <div className="tag-editor">
@@ -262,6 +369,12 @@ export default class TagEditor extends Component {
     );
   }
 
+  /**
+   * Builds the tag editing UI
+   *
+   * @returns {ReactElement} Markup for tag editing form in JSX
+   * @memberof TagEditor
+   */
   buildEditor() {
     return (
       <div className="tag-editor-form">

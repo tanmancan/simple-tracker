@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import {rand} from '../utilities/rand';
 
+/**
+ * Component for tag and category UI inside the sidenav
+ *
+ * @export
+ * @class TagUi
+ * @extends {Component}
+ */
 export default class TagUi extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +32,13 @@ export default class TagUi extends Component {
     }
   }
 
+  /**
+   * Handler for add tag button click event
+   *
+   * @param {string} cat Category ID to associate the tag to
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagUi
+   */
   handleAddTag(cat, e) {
     this.props.onTagAdd({
       name: rand(),
@@ -32,6 +46,11 @@ export default class TagUi extends Component {
     });
   }
 
+  /**
+   * Handler for add category button click event
+   *
+   * @memberof TagUi
+   */
   handleAddCategory() {
     this.props.onCategoryAdd({
       name: rand(),
@@ -39,6 +58,13 @@ export default class TagUi extends Component {
     });
   }
 
+  /**
+   * Handler for toggle category visibility button click. Used to hide and show timers based on categories.
+   *
+   * @param {string} catId Category ID that will be used for visibility filter
+   * @param {StyntheticEvent} e React's event wrapper
+   * @memberof TagUi
+   */
   handleCategoryVisibility(catId, e) {
     let catHide = [
       ...this.props.getFilteredCategories
@@ -58,6 +84,12 @@ export default class TagUi extends Component {
     this.props.onCategoryFilter(catHide, catId, hiddenCategory, catName);
   }
 
+  /**
+   * Handler from tag name edit input onchange event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagUi
+   */
   handleTagOnChange(e) {
     let name = e.target.value;
     let id = e.target.id.replace('tag-chip-edit-', '');
@@ -74,6 +106,12 @@ export default class TagUi extends Component {
     });
   }
 
+  /**
+   * Handler for editing tag click event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagUi
+   */
   handleTagEdit(e) {
     let name = e.target;
     let input = name.nextSibling;
@@ -86,12 +124,26 @@ export default class TagUi extends Component {
     name.classList.add('hide');
   }
 
+  /**
+   * Handler for onblur event on tag edit input. Used to hide the edit field when clicking elsewhere on the screen.
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagUi
+   */
   handleTagEditDone(e) {
     e.target.previousSibling.classList.remove('hide');
     e.target.nextSibling.classList.add('hide');
     e.target.classList.add('hide');
   }
 
+  /**
+   * Handler for tag delete button click
+   *
+   * @param {string} id Id of tag being deleted
+   * @param {string} cat Id of the category the tag belonged to. Used to make sure category is still selected even after the tag is deleted.
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagUi
+   */
   handleTagDeletion(id, cat, e) {
     this.props.onTagDelete(id);
     this.setState({
@@ -103,6 +155,12 @@ export default class TagUi extends Component {
 
   }
 
+  /**
+   * Handler for tags ondragstart event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TagUi
+   */
   handleTagOnDragStart(e) {
     let id = e.target.id.replace('tag-drag-id-', '').replace('all-tags-','');
     let payload = {
@@ -118,6 +176,12 @@ export default class TagUi extends Component {
 
   }
 
+  /**
+   * Builds the list of categories for the edit modal
+   *
+   * @returns {ReactElement} Markup for a list of categories in JSX
+   * @memberof TagUi
+   */
   buildCategoryList() {
     if (this.props.getAllCategories.length > 0) {
       return this.props.getAllCategories.map((id, idx) => {
@@ -165,6 +229,13 @@ export default class TagUi extends Component {
     }
   }
 
+  /**
+   * Builds a list of tags for a particular category
+   *
+   * @param {string} catId Category ID used to generate tags
+   * @returns {ReactElement} Markup for list of tags in provided category in JSX
+   * @memberof TagUi
+   */
   buildTagList(catId) {
     return (this.props.getAllCategoriesById[catId].tags).map(
       (id, idx) => <div
@@ -204,6 +275,10 @@ export default class TagUi extends Component {
       );
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof TagUi
+   */
   helpTextStyle() {
     return {
       lineHeight: '1.6',

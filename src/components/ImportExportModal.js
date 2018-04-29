@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 
+/**
+ * Component for importing and exporting data
+ *
+ * @export
+ * @class ImportExportModal
+ * @extends {Component}
+ */
 export default class ImportExportModal extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +20,12 @@ export default class ImportExportModal extends Component {
     }
   }
 
+  /**
+   * Handler for onchange event for file input field
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof ImportExportModal
+   */
   handleFileOnChange(e) {
     const input = this.uploadFieldRef.current;
     const file = input.files[0];
@@ -22,6 +35,13 @@ export default class ImportExportModal extends Component {
     });
   }
 
+  /**
+   * Handler for submit file button click
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @returns {void}
+   * @memberof ImportExportModal
+   */
   handleFileSubmit(e) {
     if (!this.state.uploadFile) {
       return;
@@ -32,6 +52,12 @@ export default class ImportExportModal extends Component {
     reader.readAsText(this.state.uploadFile);
   }
 
+  /**
+   * Handler for FileReader onload event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof ImportExportModal
+   */
   handleReaderLoad(e) {
     try {
       const data = JSON.parse(e.target.result);
@@ -54,6 +80,11 @@ export default class ImportExportModal extends Component {
     }
   }
 
+  /**
+   * Displays error message
+   *
+   * @memberof ImportExportModal
+   */
   restoreErrorMessage() {
     const errorMessage = 'Restore failed. Could not validate the saved file.';
     this.setState({
@@ -75,6 +106,12 @@ export default class ImportExportModal extends Component {
     return hash;
   }
 
+  /**
+   * Export redux state as a json file
+   *
+   * @returns {string} JSON
+   * @memberof ImportExportModal
+   */
   downloadData() {
     let downloadData = {
       savedState: this.props.getGlobalState,
@@ -85,6 +122,12 @@ export default class ImportExportModal extends Component {
     return exportData;
   }
 
+  /**
+   * Create a unique name for save file using current date and time
+   *
+   * @returns {string} Save file name using m-d-y-time format
+   * @memberof ImportExportModal
+   */
   formatExportName() {
     let dateOpt = {
       year: 'numeric',

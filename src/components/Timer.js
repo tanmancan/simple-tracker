@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
 
+/**
+ * Creates a human readable time string when provided time
+ *
+ * @export
+ * @param {number} [milliseconds=0] Timestamp in milliseconds
+ * @returns {string} Formatted time in hour, minutes and seconds
+ */
 export const formatTime = (milliseconds = 0) => {
   let time = milliseconds / 1000;
   const converter
@@ -14,6 +21,12 @@ export const formatTime = (milliseconds = 0) => {
   return `${hr}h : ${min}m : ${sec}s`;
 }
 
+/**
+ * Component that formats and displays the accrued time for a timer
+ *
+ * @class TimerComponent
+ * @extends {Component}
+ */
 class TimerComponent extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +34,13 @@ class TimerComponent extends Component {
     this.formatTime = formatTime.bind(this);
   }
 
+  /**
+   * Returns styling classes based on timer running state
+   *
+   * @param {bool} [timerRunning=this.props.running] Indicates if a timer is running or stopped
+   * @returns {string} String literals containing computed class names
+   * @memberof TimerComponent
+   */
   timerState(timerRunning = this.props.running) {
     const RUNNING = ['blue', 'darken-4'];
     const STOPPED = (this.props.time === 0)
@@ -39,6 +59,12 @@ class TimerComponent extends Component {
     return classNames.join(' ');
   }
 
+  /**
+   * Overrides default styles for component badge
+   *
+   * @returns {Object} Style properties to apply to and element
+   * @memberof TimerComponent
+   */
   style() {
     let styles = {
       fontSize: '1rem',

@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { formatTime } from './Timer';
 
+/**
+ * Header component for the side nav
+ *
+ * @export
+ * @class SideNavHeader
+ * @extends {Component}
+ */
 export default class SideNavHeader extends Component {
   constructor(props) {
     super(props);

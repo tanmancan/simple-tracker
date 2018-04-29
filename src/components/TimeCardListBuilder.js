@@ -3,11 +3,17 @@ import TimeCard from './TimeCard';
 import dragImg from '../assets/drag.png';
 
 const e = React.createElement;
+/**
+ * Component that creates a list of timers
+ *
+ * @export
+ * @class TimeCardListBuilder
+ * @extends {Component}
+ */
 
 export default class TimeCardListBuilder extends Component {
   constructor(props) {
     super(props);
-    this.sortByWeight = this.sortByWeight.bind(this);
     this.timeCardBuilder = this.timeCardBuilder.bind(this);
     this.handleOrderOnDrag = this.handleOrderOnDrag.bind(this);
     this.handleOrderOnDragStart = this.handleOrderOnDragStart.bind(this);
@@ -24,14 +30,22 @@ export default class TimeCardListBuilder extends Component {
     this.dragImg.src = dragImg;
   }
 
-  sortByWeight() {
-    return this;
-  }
-
+  /**
+   * Handler for a timer's ondrag event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardListBuilder
+   */
   handleOrderOnDrag(e) {
     e.target.parentNode.parentNode.style.opacity = '.5';
   }
 
+  /**
+   * Handler for a timer's ondragstart event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardListBuilder
+   */
   handleOrderOnDragStart(e) {
     let payload = {
       id: e.target.id.replace('drag-', ''),
@@ -57,6 +71,12 @@ export default class TimeCardListBuilder extends Component {
     });
   }
 
+  /**
+   * Handler for a timer's ondragend event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardListBuilder
+   */
   handleOrderOnDragEnd(e) {
     e.target.classList.remove('dragging');
     e.target.parentNode.parentNode.style.opacity = '1';
@@ -67,17 +87,35 @@ export default class TimeCardListBuilder extends Component {
     });
   }
 
+  /**
+   * Handler for a ondragover event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardListBuilder
+   */
   handleOrderOnDragOver(e) {
     e.preventDefault();
     e.target.classList.add('red');
     e.dataTransfer.dropEffect = "move"
   }
 
+  /**
+   * Handler for a ondragleave event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardListBuilder
+   */
   handleOrderOnDragLeave(e) {
     e.preventDefault();
     e.target.classList.remove('red');
   }
 
+  /**
+   * Handler for a ondrop event
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardListBuilder
+   */
   handleOrderOnDrop(e) {
     e.preventDefault();
     e.target.classList.remove('red');
@@ -92,6 +130,13 @@ export default class TimeCardListBuilder extends Component {
     }
   }
 
+  /**
+   * Callback function that filters the list of timer's being shown based on search query
+   *
+   * @param {any} id An id for a timer
+   * @returns {bool}
+   * @memberof TimeCardListBuilder
+   */
   handleSearchFilter(id) {
     let q = this.props.timerSearchQuery.toLowerCase();
     let timer = this.props.getAllTimerStates[id];
@@ -132,6 +177,7 @@ export default class TimeCardListBuilder extends Component {
    * Checks to see if provided tag's category is part of the do not show category list
    * @param {string:string} tagState Object containing tag name and category
    * @return {bool} True if current tag category is set to be hidden
+   * @memberof TimeCardListBuilder
    */
   hiddenTagCategory(tagState) {
     let dontShowCategories = this.props.getFilteredCategories;
@@ -139,6 +185,10 @@ export default class TimeCardListBuilder extends Component {
     return dontShowCategories.indexOf(tagState.category) !== -1;
   }
 
+  /**
+   * @todo Refactor how inline styles are managed
+   * @memberof TimeCardListBuilder
+   */
   dragDividerStyle() {
     return {
       height: '1rem',
@@ -152,6 +202,15 @@ export default class TimeCardListBuilder extends Component {
     }
   }
 
+  /**
+   * Callback functions that creates the timer list
+   *
+   * @param {string} id The id of the current timer element
+   * @param {number} idx Current index of the timer list
+   * @param {number} len Length of the timer list
+   * @returns {ReactElement}
+   * @memberof TimeCardListBuilder
+   */
   timeCardBuilder(id, idx, len) {
     return (
       e('div', { id: `card-wrapper-${id}`, key: `card-wrapper-${id}` },
@@ -193,6 +252,12 @@ export default class TimeCardListBuilder extends Component {
     );
   }
 
+  /**
+   * Displays a message if the timer list is empty
+   *
+   * @returns {ReactElement} JSX markup for the display message
+   * @memberof TimeCardListBuilder
+   */
   noTimerMsg() {
     return(
       <div className="col s12">
