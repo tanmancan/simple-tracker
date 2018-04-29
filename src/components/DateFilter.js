@@ -97,7 +97,7 @@ export default class DateFilter extends Component {
     this.props.setDateFilter(date);
     this.setState({
       currentDay: date
-    })
+    });
     this.picker.close();
   }
 
