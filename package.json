@@ -37,10 +37,11 @@
     "postversion": "git push && git push --tag",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "doc": "jsdoc src -r -d docs"
+    "doc": "jsdoc -c .jsdoc.json"
   },
   "devDependencies": {
     "jsdoc": "^3.5.5",
+    "jsdoc-template": "git+https://github.com/braintree/jsdoc-template.git#3.2.0",
     "redux-devtools": "^3.4.1"
   }
 }
