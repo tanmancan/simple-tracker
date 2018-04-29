@@ -137,6 +137,10 @@ export default class TimeCardEdit extends Component {
     return convertedTime;
   }
 
+  /**
+   * @todo: Refactor this into smaller components
+   * @memberof TimeCardEdit
+   */
   render() {
     return (
       <div>
