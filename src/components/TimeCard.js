@@ -34,7 +34,7 @@ export default class TimeCard extends Component {
     this.id = this.props.id;
     this.favicon = document.querySelector('[rel="shortcut icon"]');
     this.title = document.querySelector('title');
-    this.titleText = this.title.innerText;
+    this.titleText = 'React Timer';
     this.state = {
       ...this.props.getStateById(this.id),
       title: this.props.getStateById(this.id).title || this.props.title || this.props.id,
