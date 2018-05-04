@@ -14,6 +14,7 @@ export default class TimeCardEdit extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleOnFocus = this.handleOnFocus.bind(this);
     this.handleTimeEdit = this.handleTimeEdit.bind(this);
+    this.titleRef = React.createRef();
     this.state = {
       title: props.title,
       description: props.description,
@@ -138,6 +139,98 @@ export default class TimeCardEdit extends Component {
   }
 
   /**
+   * Creates an autocomplete list showing other timer names that can be used to populate the input.
+   *
+   * @returns {array} List of timer names that matches current input value.
+   * @memberof TimeCardEdit
+   */
+  autoCompleteListBuilder() {
+    const autoCompWrapper = {
+      background: 'white',
+      width: '100%',
+      position: 'absoulte',
+      zIndex: 1e3,
+      padding: 0,
+      margin: 0,
+    };
+
+    const autoCompListItem = {
+
+    };
+
+    const autoCompLink = {
+      display: 'block',
+    };
+
+    // Sort title alphabetically
+    const sortTimerTitle = ([idA, timerStateA], [idB, timerStateB]) => {
+      let a = timerStateA.title;
+      let b = timerStateB.title;
+
+      if (a > b) {
+        return 1;
+      }
+
+      if (a < b) {
+        return -1;
+      }
+
+      return 0;
+    }
+
+    // Filter based on titles that match query. Relies on sorting to remove duplicate entries
+    const filterTimerTitle = (id, timerState, idx, arr) => {
+      return (this.titleRef.current === document.activeElement)
+        && this.state.title
+        && (timerState.title.toLowerCase().indexOf(this.state.title.toLowerCase()) !== -1)
+        && (id !== this.props.id)
+        // Remove duplicate titles
+        && (idx > 0 && arr[idx - 1][1].title !== timerState.title)
+    }
+
+    const autoCompItem = Object.entries(this.props.getAllTimerStates)
+      .sort(sortTimerTitle)
+      .filter(([id, timerState], idx, arr) => filterTimerTitle(id, timerState, idx, arr))
+      .map(([id, timerState], idx) => {
+        return (<li
+          key={idx}
+          style={autoCompListItem}>
+          <a
+            onClick={(e) => {
+              let newTimerState = {
+                ...this.props.getAllTimerStates[this.props.id],
+                title: timerState.title,
+              }
+
+              this.props.handleEditFormUpdate(newTimerState);
+
+              this.setState({
+                title: timerState.title
+              })
+            }}
+            className="light-blue-text"
+            style={autoCompLink}
+            href="#!">{timerState.title}</a>
+            <div className="divider"></div>
+        </li>)
+      });
+
+    let autoCompWrapperShow = {}
+    if (autoCompItem.length > 0) {
+      autoCompWrapperShow = {
+        display: 'block',
+        opacity: '1',
+        transform: 'translate3d(0, 46px, 0)',
+      }
+    }
+
+    return <ul style={{
+      ...autoCompWrapper,
+      ...autoCompWrapperShow
+    }} className="dropdown-content">{autoCompItem}</ul>
+  }
+
+  /**
    * @todo: Refactor this into smaller components
    * @memberof TimeCardEdit
    */
@@ -150,11 +243,13 @@ export default class TimeCardEdit extends Component {
               <input
                 placeholder="Enter Timer Name"
                 id={"title" + this.props.id} type="text"
+                ref={this.titleRef}
                 className="timer-name"
                 onChange={this.handleChange}
                 onFocus={this.handleOnFocus}
                 value={this.state.title}/>
               <label className="active" htmlFor={"title" + this.props.id}>Timer Name</label>
+              {this.autoCompleteListBuilder()}
             </div>
           </div>
         </div>
