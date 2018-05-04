@@ -262,6 +262,7 @@ export default class TimeCard extends Component {
     return React.createElement(
       TimeCardEdit, {
       ...this.props,
+      id: this.id,
       title: this.state.title,
       description: this.state.description,
       handleEditFormUpdate: this.handleEditFormUpdate,
