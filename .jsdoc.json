@@ -3,14 +3,7 @@
     "allowUnknownTags": true,
     "dictionaries": [
       "jsdoc"
-    ],
-    "default": {
-      "staticFiles": {
-        "include": [
-          "./react-timer.png"
-        ]
-      }
-    }
+    ]
   },
   "sourceType": "module",
   "plugins": [
