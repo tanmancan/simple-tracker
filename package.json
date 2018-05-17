@@ -37,7 +37,7 @@
     "postversion": "git push && git push --tag",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "doc": "jsdoc -c .jsdoc.json && cp react-timer.png docs/react-timer.png"
+    "doc": "jsdoc -c .jsdoc.json && cp app.png docs/app.png"
   },
   "devDependencies": {
     "jsdoc": "^3.5.5",
