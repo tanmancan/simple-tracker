@@ -1,7 +1,7 @@
 # Simple Tracker [![Build Status Image](https://travis-ci.org/tanmancan/simple-tracker.svg?branch=master)](https://travis-ci.org/tanmancan/simple-tracker)
 
 
-![Timer Screenshot](react-timer.png)
+![Timer Screenshot](app.png)
 
 Simple time tracker app built on top of React and Redux. Leverages localStorage and service worker to allow timer to work offline and persist data when reloading page.
 
