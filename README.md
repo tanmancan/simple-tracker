@@ -3,7 +3,7 @@
 
 ![Timer Screenshot](react-timer.png)
 
-Simple timer app built on top of React and Redux. Leverages localStorage and service worker to allow timer to work offline and persist data when reloading page.
+Simple timer tracker app built on top of React and Redux. Leverages localStorage and service worker to allow timer to work offline and persist data when reloading page.
 
 [www.simpletracker.app](https://www.simpletracker.app)
 
