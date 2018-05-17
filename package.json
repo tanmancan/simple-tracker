@@ -29,7 +29,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "release:patch": "npm version patch -m 'Release v%s'gst",
+    "release:patch": "npm version patch -m 'Release v%s'",
     "release:minor": "npm version minor -m 'Release v%s'",
     "release:major": "npm version major -m 'Release v%s'",
     "preversion": "npm run test",
