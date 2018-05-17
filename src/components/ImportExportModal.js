@@ -140,7 +140,7 @@ export default class ImportExportModal extends Component {
       .replace(/,|:|\sam$/g, '')
       .replace(/\s/g, '-');
 
-    return `react-timer-save-${formattedDate}.json`;
+    return `simple-tracker-save-${formattedDate}.json`;
   }
 
   render() {
