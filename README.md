@@ -1,4 +1,4 @@
-# React Timer App [![Build Status Image](https://travis-ci.org/tanmancan/simple-tracker.svg?branch=master)](https://travis-ci.org/tanmancan/simple-tracker)
+# Simple Tracker [![Build Status Image](https://travis-ci.org/tanmancan/simple-tracker.svg?branch=master)](https://travis-ci.org/tanmancan/simple-tracker)
 
 
 ![Timer Screenshot](react-timer.png)
