@@ -1,15 +1,15 @@
-# React Timer App [![Build Status Image](https://travis-ci.org/tanmancan/react-timer-app.svg?branch=master)](https://travis-ci.org/tanmancan/react-timer-app)
+# React Timer App [![Build Status Image](https://travis-ci.org/tanmancan/simple-tracker.svg?branch=master)](https://travis-ci.org/tanmancan/simple-tracker)
 
 
 ![Timer Screenshot](react-timer.png)
 
 Simple timer app built on top of React and Redux. Leverages localStorage and service worker to allow timer to work offline and persist data when reloading page.
 
-[timer.tkarimdesign.com](https://timer.tkarimdesign.com)
+[www.simpletracker.app](https://www.simpletracker.app)
 
 ### Usage Guide
 
-https://timer.tkarimdesign.com/#usage-guide
+https://www.simpletracker.app/#usage-guide
 
 ### Run locally
 

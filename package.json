@@ -1,17 +1,17 @@
 {
-  "name": "react-timer-app",
+  "name": "simple-tracker",
   "description": "Simple timer app built on top of React and Redux.",
   "author": "Tanveer Karim <contact@tkarimdesign.com>",
   "version": "1.3.0",
   "license": "MIT",
   "private": true,
-  "homepage": "https://timer.tkarimdesign.com",
+  "homepage": "https://www.simpletracker.app",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tanmancan/react-timer-app.git"
+    "url": "git+https://github.com/tanmancan/simple-tracker.git"
   },
   "bugs": {
-    "url": "https://github.com/tanmancan/react-timer-app/issues"
+    "url": "https://github.com/tanmancan/simple-tracker/issues"
   },
   "keywords": [
     "react",

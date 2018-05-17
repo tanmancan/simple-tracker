@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { formatTime } from './Timer';
+import * as pkg from '../../package.json';
 
 /**
  * Header component for the side nav
@@ -11,7 +12,7 @@ import { formatTime } from './Timer';
 export default class SideNavHeader extends Component {
   constructor(props) {
     super(props);
-    this.appUrl = 'https://timer.tkarimdesign.com';
+    this.appUrl = pkg.homepage || 'https://timer.tkarimdesign.com';
   }
 
   /**
@@ -37,7 +38,7 @@ export default class SideNavHeader extends Component {
           <a href="/">
             <i className="material-icons circle white red-text sidenav-logo">alarm</i>
           </a>
-          <a href={this.appUrl}><span className="white-text name">React-Timer</span></a>
+          <a href={this.appUrl}><span className="white-text name" style={{ textTransform: 'capitalize' }}>{pkg.name.replace(/-/g, ' ')}</span></a>
           <a href={this.appUrl}><span className="white-text email">{this.appUrl}</span></a>
           <a>
             <span
