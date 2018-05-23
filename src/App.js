@@ -275,20 +275,20 @@ class App extends Component {
           <footer className="page-footer grey lighten-2">
               <div className="row footer-content">
                 <div className="col l6 s12">
-                <h6 className="grey-text text-darken-1">
+                <h6 className="grey-text text-darken-2">
                 <span style={{textTransform:'capitalize'}}>{pkg.name.replace(/-/g, ' ')}</span>
                 <small> ( {pkg.version} )</small></h6>
-                <p className="grey-text">{pkg.description}</p>
+                <p className="grey-text text-darken-2">{pkg.description}</p>
                 </div>
                 <div className="col l4 offset-l2 s12">
                   <ul>
-                    <li><a className="grey-text" target="_blank" rel="noopener noreferrer" href={pkg.repository.url.replace(/(git\+)|(.git)$/g,'')}>View on Github</a></li>
-                    <li><a className="grey-text" target="_blank" rel="noopener noreferrer" href={pkg.bugs.url}>Report an Issue</a></li>
+                    <li><a className="grey-text text-darken-2" target="_blank" rel="noopener noreferrer" href={pkg.repository.url.replace(/(git\+)|(.git)$/g,'')}>View on Github</a></li>
+                    <li><a className="grey-text text-darken-2" target="_blank" rel="noopener noreferrer" href={pkg.bugs.url}>Report an Issue</a></li>
                   </ul>
                 </div>
               </div>
-            <div className="footer-copyright grey-text">
-              &copy; {new Date().getFullYear()} Tanveer Karim. <a className="grey-text" style={{padding:'0 .25rem'}} target="_blank" rel="noopener noreferrer" href="http://www.tkarimdesign.com">www.tkarimdesign.com</a>
+            <div className="footer-copyright grey-text text-darken-2">
+              &copy; {new Date().getFullYear()} Tanveer Karim. <a className="grey-text text-darken-2" style={{padding:'0 .25rem'}} target="_blank" rel="noopener noreferrer" href="http://www.tkarimdesign.com">www.tkarimdesign.com</a>
             </div>
           </footer>
         </main>
