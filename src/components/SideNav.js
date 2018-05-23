@@ -56,7 +56,7 @@ export default class SideNav extends Component {
             href="#add-timer"
             onClick={(e) => {
               this.props.handleUsageGuide('CLOSE');
-              this.addTimer(true);}} className="brown-text lighten-4-text">
+              this.addTimer(true);}} className="grey-text text-darken-2">
             <i className="material-icons">add_alarm</i>
             Add and Edit Timer
           </a>
@@ -67,7 +67,7 @@ export default class SideNav extends Component {
             href="#stop-timer"
             onClick={(e) => {
               this.props.handleUsageGuide('CLOSE');
-              this.stopTimer();}} className="brown-text lighten-4-text">
+              this.stopTimer();}} className="grey-text text-darken-2">
             <i className="material-icons">alarm_off</i>
             Stop Timer
           </a>
@@ -83,7 +83,7 @@ export default class SideNav extends Component {
               this.props.handleUsageGuide('CLOSE')
             }}
             href="#modal-import-export"
-            className="brown-text lighten-4-text modal-trigger">
+            className="grey-text text-darken-2 modal-trigger">
             <i className="material-icons">archive</i>
             Import/Export Data
           </a>
@@ -95,7 +95,7 @@ export default class SideNav extends Component {
               window.location.hash = '#edit-tags';
               this.props.handleUsageGuide('CLOSE')}}
             href="#modal-manage-tag"
-            className="brown-text lighten-4-text modal-trigger">
+            className="grey-text text-darken-2 modal-trigger">
             <i className="material-icons">settings</i>
             Edit Tags/Category
           </a>
@@ -104,7 +104,7 @@ export default class SideNav extends Component {
           <a
             tabIndex="6"
             href={"#" + (this.props.showUsageGuide ? 'usage-guide' : '!')}
-            className="brown-text lighten-4-text"
+            className="grey-text text-darken-2"
             onClick={(e) => { this.props.handleUsageGuide('TOGGLE')}}>
             <i className="material-icons">help_outline</i>
             Usage Guide
