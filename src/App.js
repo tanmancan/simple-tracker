@@ -23,6 +23,7 @@ class App extends Component {
     this.handleUsageGuide = this.handleUsageGuide.bind(this);
     this.setDateFilter = this.setDateFilter.bind(this);
     this.datePickerRef = React.createRef();
+    this.sideNavRef = React.createRef();
     this.state = {
       timerSearchQuery: '',
       showUsageGuide: false,
@@ -65,6 +66,7 @@ class App extends Component {
         handleUsageGuide: this.handleUsageGuide,
         showUsageGuide: this.state.showUsageGuide,
         currentDate: this.state.currentDate,
+        sideNavRef: this.sideNavRef,
       }, null
     );
   }
@@ -155,6 +157,12 @@ class App extends Component {
    * @memberof App
    */
   handleUsageGuide(action) {
+    let sideNavInstance = window.M.Sidenav.getInstance(this.sideNavRef.current);
+
+    if (sideNavInstance && sideNavInstance.lastWindowWidth < 992) {
+      sideNavInstance.close();
+    }
+
     switch (action) {
       case 'SHOW': {
         this.setState({

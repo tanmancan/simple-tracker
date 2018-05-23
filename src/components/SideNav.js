@@ -44,7 +44,7 @@ export default class SideNav extends Component {
   render() {
     return (
       // @TODO: clean this up, improve usage guide navigation
-      <ul id="slide-out" className="sidenav sidenav-fixed z-depth-0">
+      <ul id="slide-out" className="sidenav sidenav-fixed z-depth-0" ref={this.props.sideNavRef}>
         <SideNavHeader
           getTotalTimeByDate={this.props.getTotalTimeByDate}
           currentDate={this.props.currentDate}
@@ -71,6 +71,9 @@ export default class SideNav extends Component {
             <i className="material-icons">alarm_off</i>
             Stop Timer
           </a>
+        </li>
+        <li>
+          <div className="divider"></div>
         </li>
         <li>
           <a
