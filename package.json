@@ -2,7 +2,7 @@
   "name": "simple-tracker",
   "description": "Simple time tracker app built on top of React and Redux.",
   "author": "Tanveer Karim <contact@tkarimdesign.com>",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "license": "MIT",
   "private": true,
   "homepage": "https://www.simpletracker.app",
