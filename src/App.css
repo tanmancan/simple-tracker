@@ -95,3 +95,8 @@ footer.page-footer .footer-copyright {
   background-color: #03a9f4;
   color: #fff;
 }
+
+[id*="modal-timer"] .dropdown-content > li > a:focus{
+  background: #03a9f4;
+  color: #fff !important;
+}
