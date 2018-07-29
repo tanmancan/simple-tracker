@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {initTimerState} from '../store/reducers/timer';
 import TimeCardEdit from './TimeCardEdit';
 import {Timer} from './Timer';
+import * as breakpoints from '../utilities/breakpoints';
 
 const ICON_RUN = '/favicon-run.ico';
 const ICON_STOPPED = '/favicon.ico';
+const SIDE_BUTTON_WIDTH = '55px';
 
 /**
  * Component for a timer
@@ -467,7 +469,7 @@ export default class TimeCard extends Component {
   timerCardStyle() {
     return {
       margin: 0,
-      width: 'calc(100% - 55px)',
+      width: `calc(100% - ${SIDE_BUTTON_WIDTH})`,
       borderLeft: '1px solid #eee',
     }
   }
@@ -489,7 +491,7 @@ export default class TimeCard extends Component {
    */
   sideButtonWrapperStyle() {
     return {
-      width: '55px',
+      width: SIDE_BUTTON_WIDTH,
     }
   }
 
@@ -499,7 +501,7 @@ export default class TimeCard extends Component {
    */
   sideButtonStyle() {
     return {
-      width: '55px',
+      width: SIDE_BUTTON_WIDTH,
     }
   }
 

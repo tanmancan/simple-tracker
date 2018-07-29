@@ -254,7 +254,7 @@ class App extends Component {
                   <div className="input-field col s12" style={this.searchNoMarginBottom()}>
                     <i className="material-icons prefix">search</i>
                     <input tabIndex="1" id="icon_prefix" type="text" className="validate" onChange={this.handleSearchQuery}/>
-                    <label htmlFor="icon_prefix">Search timers by name, description, tags or start time</label>
+                    <label htmlFor="icon_prefix">Search timers</label>
                   </div>
                 </div>
               </form>
