@@ -15,8 +15,8 @@ export default class DateFilter extends Component {
     this.datePick = this.datePick.bind(this);
     this.selectDate = this.selectDate.bind(this);
     this.state = {
-      today: new Date(),
-      currentDay: new Date(),
+      today: new Date(new Date().setHours(0,0,0,0)),
+      currentDay: new Date(new Date().setHours(0,0,0,0)),
     }
   }
 
