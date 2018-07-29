@@ -80,14 +80,22 @@ const mapTimerDispatchToProps = dispatch => {
     onTimerAdd: (stateOpts = {}) => {
       let uid = +`${Math.floor(Math.random() * 1000)}${+new Date()}`;
       let id = `timer-${uid}`;
+      let today = new Date();
+      let startDate = stateOpts.timerStartDate
+        ? new Date(stateOpts.timerStartDate)
+        : today;
+
       let timerState = {
         ...initTimerState,
-        timerStartDate: +new Date(),
         title: id,
         description: `Description for timer ${id}`,
         openEditModal: false,
-        ...stateOpts
+        ...stateOpts,
+        timerStartDate: startDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)
+          ? +new Date()
+          : stateOpts.timerStartDate,
       }
+
       dispatch(addTimer({timerState, id}));
 
       let dateOpts = {
