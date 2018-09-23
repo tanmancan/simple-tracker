@@ -9,6 +9,7 @@ $side-button-width: 55px;
 
   @media (min-width: #{$medium-screen}) {
     width: calc(100% - #{$side-button-width});
+    border-top: none;
     border-left: 1px solid #eee;
   }
 }
@@ -31,6 +32,14 @@ section.timer-card-wrapper {
 .side-button {
   @media (min-width: #{$medium-screen}) {
     width: $side-button-width;
+  }
+}
+
+.side-button.drag-handle {
+  display: none;
+
+  @media (min-width: #{$large-screen}) {
+    display: inline-block;
   }
 }
 
