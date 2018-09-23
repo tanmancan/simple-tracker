@@ -1,7 +1,7 @@
 import * as appAction from '../actions/app';
 
-const ICON_RUN = '/favicon-run.ico';
-const ICON_STOPPED = '/favicon.ico';
+export const ICON_RUN = '/favicon-run.ico';
+export const ICON_STOPPED = '/favicon.ico';
 
 export const initAppGlobalState = {
   appTimerRunning: false,
