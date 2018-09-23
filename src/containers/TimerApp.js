@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 import { addTimer, updateTimer, deleteTimer, stopTimer, updateTimerOrder, timerDrag, undoTimerDelete, restoreGlobalState } from "../store/actions/timer";
 import { initTimerState } from '../store/reducers/timer';
+import { timerRunning, timerStopped } from '../store/actions/app';
+import { initAppGlobalState } from '../store/reducers/app';
 import App from '../App';
 
 window.undoState = {};
@@ -54,9 +56,14 @@ const getFilteredCategories = (state) => {
   return state.filterCategories;
 }
 
+const getTimerRunningState = (state) => {
+  return state.timerRunningState;
+}
+
 const mapTimerStateToProps = globalState => {
   let timerState = globalState.timerState;
   let tagState = globalState.tagState;
+  let appState = globalState.appState;
 
   return {
     getGlobalState: getGlobalState(globalState),
@@ -69,6 +76,7 @@ const mapTimerStateToProps = globalState => {
     getTotalTimeByDate: getTotalTimeByDate(timerState),
     getAllTagsById: getAllTagsById(tagState),
     getFilteredCategories: getFilteredCategories(tagState),
+    getTimerRunningState: getTimerRunningState(appState),
   }
 }
 
@@ -107,10 +115,19 @@ const mapTimerDispatchToProps = dispatch => {
 
       window.showToast(`Timer Added for ${new Date(timerState.timerStartDate).toLocaleDateString('en-US', dateOpts)}`);
     },
-    onTimerUpdate: ({timerState, id}) => {
+    onTimerUpdate: ({timerState, id, stopTimer = false}) => {
+      if (timerState.timerRunning) {
+        dispatch(timerRunning({initAppGlobalState}));
+      }
+      if (stopTimer) {
+        dispatch(timerStopped({ initAppGlobalState }));
+      }
       dispatch(updateTimer({timerState, id}));
     },
-    onTimerDelete: ({timerState, id}) => {
+    onTimerDelete: ({ timerState, id }) => {
+      if (timerState.timerRunning) {
+        dispatch(timerStopped({ initAppGlobalState }));
+      }
       dispatch(deleteTimer({ timerState, id }));
       timerState.timerRunning = false;
       window.undoState[id] = {
@@ -136,6 +153,7 @@ const mapTimerDispatchToProps = dispatch => {
     },
     onTimerStop: ({timerState, id}) => {
       dispatch(stopTimer({ timerState, id }));
+      dispatch(timerStopped({initAppGlobalState}));
       window.showToast('Timer Stopped');
     },
     onTimerUpdateOrder: ({targetPos, id}) => {
@@ -143,6 +161,12 @@ const mapTimerDispatchToProps = dispatch => {
     },
     onTimerDrag: ({dragState, id}) => {
       dispatch(timerDrag({dragState, id}));
+    },
+    timerRunning: () => {
+      dispatch(timerRunning({ initAppGlobalState }));
+    },
+    timerStopped: () => {
+      dispatch(timerStopped({ initAppGlobalState }));
     }
   }
 }
