@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {initTimerState} from '../store/reducers/timer';
 import TimeCardEdit from './TimeCardEdit';
 import {Timer} from './Timer';
-import * as breakpoints from '../utilities/breakpoints';
+import '../styles/TimeCard.scss';
 
 const ICON_RUN = '/favicon-run.ico';
 const ICON_STOPPED = '/favicon.ico';
