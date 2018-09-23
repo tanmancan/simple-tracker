@@ -8,6 +8,9 @@ import Guide from './guide/Guide';
 import {TagEditorModal} from './containers/TagManager';
 import * as pkg from '../package.json';
 import './App.css';
+
+const APP_NAME = 'Simple Tracker';
+
 /**
  * Main app component
  *
@@ -24,6 +27,8 @@ class App extends Component {
     this.setDateFilter = this.setDateFilter.bind(this);
     this.datePickerRef = React.createRef();
     this.sideNavRef = React.createRef();
+    this.favicon = document.querySelector('[rel="shortcut icon"]');
+    this.title = document.querySelector('title');
     this.state = {
       timerSearchQuery: '',
       showUsageGuide: false,
@@ -45,7 +50,19 @@ class App extends Component {
         showUsageGuide: true
       })
     }
+
+    if (this.props.getActiveTimer.length > 0) {
+      this.props.timerRunning()
+    }
   }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    this.favicon.href = this.props.getTimerRunningState.appFavIcon;
+    this.title.innerText = this.props.getTimerRunningState.appTimerRunning
+      ? 'Running - ' + APP_NAME
+      : 'Stopped - ' + APP_NAME;
+  };
+
 
   setDateFilter(date) {
     this.setState({

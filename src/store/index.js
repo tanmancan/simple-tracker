@@ -1,6 +1,7 @@
 import { createStore, combineReducers } from "redux";
 import { timerState } from "./reducers/timer";
 import { tagState } from "./reducers/tags";
+import { appState } from "./reducers/app";
 import { RESTORE_GLOBAL_STATE } from './actions/timer';
 
 const savedTimerState = (window.localStorage)
@@ -9,10 +10,14 @@ const savedTimerState = (window.localStorage)
 const savedTagState = (window.localStorage)
   ? JSON.parse(window.localStorage.getItem('tagState') || '{}')
   : {};
+const savedAppState = (window.localStorage)
+  ? JSON.parse(window.localStorage.getItem('appState') || '{}')
+  : {};
 
 const appReducer = combineReducers({
   timerState,
-  tagState
+  tagState,
+  appState,
 });
 
 const rootReducer = (state, action) => {
@@ -31,7 +36,8 @@ const rootReducer = (state, action) => {
 
 const savedState = {
   timerState: savedTimerState,
-  tagState: savedTagState
+  tagState: savedTagState,
+  appState: savedAppState,
 };
 
 const store = createStore(
@@ -47,6 +53,8 @@ store.subscribe(() => {
     window.localStorage.setItem('timerState', savedTimerState);
     let savedTagState = JSON.stringify(state.tagState);
     window.localStorage.setItem('tagState', savedTagState);
+    let savedAppState = JSON.stringify(state.appState);
+    window.localStorage.setItem('tagState', savedAppState);
   }
 });
 
