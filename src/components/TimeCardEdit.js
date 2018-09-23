@@ -13,6 +13,7 @@ export default class TimeCardEdit extends Component {
     this.timeoutId = null;
     this.handleChange = this.handleChange.bind(this);
     this.handleOnFocus = this.handleOnFocus.bind(this);
+    this.handleOnBlur = this.handleOnBlur.bind(this);
     this.handleTimeEdit = this.handleTimeEdit.bind(this);
     this.titleRef = React.createRef();
     this.state = {
@@ -21,6 +22,7 @@ export default class TimeCardEdit extends Component {
       hour: this.formatTime(this.props.timeProgress, 3600),
       minute: this.formatTime(this.props.timeProgress, 60),
       second: this.formatTime(this.props.timeProgress, 1),
+      resetAutocomplete: false,
     }
   }
 
@@ -61,6 +63,25 @@ export default class TimeCardEdit extends Component {
    */
   handleOnFocus(e) {
     e.target.setSelectionRange(0, -1);
+  }
+
+  /**
+   * Event callback when focus is removed from an input
+   *
+   * @param {SyntheticEvent} e React's event wrapper
+   * @memberof TimeCardEdit
+   */
+  handleOnBlur(e) {
+    let autocompleteLink = (e.relatedTarget)
+      ? [...e.relatedTarget.classList].includes('autocomplete-link')
+      : null;
+
+    // Re-render component to clear the autocomplete drop down
+    if (!autocompleteLink) {
+      this.setState({
+        resetAutocomplete: true,
+      });
+    }
   }
 
   /**
@@ -208,7 +229,7 @@ export default class TimeCardEdit extends Component {
                 title: timerState.title
               })
             }}
-            className="light-blue-text"
+            className="light-blue-text autocomplete-link"
             style={autoCompLink}
             href="#!">{timerState.title}</a>
             <div className="divider"></div>
@@ -247,6 +268,7 @@ export default class TimeCardEdit extends Component {
                 className="timer-name"
                 onChange={this.handleChange}
                 onFocus={this.handleOnFocus}
+                onBlur={this.handleOnBlur}
                 value={this.state.title}/>
               <label className="active" htmlFor={"title" + this.props.id}>Timer Name</label>
               {this.autoCompleteListBuilder()}
