@@ -463,59 +463,6 @@ export default class TimeCard extends Component {
   }
 
   /**
-   * @todo Refactor how inline styles are managed
-   * @memberof TimeCard
-   */
-  timerCardStyle() {
-    return {
-      margin: 0,
-      width: `calc(100% - ${SIDE_BUTTON_WIDTH})`,
-      borderLeft: '1px solid #eee',
-    }
-  }
-
-  /**
-   * @todo Refactor how inline styles are managed
-   * @memberof TimeCard
-   */
-  timerCardWrapperStyle() {
-    return {
-      margin: '0 .75rem',
-      background: 'white',
-    }
-  }
-
-  /**
-   * @todo Refactor how inline styles are managed
-   * @memberof TimeCard
-   */
-  sideButtonWrapperStyle() {
-    return {
-      width: SIDE_BUTTON_WIDTH,
-    }
-  }
-
-  /**
-   * @todo Refactor how inline styles are managed
-   * @memberof TimeCard
-   */
-  sideButtonStyle() {
-    return {
-      width: SIDE_BUTTON_WIDTH,
-    }
-  }
-
-  /**
-   * @todo Refactor how inline styles are managed
-   * @memberof TimeCard
-   */
-  descriptionStyle() {
-    return {
-      borderColor: '#29b6f6',
-    }
-  }
-
-  /**
    * @todo Refactor into smaller components
    * @memberof TimeCard
    */
@@ -526,40 +473,33 @@ export default class TimeCard extends Component {
         onDragOver={this.handleTagOnDragOver}
         onDragLeave={this.handleTagOnDragLeave}
         onDrop={this.handleTagOnDrop}
-        className="time-card row"
-        style={this.timerCardWrapperStyle()}>
-        <div className="side-button left"
-          style={this.sideButtonWrapperStyle()}>
+        className="timer-card-wrapper row">
+        <div className="side-button-wrapper">
           <div
-            style={this.sideButtonStyle()}
             id={'drag-' + this.props.id}
             draggable={true}
             onDrag={this.props.handleOrderOnDrag}
             onDragStart={this.props.handleOrderOnDragStart}
             onDragEnd={this.props.handleOrderOnDragEnd}
-            className={"btn-flat grey-text text-darken-2 " + ((this.props.timerSearchQuery || this.props.getFilteredCategories.length > 0) ? 'disabled' : '')}>
+            className={"side-button btn-flat grey-text text-darken-2 " + ((this.props.timerSearchQuery || this.props.getFilteredCategories.length > 0) ? 'disabled' : '')}>
             <i className="material-icons">drag_handle</i>
           </div>
           <button
-            style={this.sideButtonStyle()}
             onClick={this.removeTimer}
-            className="btn-flat grey-text text-darken-2">
+            className="side-button btn-flat grey-text text-darken-2">
             <i className="material-icons">delete_forever</i></button>
           <button
-            style={this.sideButtonStyle()}
-            className="btn-flat grey-text text-darken-2 modal-trigger"
+            className="side-button btn-flat grey-text text-darken-2 modal-trigger"
             data-target={'modal-' + this.id} >
             <i className="material-icons">edit</i></button>
           <button
-            style={this.sideButtonStyle()}
             onClick={this.resetTimer}
-            className="btn-flat grey-text text-darken-2">
+            className="side-button btn-flat grey-text text-darken-2">
             <i className="material-icons">refresh</i></button>
         </div>
         <div
           id={this.props.id}
-          style={this.timerCardStyle()}
-          className={this.cardClass(['card', 'z-depth-0', 'left'])}>
+          className={this.cardClass(['card', 'z-depth-0', 'left', 'timer-card'])}>
           <div className={this.cardTextClass(["card-content"], ['grey', 'darken-3']) + this.cardClass([''], ['light-blue', 'lighten-4'])}>
             <span className="card-title">
               <span>{this.state.title || this.id}</span>
@@ -569,7 +509,7 @@ export default class TimeCard extends Component {
                 </small>
               </div>
             </span>
-            <blockquote style={this.descriptionStyle()} className="card-description">
+            <blockquote className="card-description">
               {this.state.description
                 ? this.state.description.split('\n').map((string, idx) => <p key={idx}>{string}</p>)
                 : ''}

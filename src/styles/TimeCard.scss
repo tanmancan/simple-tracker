@@ -1,0 +1,25 @@
+$side-button-width: 55px;
+
+.card.timer-card {
+  margin: 0;
+  width: calc(100% - #{$side-button-width});
+  border-left: 1px solid #eee;
+}
+
+section.timer-card-wrapper {
+  margin: 0 0.75rem;
+  background: white;
+}
+
+.side-button-wrapper {
+  width: $side-button-width;
+  float: left !important;
+}
+
+.side-button {
+  width: $side-button-width;
+}
+
+blockquote.card-description {
+  border-color: #29b6f6;
+}
