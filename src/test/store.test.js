@@ -2,6 +2,7 @@ import store from '../store';
 import * as timerActions from '../store/actions/timer';
 import * as tagActions from '../store/actions/tags';
 import initTimerState from '../store/reducers/timer';
+import { ICON_STOPPED } from '../store/reducers/app';
 
 const initState = {
   timerState:
@@ -30,6 +31,13 @@ const initState = {
       },
       categories: ['examplecategory'],
       filterCategories: []
+    },
+  appState:
+    {
+      timerRunningState: {
+        appTimerRunning: false,
+        appFavIcon: ICON_STOPPED,
+      }
     }
 };
 
