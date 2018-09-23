@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {rand} from '../utilities/rand';
+import '../styles/TagEditor.scss';
 
 /**
  * Component for editing tags and categories
@@ -306,18 +307,6 @@ export default class TagEditor extends Component {
   }
 
   /**
-   *
-   * @todo Refactor how inline styles are managed
-   * @memberof TagEditor
-   */
-  listHeaderStyle() {
-    return {
-      display: 'flex',
-      margin: 0,
-    }
-  }
-
-  /**
    * Message displayed when tag list is empty
    *
    * @returns {ReactElement} Markup for message in JSX
@@ -381,9 +370,11 @@ export default class TagEditor extends Component {
         <div className="row">
           <div className="col s12 m6">
             <div className="collection with-header" style={{overflow:'visible'}}>
-              <div className="collection-header row valign-wrapper" style={this.listHeaderStyle()}>
-                <h6 className="grey-text" style={{ flex: '1 0 50%', margin: 0 }}>Categories</h6>
-                <button onClick={this.handleAddCategory} className="btn-flat" style={{ flex: '0 0 180px' }}>
+              <div className="collection-header tag-editor-header row valign-wrapper">
+                <h6 className="grey-text header-add-category">Categories</h6>
+                <button
+                  onClick={this.handleAddCategory}
+                  className="btn-flat btn-add-category">
                   <i className="material-icons left">add</i>
                   Add Category
                 </button>
@@ -394,8 +385,9 @@ export default class TagEditor extends Component {
           <div className="col s12 m6">
 
             <div className="collection with-header" style={{overflow:'visible'}}>
-              <div className="collection-header row valign-wrapper" style={this.listHeaderStyle()}>
-                <h6 id="currentCat" className="grey-text" style={{ flex: '1 0 50%', margin: 0 }}>
+              <div className="collection-header tag-editor-header row valign-wrapper">
+                <h6 id="currentCat"
+                  className="grey-text header-add-tag">
                   {(this.state.currentCategory)
                     ? 'Tags for category: '
                     : 'Tags (No category selected)'}
@@ -410,8 +402,7 @@ export default class TagEditor extends Component {
                 <button
                   disabled={(this.state.currentCategory === null)}
                   onClick={(e) => this.handleAddTag(this.state.currentCategory, e)}
-                  className="btn-flat"
-                  style={{ flex: '0 0 130px' }}>
+                  className="btn-flat btn-add-tag">
                   <i className="material-icons left">add</i>
                   Add Tag
                 </button>
