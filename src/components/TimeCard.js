@@ -6,7 +6,6 @@ import '../styles/TimeCard.scss';
 
 const ICON_RUN = '/favicon-run.ico';
 const ICON_STOPPED = '/favicon.ico';
-const SIDE_BUTTON_WIDTH = '55px';
 
 /**
  * Component for a timer
@@ -539,7 +538,7 @@ export default class TimeCard extends Component {
             {this.editForm()}
           </div>
           <div className="modal-footer">
-            <div className="left">
+            <div className="left center-align">
               <Timer
                 time={this.state.timeProgress}
                 running={this.state.timerRunning}

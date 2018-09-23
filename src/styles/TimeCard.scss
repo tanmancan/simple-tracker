@@ -1,9 +1,16 @@
+@import './common/breakpoint';
+
 $side-button-width: 55px;
 
 .card.timer-card {
+  width: 100%;
   margin: 0;
-  width: calc(100% - #{$side-button-width});
-  border-left: 1px solid #eee;
+  border-top: 1px solid #eee;
+
+  @media (min-width: #{$medium-screen}) {
+    width: calc(100% - #{$side-button-width});
+    border-left: 1px solid #eee;
+  }
 }
 
 section.timer-card-wrapper {
@@ -12,12 +19,19 @@ section.timer-card-wrapper {
 }
 
 .side-button-wrapper {
-  width: $side-button-width;
-  float: left !important;
+  width: 100%;
+  text-align: center;
+
+  @media (min-width: #{$medium-screen}) {
+    width: $side-button-width;
+    float: left !important;
+  }
 }
 
 .side-button {
-  width: $side-button-width;
+  @media (min-width: #{$medium-screen}) {
+    width: $side-button-width;
+  }
 }
 
 blockquote.card-description {
