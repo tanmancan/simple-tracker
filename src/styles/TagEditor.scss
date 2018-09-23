@@ -1,0 +1,33 @@
+@import './common/breakpoint';
+
+.collection.with-header .collection-header.tag-editor-header {
+  display: flex;
+  flex-flow: column wrap;
+  margin: 0;
+
+  @media (min-width: #{$medium-screen}) {
+    flex-flow: row nowrap;
+  }
+}
+
+h6.header-add-category,
+h6.header-add-tag {
+  flex: 1 0 50%;
+  margin: 0 0 .5rem;
+
+  @media (min-width: #{$medium-screen}) {
+    margin: 0;
+  }
+}
+
+button.btn-add-category {
+  @media (min-width: #{$medium-screen}) {
+    flex: 0 0 180px;
+  }
+}
+
+button.btn-add-tag {
+  @media (min-width: #{$medium-screen}) {
+    flex: 0 0 130px;
+  }
+}

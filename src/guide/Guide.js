@@ -111,7 +111,7 @@ export default class Guide extends Component {
         <div className="divider"></div>
         <div className="section">
           <h6>Renaming Tags</h6>
-          <img src="/images/rename-sidebar.jpg" alt="Rename tag from sidebar"/>
+          <img className="responsive-img" src="/images/rename-sidebar.jpg" alt="Rename tag from sidebar"/>
           <p>Tags can either be renamed from the side-nav, or the Edit Tags and Categories panel. Rename a tag by clicking directly on its name label and type in a new name. Exit the edit mode by clicking anywhere else on the screen.</p>
         </div>
         <div className="divider"></div>
